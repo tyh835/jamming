@@ -7,7 +7,6 @@
   max-height: 950px;
   padding: 2.27rem 1.16rem;
   background-color: hsla(229, 97%, 13%, 0.7);
-  filter: hue-rotate(60deg);
   box-shadow: 0 4px 2px 2px #000000;
 }
 
@@ -28,15 +27,15 @@
   padding: .77rem 0;
   border-radius: 54px;
   margin-top: 1.27rem;
-  background-color: hsl(239, 97%, 31%);
-  filter: hue-rotate(240deg) saturate(1.1) brightness(1.9);
+  background-color: hsl(141, 73%, 42%);
+  filter: saturate(2.22) brightness(0.56);
   text-align: center;
   font-size: .83rem;
   transition: background-color .4s;
 }
 
 .Playlist-save:hover {
-  background-color: hsl(239, 97%, 35.5%);
+  background-color: hsl(141, 73%, 50%);
 }
 
 ::-webkit-scrollbar {
