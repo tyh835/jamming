@@ -15,6 +15,7 @@
   color: hsl(229, 97%, 13%);
   text-align: center;
   font-size: 1rem;
+  filter: saturate(2.22) brightness(0.56);
 }
 
 .SearchBar input:focus {
