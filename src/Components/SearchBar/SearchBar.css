@@ -34,6 +34,6 @@
 }
 
 .SearchBar a:hover {
-  background-color: hsl(229, 97%, 20%);
+  background-color: hsla(229, 97%, 21%, 0.9);
   filter: hue-rotate(60deg);
 }
