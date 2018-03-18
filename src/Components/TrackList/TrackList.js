@@ -7,32 +7,10 @@ export class TrackList extends React.Component {
     return (
 
       <div className="TrackList">
-        {/*You will add a map method that renders a set of Track components */}
-
-        <div className="Track">
-          <div className="Track-information">
-            <h3>Stronger</h3>
-            <p>Britney Spears | Oops!... I Did It Again</p>
-          </div>
-          <a className="Track-action">-</a>
-        </div>
-
-        <div className="Track">
-          <div className="Track-information">
-            <h3>So Emotional</h3>
-            <p>Whitney Houston | Whitney</p>
-          </div>
-          <a className="Track-action">-</a>
-        </div>
-
-        <div className="Track">
-          <div className="Track-information">
-            <h3>It's Not Right But It's Okay</h3>
-            <p>Whitney Houston | My Love Is Your Love</p>
-          </div>
-          <a className="Track-action">-</a>
-        </div>
-
+        {(this.props.tracks && this.props.tracks.length !== 0) ?
+          this.props.tracks.map(track => {
+            return <Track track={track} key={track.id} onAdd={this.props.onAdd} onRemove={this.props.onRemove} />
+        }): <h3>No Tracks</h3>}
       </div>
     );
   }
