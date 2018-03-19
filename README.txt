@@ -1,4 +1,4 @@
-ReactApp launched at: http://tony-jamming.surge.sh/
+ReactApp launched at: http://tony-jamming.surge.sh/ and https://tyh835.github.io/jamming/
 
 Development Process:
 
