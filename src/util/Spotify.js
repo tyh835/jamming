@@ -12,7 +12,7 @@ const Spotify = {
       this.accessToken = window.location.href.match(/access_token=([^&]*)/)[1];
       this.expiresIn = Number(window.location.href.match(/expires_in=([^&]*)/)[1]);
       window.setTimeout(() => this.accessToken = '', this.expiresIn * 1000);
-      window.history.pushState('Access Token', null, '/jamming');
+      window.location === "https://tyh835.github.io/jamming" ? window.history.pushState('Access Token', null, '/jamming') : window.history.pushState('Access Token', null, '/');
       return this.accessToken;
     } else {
       window.location = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&response_type=token&scope=playlist-modify-public&redirect_uri=${REDIRECT_URI}`;
