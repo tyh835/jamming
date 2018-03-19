@@ -14,7 +14,7 @@ const Spotify = {
       // If no authorization token already saved, this function tries to obtain token from URL.
       this.accessToken = window.location.href.match(/access_token=([^&]*)/)[1];
       this.expiresIn = Number(window.location.href.match(/expires_in=([^&]*)/)[1]);
-      window.setTimeout(() => this.accessToken = '', this.expiresIn * 1000);
+      window.setTimeout(() => this.accessToken = undefined, this.expiresIn * 1000);
       IS_GITHUB ? window.history.pushState('Access Token', null, '/jamming') : window.history.pushState('Access Token', null, '/');
       return this.accessToken;
     } else {
@@ -73,7 +73,7 @@ const Spotify = {
             if (responsePOST1.ok) {
               let jsonResponsePOST1 = await responsePOST1.json();
               if (jsonResponsePOST1) {
-                // POST 2 method 
+                // POST 2 method
                 try {
                   let playlistID = jsonResponsePOST1.id;
                   let responsePOST2 = await fetch(`https://api.spotify.com/v1/users/${userID}/playlists/${playlistID}/tracks?uris=${trackURIs.join(',')}`, {

@@ -15,6 +15,7 @@ class App extends React.Component {
 
       playlistTracks: []
     };
+    // Binds the methods of <App /> to this component.
     this.addTrack = this.addTrack.bind(this);
     this.removeTrack = this.removeTrack.bind(this);
     this.updatePlaylistName = this.updatePlaylistName.bind(this);
