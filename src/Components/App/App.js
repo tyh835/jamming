@@ -21,12 +21,12 @@ class App extends React.Component {
     this.savePlaylist = this.savePlaylist.bind(this);
     this.search = this.search.bind(this);
   }
-
+// This method calls the asynchronous search function from the Spotify module. It is passed down to <SearchBar /> as a prop.
   async search(term) {
     let searchResults = await Spotify.search(term);
     this.setState({searchResults: searchResults});
   }
-
+// This methods adds a track to <App />'s playistTracks state. It is passed down to <Track /> as a prop.
   addTrack(track) {
     if (this.state.playlistTracks.every(addedTrack => {return addedTrack.id !== track.id})) {
       let newPlaylistTracks = this.state.playlistTracks;
@@ -34,24 +34,24 @@ class App extends React.Component {
       this.setState({playlistTracks: newPlaylistTracks});
     }
   }
-
+// This methods removes a track from <App />'s playistTracks state. It is passed down to <Track /> as a prop.
   removeTrack(track) {
     if (this.state.playlistTracks.some(addedTrack => {return addedTrack.id === track.id})) {
       let newPlaylistTracks = this.state.playlistTracks.filter(addedTrack => addedTrack.id !== track.id);
       this.setState({playlistTracks: newPlaylistTracks});
     }
   }
-
+// This methods updates <App />'s playistName state. It is passed down to <Playlist /> as a prop.
   updatePlaylistName(name) {
     this.setState({playlistName: name});
   }
-
+// This method calls the savePlaylist function from the Spotify module. It is passed down to <Playlist /> as a prop.
   savePlaylist() {
     let trackURIs = this.state.playlistTracks.map(track => track.uri);
     Spotify.savePlaylist(this.state.playlistName, trackURIs);
     this.setState({playlistName: "New Playlist", searchResults: []});
   }
-
+// Renders <App />, which contains all of the components.
   render() { 
     return (
       <div>

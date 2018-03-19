@@ -1,29 +1,32 @@
 const CLIENT_ID = "67c415c603714e92a1eb3a2a23d50677";
 const REDIRECT_URI = window.location.href;
+// Check if the website is the one published on GitHub Pages.
 const IS_GITHUB = window.location.href.split('.').some(i => {return i.toLowerCase() === 'github'});
 
 const Spotify = {
   accessToken: undefined,
   expiresIn: undefined,
-
+// This function fetches an authorization token using Spotify's implicit authorization framework/
   getAccessToken() {
     if (this.accessToken) {
       return this.accessToken;
     } else if (window.location.href.match(/access_token=([^&]*)/)) {
+      // If no authorization token already saved, this function tries to obtain token from URL.
       this.accessToken = window.location.href.match(/access_token=([^&]*)/)[1];
       this.expiresIn = Number(window.location.href.match(/expires_in=([^&]*)/)[1]);
       window.setTimeout(() => this.accessToken = '', this.expiresIn * 1000);
       IS_GITHUB ? window.history.pushState('Access Token', null, '/jamming') : window.history.pushState('Access Token', null, '/');
       return this.accessToken;
     } else {
+      // If no authorization token found in URL, this function redirects user to Spotify's authorization page.
       window.location = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&response_type=token&scope=playlist-modify-public&redirect_uri=${REDIRECT_URI}`;
     }
   },
-
+// This function searches Spoify by using GET to "https://api.spotify.com/v1/search"
   async search(term) {
     let accessToken = this.accessToken || this.getAccessToken();
     try {
-      let response = await fetch(`https://api.spotify.com/v1/search?type=track&q=${term}`, {headers: {Authorization: `Bearer ${accessToken}`}});
+      let response = await fetch(`https://api.spotify.com/v1/search?type=track&limit=50&q=${term}`, {headers: {Authorization: `Bearer ${accessToken}`}});
       if (response.ok) {
         let jsonResponse = await response.json();
         if (jsonResponse && jsonResponse !== {}) {
@@ -43,7 +46,9 @@ const Spotify = {
       console.log(err);
     }
   },
-
+// This function adds playlist to Spoify by using GET to "https://api.spotify.com/v1/me" to obtain userID,
+// POST to "https://api.spotify.com/v1/users/${user_id}/playlists" to add new playlist and obtain playlistID,
+// POST to "https://api.spotify.com/v1/users/${user_id}/playlists/${playlistID}/tracks" to add tracks to newly created playlist.
   async savePlaylist(playlistName, trackURIs) {
     if (!playlistName || !trackURIs[0]) {
       return;
@@ -51,14 +56,14 @@ const Spotify = {
     let accessToken = this.accessToken || this.getAccessToken();
     let headers = {Authorization: `Bearer ${accessToken}`};
     let userID;
-
+    // GET method
     try {
       let responseGET = await fetch('https://api.spotify.com/v1/me', {headers: headers});
       if (responseGET.ok) {
         let jsonResponseGET = await responseGET.json();
         if (jsonResponseGET) {
           userID = jsonResponseGET.id;
-
+          // POST 1 method
           try {
             let responsePOST1 = await fetch(`https://api.spotify.com/v1/users/${userID}/playlists`, {
               method: 'POST',
@@ -68,7 +73,7 @@ const Spotify = {
             if (responsePOST1.ok) {
               let jsonResponsePOST1 = await responsePOST1.json();
               if (jsonResponsePOST1) {
-
+                // POST 2 method 
                 try {
                   let playlistID = jsonResponsePOST1.id;
                   let responsePOST2 = await fetch(`https://api.spotify.com/v1/users/${userID}/playlists/${playlistID}/tracks?uris=${trackURIs.join(',')}`, {

@@ -6,7 +6,9 @@ export class TrackList extends React.Component {
   render() {
     console.log(this.props.tracks);
     if (this.props.tracks && this.props.tracks.length !== 0) {
+// Map all tracks from the prop onto new variable.
       let tracks = this.props.tracks.map(track => track);
+// Render each track as <Track /> components.
       return (
         <div className="TrackList">
           {tracks.map(track => {
@@ -15,6 +17,7 @@ export class TrackList extends React.Component {
         </div>
       );
     } else {
+// Renders h4 to show when there is no tracks in the list.
       return (
         <div className="TrackList">
           <h4>No Tracks</h4>

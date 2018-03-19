@@ -8,15 +8,15 @@ export class SearchBar extends React.Component {
     this.search = this.search.bind(this);
     this.handleTermChange = this.handleTermChange.bind(this);
   }
-
+// This method calls the search function in <App /> using the passed down prop.
   search() {
     this.props.onSearch(this.state.term);
   }
-
+// This method changes the search term state whenever the input changes.
   handleTermChange(e) {
     this.setState({term: e.target.value});
   }
-
+// Renders the search bar, a controlled component.
   render() {
     return (
       <div className="SearchBar">

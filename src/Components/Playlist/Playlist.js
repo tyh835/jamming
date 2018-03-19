@@ -7,11 +7,11 @@ export class Playlist extends React.Component {
     super(props);
     this.handleNameChange = this.handleNameChange.bind(this);
   }
-
+// This method changes <App />'s playlistName state whenever the input changes.
   handleNameChange(e) {
     this.props.onNameChange(e.target.value);
   }
-
+// Renders playlists save in a <App />'s playlistTracks state.
   render() {
     return (
       <div className="Playlist">
