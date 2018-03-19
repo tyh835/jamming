@@ -1,6 +1,6 @@
 const CLIENT_ID = "67c415c603714e92a1eb3a2a23d50677";
 const REDIRECT_URI = window.location.href;
-const ENDS_WITH_JAMMING = window.location.href.split('/')[-2] === "jamming";
+const IS_GITHUB = window.location.href.split('.').some(i => {return i.toLowerCase() === 'github'});
 
 const Spotify = {
   accessToken: undefined,
@@ -13,7 +13,7 @@ const Spotify = {
       this.accessToken = window.location.href.match(/access_token=([^&]*)/)[1];
       this.expiresIn = Number(window.location.href.match(/expires_in=([^&]*)/)[1]);
       window.setTimeout(() => this.accessToken = '', this.expiresIn * 1000);
-      ENDS_WITH_JAMMING ? window.history.pushState('Access Token', null, '/jamming') : window.history.pushState('Access Token', null, '/');
+      IS_GITHUB ? window.history.pushState('Access Token', null, '/jamming') : window.history.pushState('Access Token', null, '/');
       return this.accessToken;
     } else {
       window.location = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&response_type=token&scope=playlist-modify-public&redirect_uri=${REDIRECT_URI}`;
