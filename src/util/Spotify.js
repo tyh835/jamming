@@ -48,7 +48,6 @@ const Spotify = {
       return;
     }
     let accessToken = this.getAccessToken();
-    console.log(accessToken);
     let headers = {Authorization: `Bearer ${accessToken}`};
     let userID;
 
@@ -68,7 +67,6 @@ const Spotify = {
             if (responsePOST1.ok) {
               let jsonResponsePOST1 = await responsePOST1.json();
               if (jsonResponsePOST1) {
-                console.log(jsonResponsePOST1);
 
                 try {
                   let playlistID = jsonResponsePOST1.id;
@@ -80,11 +78,9 @@ const Spotify = {
                     } else {
                       throw new Error('Request to POST Tracks Failed!');
                     }
-
                 } catch(err) {
                   console.log(err);
                 }
-
               }
             } else {
               throw new Error('Request to POST Playlist Failed!');
@@ -92,7 +88,6 @@ const Spotify = {
           } catch(err) {
             console.log(err);
           }
-
         }
       } else {
         throw new Error('Request to GET user_id Failed!');
@@ -100,9 +95,7 @@ const Spotify = {
     } catch(err) {
       console.log(err);
     }
-
   }
-
 };
 
 export default Spotify;
