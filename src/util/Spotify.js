@@ -1,10 +1,10 @@
 const CLIENT_ID = "67c415c603714e92a1eb3a2a23d50677";
 const REDIRECT_URI = window.location.href;
+const ENDS_WITH_JAMMING = window.location.href.split('/')[-1] === "jamming";
 
 const Spotify = {
   accessToken: undefined,
   expiresIn: undefined,
-  endsWithJamming: window.location.href.split('/')[-1] === "jamming",
 
   getAccessToken() {
     if (this.accessToken) {
@@ -13,7 +13,7 @@ const Spotify = {
       this.accessToken = window.location.href.match(/access_token=([^&]*)/)[1];
       this.expiresIn = Number(window.location.href.match(/expires_in=([^&]*)/)[1]);
       window.setTimeout(() => this.accessToken = '', this.expiresIn * 1000);
-      this.endsWithJamming ? window.history.pushState('Access Token', null, '/jamming') : window.history.pushState('Access Token', null, '/');
+      ENDS_WITH_JAMMING ? window.history.pushState('Access Token', null, '/jamming') : window.history.pushState('Access Token', null, '/');
       return this.accessToken;
     } else {
       window.location = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&response_type=token&scope=playlist-modify-public&redirect_uri=${REDIRECT_URI}`;
