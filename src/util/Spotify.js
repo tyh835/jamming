@@ -1,6 +1,6 @@
 const CLIENT_ID = "67c415c603714e92a1eb3a2a23d50677";
 const REDIRECT_URI = window.location.href;
-const ENDS_WITH_JAMMING = window.location.href.split('/')[-1] === "jamming";
+const ENDS_WITH_JAMMING = window.location.href.split('/')[-2] === "jamming";
 
 const Spotify = {
   accessToken: undefined,
