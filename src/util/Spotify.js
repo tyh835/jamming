@@ -47,8 +47,8 @@ const Spotify = {
     }
   },
 // This function adds playlist to Spoify by using GET to "https://api.spotify.com/v1/me" to obtain userID,
-// POST to "https://api.spotify.com/v1/users/${user_id}/playlists" to add new playlist and obtain playlistID,
-// POST to "https://api.spotify.com/v1/users/${user_id}/playlists/${playlistID}/tracks" to add tracks to newly created playlist.
+// POST to "https://api.spotify.com/v1/users/${userID}/playlists" to add new playlist and obtain playlistID,
+// POST to "https://api.spotify.com/v1/users/${userID}/playlists/${playlistID}/tracks" to add tracks to newly created playlist.
   async savePlaylist(playlistName, trackURIs) {
     if (!playlistName || !trackURIs[0]) {
       return;
