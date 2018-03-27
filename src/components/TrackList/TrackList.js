@@ -4,7 +4,6 @@ import {Track} from '../Track/Track.js';
 
 export class TrackList extends React.Component {
   render() {
-    console.log(this.props.tracks);
     if (this.props.tracks && this.props.tracks.length !== 0) {
 // Map all tracks from the prop onto new variable.
       let tracks = this.props.tracks.map(track => track);

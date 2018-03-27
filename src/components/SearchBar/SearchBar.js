@@ -4,7 +4,7 @@ import './SearchBar.css';
 export class SearchBar extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {term: "", authorized: false};
+    this.state = {term: '', authorized: false};
     this.spotifyIcon = (<i className="fa fa-spotify"></i>);
     this.search = this.search.bind(this);
     this.handleTermChange = this.handleTermChange.bind(this);
@@ -25,12 +25,21 @@ export class SearchBar extends React.Component {
       this.search();
     }
   }
-
+// Each time the search bar loads, it checks for previously stored value and updates this.state.term
+  componentWillMount() {
+    if (window.name) {
+      this.setState({term: window.name});
+    }
+  }
+// Saves the search bar term in the window.name DOM variable.
+  componentDidUpdate() {
+    window.name = this.state.term;
+  }
 // Renders the search bar, a controlled component.
   render() {
     return (
       <div className="SearchBar">
-        <input placeholder="Enter A Song, Album, or Artist" onChange={this.handleTermChange} onKeyPress={this.handleKeyPress} />
+        <input placeholder="Enter A Song, Album, or Artist" onChange={this.handleTermChange} onKeyPress={this.handleKeyPress} value={this.state.term} />
         <a onClick={this.search} style={this.props.isAuthorized ? {} : {width: '12rem'}}>
         {this.props.isAuthorized ? '': this.spotifyIcon }{this.props.isAuthorized ? 'Search' : ' Connect to Spotify'}
         </a>

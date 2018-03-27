@@ -37,15 +37,18 @@ class App extends React.Component {
   addTrack(track) {
     if (this.state.playlistTracks.every(addedTrack => {return addedTrack.id !== track.id})) {
       let newPlaylistTracks = this.state.playlistTracks;
+      let newSearchResults = this.state.searchResults.filter(foundTrack => foundTrack.id !== track.id);;
       newPlaylistTracks.push(track);
-      this.setState({playlistTracks: newPlaylistTracks});
+      this.setState({playlistTracks: newPlaylistTracks, searchResults: newSearchResults});
     }
   }
 // This methods removes a track from <App />'s playistTracks state. It is passed down to <Track /> as a prop.
   removeTrack(track) {
     if (this.state.playlistTracks.some(addedTrack => {return addedTrack.id === track.id})) {
       let newPlaylistTracks = this.state.playlistTracks.filter(addedTrack => addedTrack.id !== track.id);
-      this.setState({playlistTracks: newPlaylistTracks});
+      let newSearchResults = this.state.searchResults;
+      newSearchResults.unshift(track);
+      this.setState({playlistTracks: newPlaylistTracks, searchResults: newSearchResults});
     }
   }
 // This methods updates <App />'s playistName state. It is passed down to <Playlist /> as a prop.
@@ -58,11 +61,10 @@ class App extends React.Component {
     Spotify.savePlaylist(this.state.playlistName, trackURIs);
     this.setState({playlistName: "New Playlist", searchResults: []});
   }
-// function to check if user has authorized with Spotify, or else redirects user when button is pressed
+// This method checks if user has authorized with Spotify, or else redirects user when button is pressed
   isAuthorized() {
     if (Spotify.accessToken) {
       this.setState({authorized: true});
-      this.render();
     } else if (!Spotify.accessToken){
       Spotify.getAccessToken();
       if (!Spotify.accessToken) {
@@ -70,7 +72,7 @@ class App extends React.Component {
       }
     }
   }
-// Checks if user has authorized with this Spoify account each time the app renders
+// This lifecycle method checks if user has authorized with this Spotify account each time the app renders
   componentWillMount() {
     if (this.state.authorized === true && !Spotify.accessToken) {
       this.setState({authorized: false});

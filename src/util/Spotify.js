@@ -13,8 +13,11 @@ const Spotify = {
     } else if (window.location.href.match(/access_token=([^&]*)/)) {
       // If no authorization token already saved, this function tries to obtain token from URL.
       this.accessToken = window.location.href.match(/access_token=([^&]*)/)[1];
+      // Sets the window timeout once the access token has been obtained.
       this.expiresIn = Number(window.location.href.match(/expires_in=([^&]*)/)[1]);
       window.setTimeout(() => this.accessToken = undefined, this.expiresIn * 1000);
+      console.log(this.accessToken);
+      console.log(`Token expires in ${this.expiresIn} seconds`);
       IS_GITHUB ? window.history.pushState('Access Token', null, '/jamming') : window.history.pushState('Access Token', null, '/');
       return this.accessToken;
     }
@@ -32,12 +35,14 @@ const Spotify = {
         let jsonResponse = await response.json();
         if (jsonResponse && jsonResponse !== {}) {
           return jsonResponse.tracks.items.map(track => {
+            console.log(track);
             return {
               id: track.id,
               name: track.name,
               artist: track.artists[0].name,
               album: track.album.name,
-              uri: track.uri
+              uri: track.uri,
+              preview: track.preview_url
             }
           })
         }
