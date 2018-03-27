@@ -25,6 +25,7 @@ class App extends React.Component {
     this.updatePlaylistName = this.updatePlaylistName.bind(this);
     this.savePlaylist = this.savePlaylist.bind(this);
     this.search = this.search.bind(this);
+    this.getTopTracks = this.getTopTracks.bind(this);
     this.isAuthorized = this.isAuthorized.bind(this);
   }
 // This method calls the asynchronous search function from the Spotify module. It is passed down to <SearchBar /> as a prop.
@@ -32,6 +33,14 @@ class App extends React.Component {
     this.isAuthorized();
     if (this.state.authorized) {
       let searchResults = await Spotify.search(term);
+      this.setState({searchResults: searchResults, searchResultsCache: searchResults});
+    }
+  }
+// This method calls the asynchronous getTopTracks function from the Spotify module. It is passed down to <SearchBar /> as a prop.
+  async getTopTracks() {
+    this.isAuthorized();
+    if (this.state.authorized) {
+      let searchResults = await Spotify.getTopTracks();
       this.setState({searchResults: searchResults, searchResultsCache: searchResults});
     }
   }
@@ -94,7 +103,7 @@ class App extends React.Component {
       <div>
         <h1>Ja<span className="highlight">mmm</span>ing</h1>
         <div className="App">
-          <SearchBar onSearch={this.search} isAuthorized={this.state.authorized} />
+          <SearchBar onSearch={this.search} onGetTop={this.getTopTracks} isAuthorized={this.state.authorized} />
           <div className="App-playlist">
             <SearchResults searchResults={this.state.searchResults} onAdd={this.addTrack} />
             <Playlist playlistName={this.state.playlistName} playlistTracks={this.state.playlistTracks} onRemove={this.removeTrack}

@@ -4,6 +4,7 @@
   align-items: center;
   padding-top: 6.94rem;
   margin-bottom: 6.33rem;
+  height: 200px;
 }
 
 .SearchBar input {
@@ -22,7 +23,15 @@
   outline: none;
 }
 
-.SearchBar a {
+.SearchBar .Buttons {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.SearchBar .Buttons a {
   cursor: pointer;
   width: 8.11rem;
   padding: .77rem 0;
@@ -36,7 +45,7 @@
   transition: all .4s;
 }
 
-.SearchBar a:hover {
+.SearchBar .Buttons a:hover {
   background-color: hsl(141, 73%, 45%);
   color: hsl(141, 73%, 90%);
   filter: saturate(2.22) brightness(0.64);

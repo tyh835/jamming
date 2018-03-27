@@ -24,7 +24,7 @@ const Spotify = {
   },
 
   redirectSpotify() {
-      window.location = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&response_type=token&scope=playlist-modify-public&redirect_uri=${REDIRECT_URI}`;
+      window.location = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&response_type=token&scope=playlist-modify-public+user-top-read&redirect_uri=${REDIRECT_URI}`;
   },
 // This function searches Spoify by using GET to "https://api.spotify.com/v1/search"
   async search(term) {
@@ -46,11 +46,38 @@ const Spotify = {
           })
         }
       }
-      throw new Error('Request Failed!');
+      throw new Error('Search Request Failed!');
     } catch(err) {
       console.log(err);
     }
   },
+
+  // This function gets user's top tracks from  Spoify by using GET to "https://api.spotify.com/v1/me/top/tracks"
+    async getTopTracks() {
+      let accessToken = this.accessToken || this.getAccessToken();
+      try {
+        let response = await fetch('https://api.spotify.com/v1/me/top/tracks?limit=50', {headers: {Authorization: `Bearer ${accessToken}`}});
+        if (response.ok) {
+          let jsonResponse = await response.json();
+          if (jsonResponse && jsonResponse !== {}) {
+            console.log(jsonResponse);
+            return jsonResponse.items.map(track => {
+              return {
+                id: track.id,
+                name: track.name,
+                artist: track.artists[0].name,
+                album: track.album.name,
+                uri: track.uri,
+                preview: track.preview_url
+              }
+            })
+          }
+        }
+        throw new Error('Request to GET Top Tracks Failed!');
+      } catch(err) {
+        console.log(err);
+      }
+    },
 // This function adds playlist to Spoify by using GET to "https://api.spotify.com/v1/me" to obtain userID,
 // POST to "https://api.spotify.com/v1/users/${userID}/playlists" to add new playlist and obtain playlistID,
 // POST to "https://api.spotify.com/v1/users/${userID}/playlists/${playlistID}/tracks" to add tracks to newly created playlist.
