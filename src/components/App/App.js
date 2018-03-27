@@ -49,7 +49,7 @@ class App extends React.Component {
     if (this.state.playlistTracks.some(addedTrack => {return addedTrack.id === track.id})) {
       let newPlaylistTracks = this.state.playlistTracks.filter(addedTrack => addedTrack.id !== track.id);
       let newSearchResults = this.state.searchResults;
-      if (this.state.searchResultsCache.some(foundTrack => foundTrack.id = track.id)) {
+      if (this.state.searchResultsCache.some(foundTrack => foundTrack.id === track.id)) {
         newSearchResults.unshift(track);
       }
       this.setState({playlistTracks: newPlaylistTracks, searchResults: newSearchResults});
