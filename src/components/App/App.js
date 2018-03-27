@@ -13,7 +13,9 @@ class App extends React.Component {
 
       playlistName: "New Playlist",
 
-      playlistTracks: []
+      playlistTracks: [],
+
+      authorized: false
     };
     // Binds the methods of <App /> to this component.
     this.addTrack = this.addTrack.bind(this);
@@ -21,11 +23,15 @@ class App extends React.Component {
     this.updatePlaylistName = this.updatePlaylistName.bind(this);
     this.savePlaylist = this.savePlaylist.bind(this);
     this.search = this.search.bind(this);
+    this.isAuthorized = this.isAuthorized.bind(this);
   }
 // This method calls the asynchronous search function from the Spotify module. It is passed down to <SearchBar /> as a prop.
   async search(term) {
-    let searchResults = await Spotify.search(term);
-    this.setState({searchResults: searchResults});
+    this.isAuthorized();
+    if (this.state.authorized) {
+      let searchResults = await Spotify.search(term);
+      this.setState({searchResults: searchResults});
+    }
   }
 // This methods adds a track to <App />'s playistTracks state. It is passed down to <Track /> as a prop.
   addTrack(track) {
@@ -52,13 +58,37 @@ class App extends React.Component {
     Spotify.savePlaylist(this.state.playlistName, trackURIs);
     this.setState({playlistName: "New Playlist", searchResults: []});
   }
+// function to check if user has authorized with Spotify, or else redirects user when button is pressed
+  isAuthorized() {
+    if (Spotify.accessToken) {
+      this.setState({authorized: true});
+      this.render();
+    } else if (!Spotify.accessToken){
+      Spotify.getAccessToken();
+      if (!Spotify.accessToken) {
+        Spotify.redirectSpotify();
+      }
+    }
+  }
+// Checks if user has authorized with this Spoify account each time the app renders
+  componentWillMount() {
+    if (this.state.authorized === true && !Spotify.accessToken) {
+      this.setState({authorized: false});
+    }
+    if (!Spotify.accessToken) {
+      Spotify.getAccessToken();
+    }
+    if (Spotify.accessToken) {
+      this.isAuthorized();
+    }
+  }
 // Renders <App />, which contains all of the components.
   render() { 
     return (
       <div>
         <h1>Ja<span className="highlight">mmm</span>ing</h1>
         <div className="App">
-          <SearchBar onSearch={this.search} />
+          <SearchBar onSearch={this.search} isAuthorized={this.state.authorized} />
           <div className="App-playlist">
             <SearchResults searchResults={this.state.searchResults} onAdd={this.addTrack} />
             <Playlist playlistName={this.state.playlistName} playlistTracks={this.state.playlistTracks} onRemove={this.removeTrack}

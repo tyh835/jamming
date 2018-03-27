@@ -27,12 +27,17 @@
   width: 8.11rem;
   padding: .77rem 0;
   border-radius: 54px;
-  background-color: hsl(229, 97%, 13%);
+  background-color: hsl(141, 73%, 42%);
+  filter: saturate(2.22) brightness(0.64);
+  color: #333333;
+  text-transform: uppercase;
   text-align: center;
   font-size: .833rem;
   transition: all .4s;
 }
 
 .SearchBar a:hover {
-  background-color: hsla(229, 97%, 21%, 0.7);
+  background-color: hsl(141, 73%, 45%);
+  color: hsl(141, 73%, 90%);
+  filter: saturate(2.22) brightness(0.64);
 }

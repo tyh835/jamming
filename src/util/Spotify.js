@@ -17,10 +17,11 @@ const Spotify = {
       window.setTimeout(() => this.accessToken = undefined, this.expiresIn * 1000);
       IS_GITHUB ? window.history.pushState('Access Token', null, '/jamming') : window.history.pushState('Access Token', null, '/');
       return this.accessToken;
-    } else {
-      // If no authorization token found in URL, this function redirects user to Spotify's authorization page.
-      window.location = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&response_type=token&scope=playlist-modify-public&redirect_uri=${REDIRECT_URI}`;
     }
+  },
+
+  redirectSpotify() {
+      window.location = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&response_type=token&scope=playlist-modify-public&redirect_uri=${REDIRECT_URI}`;
   },
 // This function searches Spoify by using GET to "https://api.spotify.com/v1/search"
   async search(term) {
