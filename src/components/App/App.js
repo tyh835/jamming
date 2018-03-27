@@ -11,6 +11,8 @@ class App extends React.Component {
     this.state = {
       searchResults: [],
 
+      searchResultsCache: [],
+
       playlistName: "New Playlist",
 
       playlistTracks: [],
@@ -30,7 +32,7 @@ class App extends React.Component {
     this.isAuthorized();
     if (this.state.authorized) {
       let searchResults = await Spotify.search(term);
-      this.setState({searchResults: searchResults});
+      this.setState({searchResults: searchResults, searchResultsCache: searchResults});
     }
   }
 // This methods adds a track to <App />'s playistTracks state. It is passed down to <Track /> as a prop.
@@ -47,7 +49,9 @@ class App extends React.Component {
     if (this.state.playlistTracks.some(addedTrack => {return addedTrack.id === track.id})) {
       let newPlaylistTracks = this.state.playlistTracks.filter(addedTrack => addedTrack.id !== track.id);
       let newSearchResults = this.state.searchResults;
-      newSearchResults.unshift(track);
+      if (this.state.searchResultsCache.some(foundTrack => foundTrack.id = track.id)) {
+        newSearchResults.unshift(track);
+      }
       this.setState({playlistTracks: newPlaylistTracks, searchResults: newSearchResults});
     }
   }
@@ -59,7 +63,7 @@ class App extends React.Component {
   savePlaylist() {
     let trackURIs = this.state.playlistTracks.map(track => track.uri);
     Spotify.savePlaylist(this.state.playlistName, trackURIs);
-    this.setState({playlistName: "New Playlist", searchResults: []});
+    this.setState({playlistName: "New Playlist", searchResults: [], searchResultsCache: []});
   }
 // This method checks if user has authorized with Spotify, or else redirects user when button is pressed
   isAuthorized() {
