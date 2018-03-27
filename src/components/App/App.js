@@ -17,12 +17,15 @@ class App extends React.Component {
 
       playlistTracks: [],
 
-      authorized: false
+      authorized: false,
+
+      isNewPlaylist: true
     };
     // Binds the methods of <App /> to this component.
     this.addTrack = this.addTrack.bind(this);
     this.removeTrack = this.removeTrack.bind(this);
     this.updatePlaylistName = this.updatePlaylistName.bind(this);
+    this.updatePlaylistBool = this.updatePlaylistBool.bind(this);
     this.savePlaylist = this.savePlaylist.bind(this);
     this.search = this.search.bind(this);
     this.getTopTracks = this.getTopTracks.bind(this);
@@ -68,6 +71,10 @@ class App extends React.Component {
   updatePlaylistName(name) {
     this.setState({playlistName: name});
   }
+// This methods updates <App />'s isPlayistNew state. It is passed down to <Playlist /> as a prop.
+  updatePlaylistBool(bool) {
+    this.setState({isNewPlaylist: bool});
+  }
 // This method calls the savePlaylist function from the Spotify module. It is passed down to <Playlist /> as a prop.
   savePlaylist() {
     let trackURIs = this.state.playlistTracks.map(track => track.uri);
@@ -107,7 +114,7 @@ class App extends React.Component {
           <div className="App-playlist">
             <SearchResults searchResults={this.state.searchResults} onAdd={this.addTrack} />
             <Playlist playlistName={this.state.playlistName} playlistTracks={this.state.playlistTracks} onRemove={this.removeTrack}
-            onNameChange={this.updatePlaylistName} onSave={this.savePlaylist} />
+            onNameChange={this.updatePlaylistName} onBoolChange={this.updatePlaylistBool} onSave={this.savePlaylist} />
           </div>
         </div>
       </div>
