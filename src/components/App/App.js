@@ -52,7 +52,7 @@ class App extends React.Component {
 // This method calls the asynchronous getPlaylists function from the Spotify module and displays playlist in <Playlist />.
   async getPlaylists() {
     let playlists = await Spotify.getPlaylists();
-    if (playlists.length > 0) {
+    if (playlists && playlists.length !== 0) {
       this.setState({playlistList: playlists});
     } else {
       this.setState({playlistList: []});
