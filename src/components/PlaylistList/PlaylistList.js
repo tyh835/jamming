@@ -5,11 +5,11 @@ import {PlaylistListElement} from '../PlaylistListElement/PlaylistListElement.js
 export class PlaylistList extends React.Component {
   constructor(props) {
     super(props);
-    this.handleAdd = this.handleAdd.bind(this);
+    this.handleNew = this.handleNew.bind(this);
   }
 // Handles when add New Playlist is clicked
-  handleAdd(e) {
-    console.log(this);
+  handleNew(e) {
+    this.props.onNew();
   }
 // Renders the PlaylistList component
   render() {
@@ -20,15 +20,15 @@ export class PlaylistList extends React.Component {
         <div className="PlaylistList">
           <h2>Your Playlists</h2>
           <div className="playlists">
-            <a className="add" onClick={this.handleAdd} >{'+ New playlist'}</a>
+            <a className="add" onClick={this.handleNew} >{'+ New playlist'}</a>
             {playlists.map(playlist => {
-            return <PlaylistListElement key={playlist.id} playlist={playlist} />
+            return <PlaylistListElement key={playlist.id} activeID={this.props.activeID} playlist={playlist} onGetTracks={this.props.getPlaylistTracks} onReset={this.props.reset} />
             })}
           </div>
         </div>
       );
     } else {
-      return (<div className="PlaylistList" style={{marginTop: "5.35rem"}}><h2>Playlists</h2></div>);
+      return (<div className="PlaylistList"><h2>Playlists</h2></div>);
     }
   }
 }

@@ -36,7 +36,7 @@ export class SearchBar extends React.Component {
   }
 // Renders the personal tops button after user is authorized
   renderTopButton() {
-    return <a onClick={this.getTopTracks} style={{width: '11rem', marginTop: '1.5rem'}}>Personal Top 50</a>;
+    return <a onClick={this.getTopTracks} style={{width: '11rem', marginLeft: '2.5rem'}}>Personal Top 50</a>;
   }
 // Each time the search bar loads, it checks for previously stored value and updates this.state.term
   componentWillMount() {

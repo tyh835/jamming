@@ -4,8 +4,8 @@
   align-items: center;
   overflow-y: scroll;
   width: 40%;
-  max-height: 900px;
-  padding: 2.27rem 1.16rem;
+  max-height: 525px;
+  padding: 1.27rem 1.16rem;
   background-color: hsla(229, 97%, 13%, 0.7);
   box-shadow: 0 4px 2px 2px #000000;
 }
@@ -40,6 +40,26 @@
   color: hsl(141, 73%, 90%);
 }
 
+.Playlist-delete {
+  cursor: pointer;
+  width: 10rem;
+  padding: .77rem 0;
+  border-radius: 54px;
+  margin-top: 1.27rem;
+  background-color: hsl(0, 90%, 50%);
+  filter: saturate(2.22) brightness(0.53);
+  color: #DDDDDD;
+  text-align: center;
+  font-size: .83rem;
+  transition: all .25s;
+}
+
+.Playlist-delete:hover {
+  background-color: hsl(0, 90%, 50%);
+  color: hsl(141, 73%, 90%);
+  filter: saturate(2.22) brightness(0.67);
+}
+
 ::-webkit-scrollbar {
     width: 0px;
     background: transparent;
@@ -48,5 +68,6 @@
 @media only screen and (max-width: 1020px) {
   .Playlist {
     width: 90%;
+    max-height: none;
   }
 }

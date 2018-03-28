@@ -1,8 +1,8 @@
 .SearchResults {
   width: 45%;
-  height: 950px;
+  height: 525px;
   overflow-y: scroll;
-  padding: .88rem;
+  padding: 1.27rem 1.16rem;
   background-color: hsla(229, 97%, 13%, 0.7);
   box-shadow: 0 4px 2px 2px #000000;
 }

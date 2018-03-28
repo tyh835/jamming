@@ -113,7 +113,6 @@ const Spotify = {
         if (response.ok) {
           let jsonResponse = await response.json();
           if (jsonResponse && jsonResponse !== {}) {
-            console.log(jsonResponse);
             return jsonResponse.items.filter(playlist => playlist.owner.id === userID).map(playlist => {
               return {
                 id: playlist.id,
@@ -142,12 +141,12 @@ const Spotify = {
           if (jsonResponse && jsonResponse !== {}) {
             return jsonResponse.items.map(track => {
               return {
-                id: track.id,
-                name: track.name,
-                artist: track.artists[0].name,
-                album: track.album.name,
-                uri: track.uri,
-                preview: track.preview_url
+                id: track.track.id,
+                name: track.track.name,
+                artist: track.track.artists[0].name,
+                album: track.track.album.name,
+                uri: track.track.uri,
+                preview: track.track.preview_url
               }
             })
           }
@@ -163,7 +162,7 @@ const Spotify = {
 // then POST to "https://api.spotify.com/v1/users/${userID}/playlists" to add new playlist and obtain playlistID,
 // then POST to "https://api.spotify.com/v1/users/${userID}/playlists/${playlistID}/tracks" to add tracks to newly created playlist.
   async savePlaylist(playlistName, trackURIs) {
-    if (!playlistName || !trackURIs[0]) {
+    if (!playlistName) {
       return;
     }
     let accessToken = this.accessToken || this.getAccessToken();
@@ -187,9 +186,10 @@ const Spotify = {
               headers: headers});
               if(responsePOST2.ok) {
                 setTimeout(alert('Successfully saved to Spotify!'), 1000);
-                return;
+                return playlistID;
               } else {
-                throw new Error('Request to POST Tracks Failed!');
+                setTimeout(alert('Created empty playlist!'), 1000);
+                return playlistID;
               }
           } catch(err) {
             console.log(err);
@@ -197,6 +197,46 @@ const Spotify = {
         }
       } else {
         throw new Error('Request to POST Playlist Failed!');
+      }
+    } catch(err) {
+      console.log(err);
+    }
+  },
+
+// This function gets user_id from Spoify by using this.getUserID,
+// then PUT to "https://api.spotify.com/v1/users/${userID}/playlists/{playlist_id}" to update playlist name.
+// then PUT to "https://api.spotify.com/v1/users/${userID}/playlists/{playlist_id}/tracks" to update playlist.
+  async updatePlaylist(playlistName, playlistID, trackURIs) {
+    if (!playlistName || !playlistID) {
+      return;
+    }
+    let accessToken = this.accessToken || this.getAccessToken();
+    let headers = {Authorization: `Bearer ${accessToken}`, 'Content-Type': "application/json"};
+    let userID = await this.getUserID();
+    // PUT 1 method
+    try {
+      let responsePUT1 = await fetch(`https://api.spotify.com/v1/users/${userID}/playlists/${playlistID}`, {
+        method: 'PUT',
+        headers: headers,
+        body: JSON.stringify({name: playlistName})
+      });
+      if (responsePUT1.ok) {
+        //PUT 2 method
+        try {
+          let responsePUT2 = await fetch(`https://api.spotify.com/v1/users/${userID}/playlists/${playlistID}/tracks?uris=${trackURIs.join(',')}`, {
+            method: 'PUT',
+            headers: headers});
+          if(responsePUT2.ok) {
+              setTimeout(alert('Successfully updated playlist in Spotify!'), 1000);
+              return;
+          } else {
+            throw new Error('Request to PUT Tracks Failed!');
+          }
+        } catch(err) {
+          console.log(err);
+        }
+      } else {
+        throw new Error('Request to PUT PlaylistName Failed!');
       }
     } catch(err) {
       console.log(err);

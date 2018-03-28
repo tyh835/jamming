@@ -18,3 +18,8 @@
   background-color: hsl(195, 73%, 46%);
   color: hsl(141, 73%, 90%);
 }
+
+.PlaylistList .active {
+  background-color: hsl(195, 73%, 46%);
+  color: hsl(141, 73%, 90%);
+}

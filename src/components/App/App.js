@@ -12,7 +12,7 @@ class App extends React.Component {
     this.state = {
       searchResults: [],
       searchResultsCache: [],
-      playlistName: '',
+      playlistName: 'New Playlist',
       playlistTracks: [],
       playlistID: null,
       playlistList: [],
@@ -23,11 +23,12 @@ class App extends React.Component {
     this.addTrack = this.addTrack.bind(this);
     this.removeTrack = this.removeTrack.bind(this);
     this.updatePlaylistName = this.updatePlaylistName.bind(this);
-    this.updatePlaylistBool = this.updatePlaylistBool.bind(this);
+    this.newPlaylist = this.newPlaylist.bind(this);
     this.savePlaylist = this.savePlaylist.bind(this);
     this.getPlaylists = this.getPlaylists.bind(this);
-    this.search = this.search.bind(this);
     this.getTopTracks = this.getTopTracks.bind(this);
+    this.getPlaylistTracks = this.getPlaylistTracks.bind(this);
+    this.search = this.search.bind(this);
     this.isAuthorized = this.isAuthorized.bind(this);
   }
 // This method calls the asynchronous search function from the Spotify module. It is passed down to <SearchBar /> as a prop.
@@ -47,23 +48,23 @@ class App extends React.Component {
     }
   }
 
-// This method calls the asynchronous getPlaylists function from the Spotify module.
+// This method calls the asynchronous getPlaylists function from the Spotify module and displays playlist in <Playlist />.
   async getPlaylists() {
     let playlists = await Spotify.getPlaylists();
     this.setState({playlistList: playlists});
   }
 
-// This method calls the asynchronous getPlaylistTracks function from the Spotify module.
-  async getPlaylistTracks(trackURL, name, id) {
-    let tracks = await Spotify.getPlaylistTracks(trackURL);
+// This method calls the asynchronous getPlaylistTracks function from the Spotify module and displays playlist in <Playlist />.
+  async getPlaylistTracks(tracksURL, name, id) {
+    let tracks = await Spotify.getPlaylistTracks(tracksURL);
     this.setState({
       playlistTracks: tracks,
-      isNewPlaylist: false,
-      playistName: name,
-      playlistID: id});
+      playlistName: name,
+      playlistID: id,
+      isNewPlaylist: false});
   }
 
-// This methods adds a track to <App />'s playistTracks state. It is passed down to <Track /> as a prop.
+// This methods adds a track to <App />'s playlistTracks state. It is passed down to <Track /> as a prop.
   addTrack(track) {
     if (this.state.playlistTracks.every(addedTrack => {return addedTrack.id !== track.id})) {
       let newPlaylistTracks = this.state.playlistTracks;
@@ -73,7 +74,7 @@ class App extends React.Component {
     }
   }
 
-// This methods removes a track from <App />'s playistTracks state. It is passed down to <Track /> as a prop.
+// This methods removes a track from <App />'s playlistTracks state. It is passed down to <Track /> as a prop.
   removeTrack(track) {
     if (this.state.playlistTracks.some(addedTrack => {return addedTrack.id === track.id})) {
       let newPlaylistTracks = this.state.playlistTracks.filter(addedTrack => addedTrack.id !== track.id);
@@ -85,21 +86,48 @@ class App extends React.Component {
     }
   }
 
-// This methods updates <App />'s playistName state. It is passed down to <Playlist /> as a prop.
+// This methods updates <App />'s playlistName state. It is passed down to <Playlist /> as a prop.
   updatePlaylistName(name) {
     this.setState({playlistName: name});
   }
 
-// This methods updates <App />'s isPlayistNew state. It is passed down to <Playlist /> as a prop.
-  updatePlaylistBool(bool) {
-    this.setState({isNewPlaylist: bool});
+// This methods resets states relevant to the playlist. It is passed down to <PlaylistList /> as a prop.
+  newPlaylist() {
+    this.setState({
+      playlistName: 'New Playlist',
+      isNewPlaylist: true,
+      playlistTracks: [],
+      playlistID: null
+    });
   }
 
-// This method calls the savePlaylist function from the Spotify module. It is passed down to <Playlist /> as a prop.
-  savePlaylist() {
+// This method calls the savePlaylist or updatePlaylist function from the Spotify module. It is passed down to <Playlist /> as a prop.
+  async savePlaylist() {
     let trackURIs = this.state.playlistTracks.map(track => track.uri);
-    Spotify.savePlaylist(this.state.playlistName, trackURIs);
-    this.setState({playlistName: '', searchResults: [], searchResultsCache: []});
+    if (this.state.isNewPlaylist && this.state.authorized) {
+      const id = await Spotify.savePlaylist(this.state.playlistName, trackURIs);
+      if (id) {
+        this.setState({
+          playlistID: id,
+          isNewPlaylist: false,
+          searchResults: [],
+          searchResultsCache: []
+        });
+      } else {
+        alert('Unable to save playlist!');
+        this.newPlaylist();
+      }
+
+    } else if (!this.state.isNewPlaylist && this.state.authorized) {
+      Spotify.updatePlaylist(this.state.playlistName, this.state.playlistID, trackURIs);
+      this.setState({
+        searchResults: [],
+        searchResultsCache: []
+      });
+    } else {
+      alert('Please authorize your Spotify account.');
+    }
+    this.getPlaylists();
   }
 
 // This method checks if user has authorized with Spotify, or else redirects user when button is pressed
@@ -137,11 +165,12 @@ class App extends React.Component {
         <h1>Ja<span className="highlight">mmm</span>ing</h1>
         <div className="App">
           <SearchBar onSearch={this.search} onGetTop={this.getTopTracks} isAuthorized={this.state.authorized} />
-          <PlaylistList isAuthorized={this.state.authorized} playlists={this.state.playlistList}/>
+          <PlaylistList isAuthorized={this.state.authorized} playlists={this.state.playlistList} onNew={this.newPlaylist}
+          activeID={this.state.playlistID} getPlaylistTracks={this.getPlaylistTracks} reset={this.newPlaylist} />
           <div className="App-playlist">
             <SearchResults searchResults={this.state.searchResults} onAdd={this.addTrack} />
             <Playlist playlistName={this.state.playlistName} playlistTracks={this.state.playlistTracks} onRemove={this.removeTrack}
-            onNameChange={this.updatePlaylistName} onBoolChange={this.updatePlaylistBool} onSave={this.savePlaylist} />
+            onNameChange={this.updatePlaylistName} onSave={this.savePlaylist} isNew={this.state.isNewPlaylist} />
           </div>
         </div>
       </div>
