@@ -25,6 +25,7 @@ class App extends React.Component {
     this.updatePlaylistName = this.updatePlaylistName.bind(this);
     this.newPlaylist = this.newPlaylist.bind(this);
     this.savePlaylist = this.savePlaylist.bind(this);
+    this.deletePlaylist = this.deletePlaylist.bind(this);
     this.getPlaylists = this.getPlaylists.bind(this);
     this.getTopTracks = this.getTopTracks.bind(this);
     this.getPlaylistTracks = this.getPlaylistTracks.bind(this);
@@ -113,6 +114,7 @@ class App extends React.Component {
           searchResults: [],
           searchResultsCache: []
         });
+        this.getPlaylists();
       } else {
         alert('Unable to save playlist!');
         this.newPlaylist();
@@ -124,10 +126,19 @@ class App extends React.Component {
         searchResults: [],
         searchResultsCache: []
       });
+      this.getPlaylists();
     } else {
       alert('Please authorize your Spotify account.');
     }
-    this.getPlaylists();
+  }
+
+// This method calls the deletePlaylist function from the Spotify module. It is passed down to <Playlist /> as a prop.
+  async deletePlaylist() {
+    const deleted = await Spotify.deletePlaylist(this.state.playlistID);
+    if (deleted) {
+      this.newPlaylist();
+      this.getPlaylists();
+    }
   }
 
 // This method checks if user has authorized with Spotify, or else redirects user when button is pressed
@@ -170,7 +181,7 @@ class App extends React.Component {
           <div className="App-playlist">
             <SearchResults searchResults={this.state.searchResults} onAdd={this.addTrack} />
             <Playlist playlistName={this.state.playlistName} playlistTracks={this.state.playlistTracks} onRemove={this.removeTrack}
-            onNameChange={this.updatePlaylistName} onSave={this.savePlaylist} isNew={this.state.isNewPlaylist} />
+            onNameChange={this.updatePlaylistName} onSave={this.savePlaylist} onDelete={this.deletePlaylist} isNew={this.state.isNewPlaylist} />
           </div>
         </div>
       </div>

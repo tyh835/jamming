@@ -23,7 +23,7 @@ export class Playlist extends React.Component {
   handleDelete(e) {
     const name = this.props.playlistName;
     if(window.confirm(`Are you sure you want to delete ${name}? Note: it is possible to manually restore deleted playlists through Spotify Account Services.`)) {
-      console.log(this);
+      this.props.onDelete();
     }
   }
 // This method renders the delete button if the playlist currently exists

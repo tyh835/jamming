@@ -26,11 +26,13 @@ const Spotify = {
   redirectSpotify() {
       window.location = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&response_type=token&scope=playlist-modify-public+playlist-modify-private+user-top-read&redirect_uri=${REDIRECT_URI}`;
   },
-// This function searches Spoify by using GET to "https://api.spotify.com/v1/search"
+// This function searches Spotify by using GET to "https://api.spotify.com/v1/search"
   async search(term) {
     let accessToken = this.accessToken || this.getAccessToken();
+    let headers = {Authorization: `Bearer ${accessToken}`};
+    // GET method
     try {
-      let response = await fetch(`https://api.spotify.com/v1/search?type=track&limit=50&q=${term}`, {headers: {Authorization: `Bearer ${accessToken}`}});
+      let response = await fetch(`https://api.spotify.com/v1/search?type=track&limit=50&q=${term}`, {headers: headers});
       if (response.ok) {
         let jsonResponse = await response.json();
         if (jsonResponse && jsonResponse !== {}) {
@@ -58,6 +60,7 @@ const Spotify = {
      let accessToken = this.accessToken || this.getAccessToken();
      let headers = {Authorization: `Bearer ${accessToken}`};
      let userID;
+     // GET method
      try {
        let response = await fetch('https://api.spotify.com/v1/me', {headers: headers});
        if (response.ok) {
@@ -74,11 +77,13 @@ const Spotify = {
    }
  },
 
-// This function gets user's top tracks from Spoify by using GET to "https://api.spotify.com/v1/me/top/tracks"
+// This function gets user's top tracks from Spotify by using GET to "https://api.spotify.com/v1/me/top/tracks"
     async getTopTracks() {
       let accessToken = this.accessToken || this.getAccessToken();
+      let headers = {Authorization: `Bearer ${accessToken}`};
+      // GET method
       try {
-        let response = await fetch('https://api.spotify.com/v1/me/top/tracks?limit=50', {headers: {Authorization: `Bearer ${accessToken}`}});
+        let response = await fetch('https://api.spotify.com/v1/me/top/tracks?limit=50', {headers: headers});
         if (response.ok) {
           let jsonResponse = await response.json();
           if (jsonResponse && jsonResponse !== {}) {
@@ -101,13 +106,13 @@ const Spotify = {
       }
     },
 
-// This function gets user_id from Spoify by using this.getUserID,
-// then gets user's playlists owned by the user from Spoify by using GET to "https://api.spotify.com/v1/me/playlists"
+// This function gets user_id from Spotify by using this.getUserID,
+// then gets user's playlists owned by the user from Spotify by using GET to "https://api.spotify.com/v1/me/playlists"
     async getPlaylists() {
       let accessToken = this.accessToken || this.getAccessToken();
       let headers = {Authorization: `Bearer ${accessToken}`};
       let userID = await this.getUserID();
-      //
+      //GET method
       try {
         let response = await fetch('https://api.spotify.com/v1/me/playlists?limit=50', {headers: headers});
         if (response.ok) {
@@ -131,11 +136,13 @@ const Spotify = {
       }
     },
 
-// This function gets playlist's tracks from Spoify by using GET to trackURL
+// This function gets playlist's tracks from Spotify by using GET to trackURL
     async getPlaylistTracks(trackURL) {
       let accessToken = this.accessToken || this.getAccessToken();
+      let headers = {Authorization: `Bearer ${accessToken}`};
+      // GET method
       try {
-        let response = await fetch(trackURL, {headers: {Authorization: `Bearer ${accessToken}`}});
+        let response = await fetch(trackURL, {headers: headers});
         if (response.ok) {
           let jsonResponse = await response.json();
           if (jsonResponse && jsonResponse !== {}) {
@@ -158,7 +165,7 @@ const Spotify = {
       }
     },
 
-// This function gets user_id from Spoify by using this.getUserID,
+// This function gets user_id from Spotify by using this.getUserID,
 // then POST to "https://api.spotify.com/v1/users/${userID}/playlists" to add new playlist and obtain playlistID,
 // then POST to "https://api.spotify.com/v1/users/${userID}/playlists/${playlistID}/tracks" to add tracks to newly created playlist.
   async savePlaylist(playlistName, trackURIs) {
@@ -203,7 +210,7 @@ const Spotify = {
     }
   },
 
-// This function gets user_id from Spoify by using this.getUserID,
+// This function gets user_id from Spotify by using this.getUserID,
 // then PUT to "https://api.spotify.com/v1/users/${userID}/playlists/{playlist_id}" to update playlist name.
 // then PUT to "https://api.spotify.com/v1/users/${userID}/playlists/{playlist_id}/tracks" to update playlist.
   async updatePlaylist(playlistName, playlistID, trackURIs) {
@@ -237,6 +244,28 @@ const Spotify = {
         }
       } else {
         throw new Error('Request to PUT PlaylistName Failed!');
+      }
+    } catch(err) {
+      console.log(err);
+    }
+  },
+
+// This function deletes/unfollows the playlist from Spotify by using DELETE to https://api.spotify.com/v1/users/{owner_id}/playlists/{playlist_id}/followers
+  async deletePlaylist(playlistID) {
+    let accessToken = this.accessToken || this.getAccessToken();
+    let headers = {Authorization: `Bearer ${accessToken}`};
+    let userID = await this.getUserID();
+    // DELETE method
+    try {
+      let response = await fetch(`https://api.spotify.com/v1/users/${userID}/playlists/${playlistID}/followers`, {
+        method: 'DELETE',
+        headers: headers
+      });
+      if (response.ok) {
+        setTimeout(alert('Playlist Deleted.'), 1000);
+        return true;
+      } else {
+        throw new Error('Request to GET Top Tracks Failed!');
       }
     } catch(err) {
       console.log(err);
