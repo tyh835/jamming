@@ -4,22 +4,22 @@ import './Track.css';
 export class Track extends React.Component {
   constructor(props) {
     super(props);
-    this.addTrack = this.addTrack.bind(this);
-    this.removeTrack = this.removeTrack.bind(this);
+    this.handleAdd = this.handleAdd.bind(this);
+    this.handleRemove = this.handleRemove.bind(this);
     this.renderAction = this.renderAction.bind(this);
     this.renderPreview = this.renderPreview.bind(this);
   }
 // This methods uses the prop passed down from <App /> to update Apps's playistTracks state.
-  addTrack() {
+  handleAdd() {
     this.props.onAdd(this.props.track);
   }
 // This methods uses the prop passed down from <App /> to update Apps's playistTracks state.
-  removeTrack() {
+  handleRemove() {
     this.props.onRemove(this.props.track);
   }
 // This method determines whether a + or - is shown as the action on the track, which calls addTrack() and removeTrack() respectively.
   renderAction(isRemoval) {
-    return isRemoval ? <a className="Track-action" onClick={this.removeTrack}>-</a> : <a className="Track-action" onClick={this.addTrack}>+</a>;
+    return isRemoval ? <a className="Track-action" onClick={this.handleRemove}>-</a> : <a className="Track-action" onClick={this.handleAdd}>+</a>;
   }
 // This method renders a preview of the track if there is a preview snippet provided by Spotify.
   renderPreview() {
