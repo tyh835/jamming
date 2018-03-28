@@ -51,6 +51,7 @@ class App extends React.Component {
 
 // This method calls the asynchronous getPlaylists function from the Spotify module and displays playlist in <Playlist />.
   async getPlaylists() {
+    this.isAuthorized();
     let playlists = await Spotify.getPlaylists();
     this.setState({playlistList: playlists});
   }
@@ -104,8 +105,9 @@ class App extends React.Component {
 
 // This method calls the savePlaylist or updatePlaylist function from the Spotify module. It is passed down to <Playlist /> as a prop.
   async savePlaylist() {
+    this.isAuthorized();
     let trackURIs = this.state.playlistTracks.map(track => track.uri);
-    if (this.state.isNewPlaylist && this.state.authorized) {
+    if (this.state.isNewPlaylist) {
       const id = await Spotify.savePlaylist(this.state.playlistName, trackURIs);
       if (id) {
         this.setState({
@@ -120,15 +122,13 @@ class App extends React.Component {
         this.newPlaylist();
       }
 
-    } else if (!this.state.isNewPlaylist && this.state.authorized) {
+    } else if (!this.state.isNewPlaylist) {
       await Spotify.updatePlaylist(this.state.playlistName, this.state.playlistID, trackURIs);
       this.setState({
         searchResults: [],
         searchResultsCache: []
       });
       this.getPlaylists();
-    } else {
-      alert('Please authorize your Spotify account.');
     }
   }
 
