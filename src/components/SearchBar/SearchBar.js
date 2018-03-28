@@ -6,14 +6,14 @@ export class SearchBar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {term: ''};
-    this.search = this.search.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
     this.handleGetTop = this.handleGetTop.bind(this);
     this.handleTermChange = this.handleTermChange.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.buttonStyle = {backgroundColor: 'hsl(141, 73%, 42%)', width: '11rem', filter: 'saturate(2.22) brightness(0.56)', color: '#333333'}
   }
 // This method calls the search function in <App /> using the passed down prop.
-  search() {
+  handleSearch() {
     this.props.onSearch(this.state.term);
   }
 // This method calls the getTopTracks function in <App /> using the passed down prop.
@@ -27,7 +27,7 @@ export class SearchBar extends React.Component {
 // This method calls the search function in when the enter key is pressed.
   handleKeyPress(e) {
     if (e.key === 'Enter') {
-      this.search();
+      this.handleSearch();
     }
   }
 // Renders the Spotify icon for connect button before user is authorized
@@ -54,7 +54,7 @@ export class SearchBar extends React.Component {
       <div className="SearchBar">
         <input placeholder="Enter A Song, Album, or Artist" onChange={this.handleTermChange} onKeyPress={this.handleKeyPress} value={this.state.term} />
         <div className="Buttons">
-          <a onClick={this.search} style={this.props.isAuthorized ? {} : {width: '12rem'}}>
+          <a onClick={this.handleSearch} style={this.props.isAuthorized ? {} : {width: '12rem'}}>
           {this.props.isAuthorized ? '': this.renderSpotifyIcon()}{this.props.isAuthorized ? 'Search' : ' Connect to Spotify'}
           </a>
           {this.props.isAuthorized? this.renderTopButton() : ''}
