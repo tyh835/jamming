@@ -177,7 +177,7 @@ class App extends React.Component {
         <div className="App">
           <SearchBar onSearch={this.search} onGetTop={this.getTopTracks} isAuthorized={this.state.authorized} />
           <PlaylistList isAuthorized={this.state.authorized} playlists={this.state.playlistList} onNew={this.newPlaylist}
-          activeID={this.state.playlistID} getPlaylistTracks={this.getPlaylistTracks} reset={this.newPlaylist} />
+          activeID={this.state.playlistID} getPlaylistTracks={this.getPlaylistTracks} />
           <div className="App-playlist">
             <SearchResults searchResults={this.state.searchResults} onAdd={this.addTrack} />
             <Playlist playlistName={this.state.playlistName} playlistTracks={this.state.playlistTracks} onRemove={this.removeTrack}

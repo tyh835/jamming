@@ -22,7 +22,7 @@ export class PlaylistList extends React.Component {
           <div className="playlists">
             <a className="add" onClick={this.handleNew} >{'+ New playlist'}</a>
             {playlists.map(playlist => {
-            return <PlaylistListElement key={playlist.id} activeID={this.props.activeID} playlist={playlist} onGetTracks={this.props.getPlaylistTracks} onReset={this.props.reset} />
+            return <PlaylistListElement key={playlist.id} activeID={this.props.activeID} playlist={playlist} onGetTracks={this.props.getPlaylistTracks} onReset={this.props.onNew} />
             })}
           </div>
         </div>
