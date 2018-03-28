@@ -6,7 +6,7 @@ const IS_GITHUB = window.location.href.split('.').some(i => {return i.toLowerCas
 const Spotify = {
   accessToken: undefined,
   expiresIn: undefined,
-// This function fetches an authorization token using Spotify's implicit authorization framework/
+// This function fetches an authorization token using Spotify's implicit authorization framework.
   getAccessToken() {
     if (this.accessToken) {
       return this.accessToken;
@@ -24,7 +24,7 @@ const Spotify = {
   },
 
   redirectSpotify() {
-      window.location = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&response_type=token&scope=playlist-modify-public+user-top-read&redirect_uri=${REDIRECT_URI}`;
+      window.location = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&response_type=token&scope=playlist-modify-public+playlist-modify-private+user-top-read&redirect_uri=${REDIRECT_URI}`;
   },
 // This function searches Spoify by using GET to "https://api.spotify.com/v1/search"
   async search(term) {
@@ -45,14 +45,36 @@ const Spotify = {
             }
           })
         }
+      } else {
+          throw new Error('Search Request Failed!');
       }
-      throw new Error('Search Request Failed!');
     } catch(err) {
       console.log(err);
     }
   },
 
-  // This function gets user's top tracks from  Spoify by using GET to "https://api.spotify.com/v1/me/top/tracks"
+// This functions returns the User ID of the current user.
+  async getUserID() {
+     let accessToken = this.accessToken || this.getAccessToken();
+     let headers = {Authorization: `Bearer ${accessToken}`};
+     let userID;
+     try {
+       let response = await fetch('https://api.spotify.com/v1/me', {headers: headers});
+       if (response.ok) {
+         let jsonResponse = await response.json();
+         if (jsonResponse) {
+           userID = jsonResponse.id;
+           return userID;
+         }
+       } else {
+         throw new Error('Request to GET user_id Failed!');
+       }
+     } catch(err) {
+     console.log(err);
+   }
+ },
+
+// This function gets user's top tracks from Spoify by using GET to "https://api.spotify.com/v1/me/top/tracks"
     async getTopTracks() {
       let accessToken = this.accessToken || this.getAccessToken();
       try {
@@ -60,7 +82,6 @@ const Spotify = {
         if (response.ok) {
           let jsonResponse = await response.json();
           if (jsonResponse && jsonResponse !== {}) {
-            console.log(jsonResponse);
             return jsonResponse.items.map(track => {
               return {
                 id: track.id,
@@ -72,63 +93,110 @@ const Spotify = {
               }
             })
           }
+        } else {
+            throw new Error('Request to GET Top Tracks Failed!');
         }
-        throw new Error('Request to GET Top Tracks Failed!');
       } catch(err) {
         console.log(err);
       }
     },
-// This function adds playlist to Spoify by using GET to "https://api.spotify.com/v1/me" to obtain userID,
-// POST to "https://api.spotify.com/v1/users/${userID}/playlists" to add new playlist and obtain playlistID,
-// POST to "https://api.spotify.com/v1/users/${userID}/playlists/${playlistID}/tracks" to add tracks to newly created playlist.
+
+// This function gets user_id from Spoify by using this.getUserID,
+// then gets user's playlists owned by the user from Spoify by using GET to "https://api.spotify.com/v1/me/playlists"
+    async getPlaylists() {
+      let accessToken = this.accessToken || this.getAccessToken();
+      let headers = {Authorization: `Bearer ${accessToken}`};
+      let userID = await this.getUserID();
+      //
+      try {
+        let response = await fetch('https://api.spotify.com/v1/me/playlists?limit=50', {headers: headers});
+        if (response.ok) {
+          let jsonResponse = await response.json();
+          if (jsonResponse && jsonResponse !== {}) {
+            console.log(jsonResponse);
+            return jsonResponse.items.filter(playlist => playlist.owner.id === userID).map(playlist => {
+              return {
+                id: playlist.id,
+                name: playlist.name,
+                tracksURL: playlist.tracks.href,
+                image: playlist.images[1],
+                uri: playlist.uri,
+              }
+            });
+          }
+        } else {
+        throw new Error('Request to GET Playlists Failed!');
+        }
+      } catch(err) {
+        console.log(err);
+      }
+    },
+
+// This function gets playlist's tracks from Spoify by using GET to trackURL
+    async getPlaylistTracks(trackURL) {
+      let accessToken = this.accessToken || this.getAccessToken();
+      try {
+        let response = await fetch(trackURL, {headers: {Authorization: `Bearer ${accessToken}`}});
+        if (response.ok) {
+          let jsonResponse = await response.json();
+          if (jsonResponse && jsonResponse !== {}) {
+            return jsonResponse.items.map(track => {
+              return {
+                id: track.id,
+                name: track.name,
+                artist: track.artists[0].name,
+                album: track.album.name,
+                uri: track.uri,
+                preview: track.preview_url
+              }
+            })
+          }
+        } else {
+            throw new Error('Request to GET Top Tracks Failed!');
+        }
+      } catch(err) {
+        console.log(err);
+      }
+    },
+
+// This function gets user_id from Spoify by using this.getUserID,
+// then POST to "https://api.spotify.com/v1/users/${userID}/playlists" to add new playlist and obtain playlistID,
+// then POST to "https://api.spotify.com/v1/users/${userID}/playlists/${playlistID}/tracks" to add tracks to newly created playlist.
   async savePlaylist(playlistName, trackURIs) {
     if (!playlistName || !trackURIs[0]) {
       return;
     }
     let accessToken = this.accessToken || this.getAccessToken();
-    let headers = {Authorization: `Bearer ${accessToken}`};
-    let userID;
-    // GET method
+    let headers = {Authorization: `Bearer ${accessToken}`, 'Content-Type': "application/json"};
+    let userID = await this.getUserID();
+    // POST 1 method
     try {
-      let responseGET = await fetch('https://api.spotify.com/v1/me', {headers: headers});
-      if (responseGET.ok) {
-        let jsonResponseGET = await responseGET.json();
-        if (jsonResponseGET) {
-          userID = jsonResponseGET.id;
-          // POST 1 method
+      let responsePOST1 = await fetch(`https://api.spotify.com/v1/users/${userID}/playlists`, {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify({name: playlistName})
+      });
+      if (responsePOST1.ok) {
+        let jsonResponsePOST1 = await responsePOST1.json();
+        if (jsonResponsePOST1) {
+          // POST 2 method
           try {
-            let responsePOST1 = await fetch(`https://api.spotify.com/v1/users/${userID}/playlists`, {
+            let playlistID = jsonResponsePOST1.id;
+            let responsePOST2 = await fetch(`https://api.spotify.com/v1/users/${userID}/playlists/${playlistID}/tracks?uris=${trackURIs.join(',')}`, {
               method: 'POST',
-              headers: {Authorization: `Bearer ${accessToken}`, 'Content-Type': "application/json"},
-              body: JSON.stringify({name: playlistName})
-            });
-            if (responsePOST1.ok) {
-              let jsonResponsePOST1 = await responsePOST1.json();
-              if (jsonResponsePOST1) {
-                // POST 2 method
-                try {
-                  let playlistID = jsonResponsePOST1.id;
-                  let responsePOST2 = await fetch(`https://api.spotify.com/v1/users/${userID}/playlists/${playlistID}/tracks?uris=${trackURIs.join(',')}`, {
-                    method: 'POST',
-                    headers: {Authorization: `Bearer ${accessToken}`, 'Content-Type': "application/json"}});
-                    if(responsePOST2.ok) {
-                      return;
-                    } else {
-                      throw new Error('Request to POST Tracks Failed!');
-                    }
-                } catch(err) {
-                  console.log(err);
-                }
+              headers: headers});
+              if(responsePOST2.ok) {
+                setTimeout(alert('Successfully saved to Spotify!'), 1000);
+                return;
+              } else {
+                throw new Error('Request to POST Tracks Failed!');
               }
-            } else {
-              throw new Error('Request to POST Playlist Failed!');
-            }
           } catch(err) {
             console.log(err);
           }
         }
       } else {
-        throw new Error('Request to GET user_id Failed!');
+        throw new Error('Request to POST Playlist Failed!');
       }
     } catch(err) {
       console.log(err);

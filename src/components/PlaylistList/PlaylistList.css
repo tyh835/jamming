@@ -1,0 +1,41 @@
+.PlaylistList {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 80%;
+  height: 120px;
+  padding: 0;
+  margin-top: 1.5rem;
+  background-color: hsla(229, 97%, 13%, 0.7);
+  box-shadow: 0 4px 2px 2px #000000;
+}
+
+.PlaylistList h2 {
+  margin-top: .88rem;
+  margin-left: .88rem;
+}
+
+.PlaylistList .playlists {
+  width: 95%;
+  height: 100px;
+  padding-top: 1rem;
+  align-self: center;
+  display: flex;
+  justify-content: flex-start;
+  overflow-y: scroll;
+}
+
+.PlaylistList .playlists .add {
+  background-color: hsl(141, 73%, 42%);
+  filter: saturate(2.22) brightness(0.64);
+}
+
+.PlaylistList .playlists .add:hover {
+  background-color: hsl(141, 73%, 45%);
+  color: hsl(141, 73%, 90%);
+}
+
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}

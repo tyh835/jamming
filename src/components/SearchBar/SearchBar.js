@@ -1,10 +1,11 @@
 import React from 'react';
 import './SearchBar.css';
+import {PlaylistList} from '../PlaylistList/PlaylistList.js';
 
 export class SearchBar extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {term: '', authorized: false};
+    this.state = {term: ''};
     this.search = this.search.bind(this);
     this.getTopTracks = this.getTopTracks.bind(this);
     this.handleTermChange = this.handleTermChange.bind(this);
@@ -58,6 +59,7 @@ export class SearchBar extends React.Component {
           </a>
           {this.props.isAuthorized? this.renderTopButton() : ''}
         </div>
+        <PlaylistList isAuthorized={this.props.isAuthorized} playlists={this.props.playlists}/>
       </div>
     );
   }

@@ -3,8 +3,8 @@
   flex-direction: column;
   align-items: center;
   padding-top: 6.94rem;
-  margin-bottom: 6.33rem;
-  height: 200px;
+  margin-bottom: 3.33rem;
+  height: 360px;
 }
 
 .SearchBar input {
@@ -48,5 +48,4 @@
 .SearchBar .Buttons a:hover {
   background-color: hsl(141, 73%, 45%);
   color: hsl(141, 73%, 90%);
-  filter: saturate(2.22) brightness(0.64);
 }

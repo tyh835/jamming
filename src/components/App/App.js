@@ -10,15 +10,12 @@ class App extends React.Component {
     super(props);
     this.state = {
       searchResults: [],
-
       searchResultsCache: [],
-
-      playlistName: "New Playlist",
-
+      playlistName: '',
       playlistTracks: [],
-
+      playlistID: null,
+      playlistList: [],
       authorized: false,
-
       isNewPlaylist: true
     };
     // Binds the methods of <App /> to this component.
@@ -27,6 +24,7 @@ class App extends React.Component {
     this.updatePlaylistName = this.updatePlaylistName.bind(this);
     this.updatePlaylistBool = this.updatePlaylistBool.bind(this);
     this.savePlaylist = this.savePlaylist.bind(this);
+    this.getPlaylists = this.getPlaylists.bind(this);
     this.search = this.search.bind(this);
     this.getTopTracks = this.getTopTracks.bind(this);
     this.isAuthorized = this.isAuthorized.bind(this);
@@ -47,6 +45,23 @@ class App extends React.Component {
       this.setState({searchResults: searchResults, searchResultsCache: searchResults});
     }
   }
+
+// This method calls the asynchronous getPlaylists function from the Spotify module.
+  async getPlaylists() {
+    let playlists = await Spotify.getPlaylists();
+    this.setState({playlistList: playlists});
+  }
+
+// This method calls the asynchronous getPlaylistTracks function from the Spotify module.
+  async getPlaylistTracks(trackURL, name, id) {
+    let tracks = await Spotify.getPlaylistTracks(trackURL);
+    this.setState({
+      playlistTracks: tracks,
+      isNewPlaylist: false,
+      playistName: name,
+      playlistID: id});
+  }
+
 // This methods adds a track to <App />'s playistTracks state. It is passed down to <Track /> as a prop.
   addTrack(track) {
     if (this.state.playlistTracks.every(addedTrack => {return addedTrack.id !== track.id})) {
@@ -56,6 +71,7 @@ class App extends React.Component {
       this.setState({playlistTracks: newPlaylistTracks, searchResults: newSearchResults});
     }
   }
+
 // This methods removes a track from <App />'s playistTracks state. It is passed down to <Track /> as a prop.
   removeTrack(track) {
     if (this.state.playlistTracks.some(addedTrack => {return addedTrack.id === track.id})) {
@@ -67,23 +83,30 @@ class App extends React.Component {
       this.setState({playlistTracks: newPlaylistTracks, searchResults: newSearchResults});
     }
   }
+
 // This methods updates <App />'s playistName state. It is passed down to <Playlist /> as a prop.
   updatePlaylistName(name) {
     this.setState({playlistName: name});
   }
+
 // This methods updates <App />'s isPlayistNew state. It is passed down to <Playlist /> as a prop.
   updatePlaylistBool(bool) {
     this.setState({isNewPlaylist: bool});
   }
+
 // This method calls the savePlaylist function from the Spotify module. It is passed down to <Playlist /> as a prop.
   savePlaylist() {
     let trackURIs = this.state.playlistTracks.map(track => track.uri);
     Spotify.savePlaylist(this.state.playlistName, trackURIs);
-    this.setState({playlistName: "New Playlist", searchResults: [], searchResultsCache: []});
+    this.setState({playlistName: '', searchResults: [], searchResultsCache: []});
   }
+
 // This method checks if user has authorized with Spotify, or else redirects user when button is pressed
   isAuthorized() {
-    if (Spotify.accessToken) {
+    if (Spotify.accessToken && this.state.playlistList.length === 0) {
+      this.setState({authorized: true});
+      this.getPlaylists();
+    } else if (Spotify.accessToken) {
       this.setState({authorized: true});
     } else if (!Spotify.accessToken){
       Spotify.getAccessToken();
@@ -92,6 +115,7 @@ class App extends React.Component {
       }
     }
   }
+
 // This lifecycle method checks if user has authorized with this Spotify account each time the app renders
   componentWillMount() {
     if (this.state.authorized === true && !Spotify.accessToken) {
@@ -104,13 +128,14 @@ class App extends React.Component {
       this.isAuthorized();
     }
   }
+
 // Renders <App />, which contains all of the components.
   render() { 
     return (
       <div>
         <h1>Ja<span className="highlight">mmm</span>ing</h1>
         <div className="App">
-          <SearchBar onSearch={this.search} onGetTop={this.getTopTracks} isAuthorized={this.state.authorized} />
+          <SearchBar onSearch={this.search} onGetTop={this.getTopTracks} isAuthorized={this.state.authorized} playlists={this.state.playlistList}/>
           <div className="App-playlist">
             <SearchResults searchResults={this.state.searchResults} onAdd={this.addTrack} />
             <Playlist playlistName={this.state.playlistName} playlistTracks={this.state.playlistTracks} onRemove={this.removeTrack}
