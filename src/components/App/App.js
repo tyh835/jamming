@@ -3,6 +3,7 @@ import './App.css';
 import {SearchBar} from '../SearchBar/SearchBar.js';
 import {SearchResults} from '../SearchResults/SearchResults.js';
 import {Playlist} from '../Playlist/Playlist.js';
+import {PlaylistList} from '../PlaylistList/PlaylistList.js';
 import Spotify from '../../util/Spotify.js';
 
 class App extends React.Component {
@@ -135,7 +136,8 @@ class App extends React.Component {
       <div>
         <h1>Ja<span className="highlight">mmm</span>ing</h1>
         <div className="App">
-          <SearchBar onSearch={this.search} onGetTop={this.getTopTracks} isAuthorized={this.state.authorized} playlists={this.state.playlistList}/>
+          <SearchBar onSearch={this.search} onGetTop={this.getTopTracks} isAuthorized={this.state.authorized} />
+          <PlaylistList isAuthorized={this.state.authorized} playlists={this.state.playlistList}/>
           <div className="App-playlist">
             <SearchResults searchResults={this.state.searchResults} onAdd={this.addTrack} />
             <Playlist playlistName={this.state.playlistName} playlistTracks={this.state.playlistTracks} onRemove={this.removeTrack}

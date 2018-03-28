@@ -15,7 +15,6 @@ export class PlaylistList extends React.Component {
   render() {
     if (this.props.playlists && this.props.playlists.length !== 0 && this.props.isAuthorized) {
       let playlists = this.props.playlists.map(playlist => playlist);
-
     // Render each playlist as clickable components.
       return (
         <div className="PlaylistList">
