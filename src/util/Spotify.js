@@ -265,7 +265,7 @@ const Spotify = {
         setTimeout(alert('Playlist Deleted.'), 1000);
         return true;
       } else {
-        throw new Error('Request to GET Top Tracks Failed!');
+        throw new Error('Request to DELETE Playlist Failed!');
       }
     } catch(err) {
       console.log(err);
