@@ -20,7 +20,7 @@ export class TrackList extends React.Component {
       return (
         <div className="TrackList">
           <h4>No Tracks</h4>
-          </div>
+        </div>
       );
     }
   }
