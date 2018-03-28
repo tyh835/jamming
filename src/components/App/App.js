@@ -15,7 +15,7 @@ class App extends React.Component {
       playlistName: 'New Playlist',
       playlistTracks: [],
       playlistID: null,
-      playlistList: [],
+      playlistList: null,
       authorized: false,
       isNewPlaylist: true
     };
@@ -52,7 +52,12 @@ class App extends React.Component {
 // This method calls the asynchronous getPlaylists function from the Spotify module and displays playlist in <Playlist />.
   async getPlaylists() {
     let playlists = await Spotify.getPlaylists();
-    this.setState({playlistList: playlists});
+    if (playlists.length > 0) {
+      this.setState({playlistList: playlists});
+    } else {
+      this.setState({playlistList: []});
+    }
+
   }
 
 // This method calls the asynchronous getPlaylistTracks function from the Spotify module and displays playlist in <Playlist />.
@@ -104,7 +109,7 @@ class App extends React.Component {
 
 // This method calls the savePlaylist or updatePlaylist function from the Spotify module. It is passed down to <Playlist /> as a prop.
   async savePlaylist() {
-    this.isAuthorized();
+    await this.isAuthorized();
     let trackURIs = this.state.playlistTracks.map(track => track.uri);
     if (this.state.isNewPlaylist) {
       const id = await Spotify.savePlaylist(this.state.playlistName, trackURIs);
@@ -141,8 +146,8 @@ class App extends React.Component {
   }
 
 // This method checks if user has authorized with Spotify, or else redirects user when button is pressed
-  isAuthorized() {
-    if (Spotify.accessToken && this.state.playlistList.length === 0) {
+  async isAuthorized() {
+    if (Spotify.accessToken && this.state.playlistList === null) {
       this.setState({authorized: true});
       this.getPlaylists();
     } else if (Spotify.accessToken) {
