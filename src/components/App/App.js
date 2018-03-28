@@ -121,7 +121,7 @@ class App extends React.Component {
       }
 
     } else if (!this.state.isNewPlaylist && this.state.authorized) {
-      Spotify.updatePlaylist(this.state.playlistName, this.state.playlistID, trackURIs);
+      await Spotify.updatePlaylist(this.state.playlistName, this.state.playlistID, trackURIs);
       this.setState({
         searchResults: [],
         searchResultsCache: []
