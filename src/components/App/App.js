@@ -50,10 +50,11 @@ class App extends React.Component {
         this.getTopTracks((offset + 49), searchResults);
       } else if (searchResults) {
         // Filters searchResults to only songs with unique ids, the reverse() method is so that the first instance of a song is preserved.
-        let uniqueSearchResults = searchResults.reverse().filter(
+        let uniqueSearchResults = searchResults.filter(
           (track, index) => {
-            return searchResults.slice(index + 1, searchResults.length).every(otherTrack => track.id !== otherTrack.id)
-          }).reverse();
+            return searchResults.slice(0, index).every(otherTrack => track.id !== otherTrack.id)
+          });
+        console.log(uniqueSearchResults);
         this.setState({searchResults: uniqueSearchResults, searchResultsCache: uniqueSearchResults});
       }
     }
