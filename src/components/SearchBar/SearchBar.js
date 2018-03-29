@@ -18,7 +18,7 @@ export class SearchBar extends React.Component {
   }
 // This method calls the getTopTracks function in <App /> using the passed down prop.
   handleGetTop() {
-    this.props.onGetTop();
+    this.props.onGetTop(0, []);
   }
 // This method changes the search term state whenever the input changes.
   handleTermChange(e) {
@@ -36,7 +36,7 @@ export class SearchBar extends React.Component {
   }
 // Renders the personal tops button after user is authorized
   renderTopButton() {
-    return <a onClick={this.handleGetTop} style={{width: '11rem', marginLeft: '2.5rem'}}>Personal Top 50</a>;
+    return <a onClick={this.handleGetTop} style={{width: '11rem', marginLeft: '2.5rem'}}>Personal Top 100</a>;
   }
 // Each time the search bar loads, it checks for previously stored value and updates this.state.term
   componentWillMount() {

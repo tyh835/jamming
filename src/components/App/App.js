@@ -41,11 +41,21 @@ class App extends React.Component {
     }
   }
 // This method calls the asynchronous getTopTracks function from the Spotify module. It is passed down to <SearchBar /> as a prop.
-  async getTopTracks() {
+  async getTopTracks(offset, cache) {
     this.isAuthorized();
     if (this.state.authorized) {
-      let searchResults = await Spotify.getTopTracks();
-      this.setState({searchResults: searchResults, searchResultsCache: searchResults});
+      const response = await Spotify.getTopTracks(offset);
+      let searchResults = cache.concat(response);
+      if (response.length === 50) {
+        this.getTopTracks((offset + 49), searchResults);
+      } else if (searchResults) {
+        // Filters searchResults to only songs with unique ids, the reverse() method is so that the first instance of a song is preserved.
+        let uniqueSearchResults = searchResults.reverse().filter(
+          (track, index) => {
+            return searchResults.slice(index + 1, searchResults.length).every(otherTrack => track.id !== otherTrack.id)
+          }).reverse();
+        this.setState({searchResults: uniqueSearchResults, searchResultsCache: uniqueSearchResults});
+      }
     }
   }
 

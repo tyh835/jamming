@@ -1,5 +1,5 @@
 const CLIENT_ID = "67c415c603714e92a1eb3a2a23d50677";
-const REDIRECT_URI = window.location.href;
+let REDIRECT_URI = window.location.href;
 // Check if the website is the one published on GitHub Pages.
 const IS_GITHUB = window.location.href.split('.').some(i => {return i.toLowerCase() === 'github'});
 
@@ -20,11 +20,15 @@ const Spotify = {
       console.log(`Token expires in ${this.expiresIn} seconds`);
       IS_GITHUB ? window.history.pushState('Access Token', null, '/jamming') : window.history.pushState('Access Token', null, '/');
       return this.accessToken;
+    } else if (window.location.href.match(/error=access_denied/)) {
+      IS_GITHUB ? window.history.pushState('Access Token', null, '/jamming') : window.history.pushState('Access Token', null, '/');
+      REDIRECT_URI = window.location.href;
     }
   },
 
   redirectSpotify() {
       window.location = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&response_type=token&scope=playlist-modify-public+playlist-modify-private+user-top-read&redirect_uri=${REDIRECT_URI}&show_dialog=true`;
+
   },
 // This function searches Spotify by using GET to "https://api.spotify.com/v1/search"
   async search(term) {
@@ -78,12 +82,12 @@ const Spotify = {
  },
 
 // This function gets user's top tracks from Spotify by using GET to "https://api.spotify.com/v1/me/top/tracks"
-    async getTopTracks() {
+    async getTopTracks(offset) {
       let accessToken = this.accessToken || this.getAccessToken();
       let headers = {Authorization: `Bearer ${accessToken}`};
       // GET method
       try {
-        let response = await fetch('https://api.spotify.com/v1/me/top/tracks?limit=50', {headers: headers});
+        let response = await fetch(`https://api.spotify.com/v1/me/top/tracks?limit=50&time_range=long_term&offset=${offset}`, {headers: headers});
         if (response.ok) {
           let jsonResponse = await response.json();
           if (jsonResponse && jsonResponse !== {}) {
@@ -99,7 +103,7 @@ const Spotify = {
             })
           }
         } else {
-            throw new Error('Request to GET Top Tracks Failed!');
+            return [];
         }
       } catch(err) {
         console.log(err);
