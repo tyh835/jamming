@@ -172,7 +172,7 @@ class App extends React.Component {
   }
 
 // This lifecycle method checks if user has authorized with this Spotify account each time the app renders
-  componentWillMount() {
+  componentDidMount() {
     if (this.state.authorized === true && !Spotify.accessToken) {
       this.setState({authorized: false});
     }

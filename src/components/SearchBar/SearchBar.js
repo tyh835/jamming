@@ -39,7 +39,7 @@ export class SearchBar extends React.Component {
     return <a onClick={this.handleGetTop} style={{width: '10rem', marginLeft: '2.5rem'}}>My Top Songs</a>;
   }
 // Each time the search bar loads, it checks for previously stored value and updates this.state.term
-  componentWillMount() {
+  componentDidMount() {
     if (window.name) {
       this.setState({term: window.name});
     }
