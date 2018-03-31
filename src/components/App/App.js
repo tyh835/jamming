@@ -23,7 +23,7 @@ class App extends React.Component {
 
   }
 // This method calls the asynchronous search function from the Spotify module. It is passed down to <SearchBar /> as a prop.
-  search = async (term) => {
+  searchSpotify = async (term) => {
     this.isAuthorized();
     if (this.state.authorized) {
       let searchResults = await Spotify.search(term);
@@ -179,7 +179,7 @@ class App extends React.Component {
       <div>
         <h1>Ja<span className="highlight">mmm</span>ing</h1>
         <div className="App">
-          <SearchBar onSearch={this.search} onGetTop={this.getTopTracks} isAuthorized={this.state.authorized} />
+          <SearchBar onSearch={this.searchSpotify} onGetTop={this.getTopTracks} isAuthorized={this.state.authorized} />
           <PlaylistList isAuthorized={this.state.authorized} playlists={this.state.playlistList} onNew={this.newPlaylist}
           activeID={this.state.playlistID} getPlaylistTracks={this.getPlaylistTracks} />
           <div className="App-playlist">
