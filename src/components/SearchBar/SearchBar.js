@@ -6,36 +6,32 @@ export class SearchBar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {term: ''};
-    this.handleSearch = this.handleSearch.bind(this);
-    this.handleGetTop = this.handleGetTop.bind(this);
-    this.handleTermChange = this.handleTermChange.bind(this);
-    this.handleKeyPress = this.handleKeyPress.bind(this);
     this.buttonStyle = {backgroundColor: 'hsl(141, 73%, 42%)', width: '11rem', filter: 'saturate(2.22) brightness(0.56)', color: '#333333'}
   }
 // This method calls the search function in <App /> using the passed down prop.
-  handleSearch() {
+  handleSearch = () => {
     this.props.onSearch(this.state.term);
   }
 // This method calls the getTopTracks function in <App /> using the passed down prop.
-  handleGetTop() {
+  handleGetTop = () => {
     this.props.onGetTop(0, []);
   }
 // This method changes the search term state whenever the input changes.
-  handleTermChange(e) {
+  handleTermChange = (e) => {
     this.setState({term: e.target.value});
   }
 // This method calls the search function in when the enter key is pressed.
-  handleKeyPress(e) {
+  handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       this.handleSearch();
     }
   }
 // Renders the Spotify icon for connect button before user is authorized
-  renderSpotifyIcon() {
+  renderSpotifyIcon = () => {
     return <i className="fa fa-spotify"></i>;
   }
 // Renders the personal tops button after user is authorized
-  renderTopButton() {
+  renderTopButton = () => {
     return <a onClick={this.handleGetTop} style={{width: '10rem', marginLeft: '2.5rem'}}>My Top Songs</a>;
   }
 // Each time the search bar loads, it checks for previously stored value and updates this.state.term

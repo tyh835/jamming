@@ -3,12 +3,8 @@ import './PlaylistList.css';
 import {PlaylistListElement} from '../PlaylistListElement/PlaylistListElement.js';
 
 export class PlaylistList extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleNew = this.handleNew.bind(this);
-  }
 // Handles when add New Playlist is clicked
-  handleNew(e) {
+  handleNew = (e) => {
     this.props.onNew();
   }
 // Renders the PlaylistList component

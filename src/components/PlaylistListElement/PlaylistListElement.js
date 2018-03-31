@@ -2,12 +2,8 @@ import React from 'react';
 import './PlaylistListElement.css';
 
 export class PlaylistListElement extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleClick = this.handleClick.bind(this);
-  }
 // This method handles clicking of playlistListElements. Calls getPlaylistTracks method of <App /> if no playlist is loaded. Calls newPlaylist method if it is currently active.
-  handleClick(e) {
+  handleClick = (e) => {
     console.log(this.props.playlist.id !== this.props.activeID);
     if (this.props.playlist.id !== this.props.activeID) {
       let playlist = this.props.playlist;
