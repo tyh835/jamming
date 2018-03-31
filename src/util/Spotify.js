@@ -1,7 +1,7 @@
 const CLIENT_ID = "67c415c603714e92a1eb3a2a23d50677";
-let REDIRECT_URI = window.location.href;
 // Check if the website is the one published on GitHub Pages.
 const IS_GITHUB = window.location.href.split('.').some(i => {return i.toLowerCase() === 'github';});
+let redirectURI = window.location.href;
 
 const Spotify = {
   accessToken: undefined,
@@ -22,12 +22,12 @@ const Spotify = {
       return this.accessToken;
     } else if (window.location.href.match(/error=access_denied/)) {
       IS_GITHUB ? window.history.pushState('Access Token', null, '/jamming') : window.history.pushState('Access Token', null, '/');
-      REDIRECT_URI = window.location.href;
+      redirectURI = window.location.href;
     }
   },
 
   redirectSpotify() {
-      window.location = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&response_type=token&scope=playlist-modify-public+playlist-modify-private+user-top-read&redirect_uri=${REDIRECT_URI}&show_dialog=true`;
+      window.location = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&response_type=token&scope=playlist-modify-public+playlist-modify-private+user-top-read&redirect_uri=${redirectURI}&show_dialog=true`;
 
   },
 // This function searches Spotify by using GET to "https://api.spotify.com/v1/search"
