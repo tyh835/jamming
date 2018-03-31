@@ -1,7 +1,7 @@
 const CLIENT_ID = "67c415c603714e92a1eb3a2a23d50677";
 let REDIRECT_URI = window.location.href;
 // Check if the website is the one published on GitHub Pages.
-const IS_GITHUB = window.location.href.split('.').some(i => {return i.toLowerCase() === 'github'});
+const IS_GITHUB = window.location.href.split('.').some(i => {return i.toLowerCase() === 'github';});
 
 const Spotify = {
   accessToken: undefined,
@@ -48,8 +48,8 @@ const Spotify = {
               album: track.album.name,
               uri: track.uri,
               preview: track.preview_url
-            }
-          })
+            };
+          });
         }
       } else {
           throw new Error('Search Request Failed!');
@@ -82,92 +82,92 @@ const Spotify = {
  },
 
 // This function gets user's top tracks from Spotify by using GET to "https://api.spotify.com/v1/me/top/tracks"
-    async getTopTracks(offset) {
-      let accessToken = this.accessToken || this.getAccessToken();
-      let headers = {Authorization: `Bearer ${accessToken}`};
-      // GET method
-      try {
-        let response = await fetch(`https://api.spotify.com/v1/me/top/tracks?limit=50&time_range=long_term&offset=${offset}`, {headers: headers});
-        if (response.ok) {
-          let jsonResponse = await response.json();
-          if (jsonResponse && jsonResponse !== {}) {
-            return jsonResponse.items.map(track => {
-              return {
-                id: track.id,
-                name: track.name,
-                artist: track.artists[0].name,
-                album: track.album.name,
-                uri: track.uri,
-                preview: track.preview_url
-              }
-            })
-          }
-        } else {
-            return [];
+  async getTopTracks(offset) {
+    let accessToken = this.accessToken || this.getAccessToken();
+    let headers = {Authorization: `Bearer ${accessToken}`};
+    // GET method
+    try {
+      let response = await fetch(`https://api.spotify.com/v1/me/top/tracks?limit=50&time_range=long_term&offset=${offset}`, {headers: headers});
+      if (response.ok) {
+        let jsonResponse = await response.json();
+        if (jsonResponse && jsonResponse !== {}) {
+          return jsonResponse.items.map(track => {
+            return {
+              id: track.id,
+              name: track.name,
+              artist: track.artists[0].name,
+              album: track.album.name,
+              uri: track.uri,
+              preview: track.preview_url
+            }
+          })
         }
-      } catch(err) {
-        console.log(err);
+      } else {
+          return [];
       }
-    },
+    } catch(err) {
+      console.log(err);
+    }
+  },
 
 // This function gets user_id from Spotify by using this.getUserID,
 // then gets user's playlists owned by the user from Spotify by using GET to "https://api.spotify.com/v1/me/playlists"
-    async getPlaylists() {
-      let accessToken = this.accessToken || this.getAccessToken();
-      let headers = {Authorization: `Bearer ${accessToken}`};
-      let userID = await this.getUserID();
-      //GET method
-      try {
-        let response = await fetch('https://api.spotify.com/v1/me/playlists?limit=50', {headers: headers});
-        if (response.ok) {
-          let jsonResponse = await response.json();
-          if (jsonResponse && jsonResponse !== {}) {
-            return jsonResponse.items.filter(playlist => playlist.owner.id === userID).map(playlist => {
-              return {
-                id: playlist.id,
-                name: playlist.name,
-                tracksURL: playlist.tracks.href,
-                image: playlist.images[1],
-                uri: playlist.uri,
-              }
-            });
-          }
-        } else {
-        throw new Error('Request to GET Playlists Failed!');
+  async getPlaylists() {
+    let accessToken = this.accessToken || this.getAccessToken();
+    let headers = {Authorization: `Bearer ${accessToken}`};
+    let userID = await this.getUserID();
+    //GET method
+    try {
+      let response = await fetch('https://api.spotify.com/v1/me/playlists?limit=50', {headers: headers});
+      if (response.ok) {
+        let jsonResponse = await response.json();
+        if (jsonResponse && jsonResponse !== {}) {
+          return jsonResponse.items.filter(playlist => playlist.owner.id === userID).map(playlist => {
+            return {
+              id: playlist.id,
+              name: playlist.name,
+              tracksURL: playlist.tracks.href,
+              image: playlist.images[1],
+              uri: playlist.uri,
+            }
+          });
         }
-      } catch(err) {
-        console.log(err);
+      } else {
+      throw new Error('Request to GET Playlists Failed!');
       }
-    },
+    } catch(err) {
+      console.log(err);
+    }
+  },
 
 // This function gets playlist's tracks from Spotify by using GET to trackURL
-    async getPlaylistTracks(trackURL) {
-      let accessToken = this.accessToken || this.getAccessToken();
-      let headers = {Authorization: `Bearer ${accessToken}`};
-      // GET method
-      try {
-        let response = await fetch(trackURL, {headers: headers});
-        if (response.ok) {
-          let jsonResponse = await response.json();
-          if (jsonResponse && jsonResponse !== {}) {
-            return jsonResponse.items.map(track => {
-              return {
-                id: track.track.id,
-                name: track.track.name,
-                artist: track.track.artists[0].name,
-                album: track.track.album.name,
-                uri: track.track.uri,
-                preview: track.track.preview_url
-              }
-            })
-          }
-        } else {
-            throw new Error('Request to GET Top Tracks Failed!');
+  async getPlaylistTracks(trackURL) {
+    let accessToken = this.accessToken || this.getAccessToken();
+    let headers = {Authorization: `Bearer ${accessToken}`};
+    // GET method
+    try {
+      let response = await fetch(trackURL, {headers: headers});
+      if (response.ok) {
+        let jsonResponse = await response.json();
+        if (jsonResponse && jsonResponse !== {}) {
+          return jsonResponse.items.map(track => {
+            return {
+              id: track.track.id,
+              name: track.track.name,
+              artist: track.track.artists[0].name,
+              album: track.track.album.name,
+              uri: track.track.uri,
+              preview: track.track.preview_url
+            }
+          })
         }
-      } catch(err) {
-        console.log(err);
+      } else {
+          throw new Error('Request to GET Top Tracks Failed!');
       }
-    },
+    } catch(err) {
+      console.log(err);
+    }
+  },
 
 // This function gets user_id from Spotify by using this.getUserID,
 // then POST to "https://api.spotify.com/v1/users/${userID}/playlists" to add new playlist and obtain playlistID,
