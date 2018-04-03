@@ -19,8 +19,6 @@ class App extends React.Component {
       authorized: false,
       isNewPlaylist: true
     };
-    // Binds the methods of <App /> to this component.
-
   }
 // This method calls the asynchronous search function from the Spotify module. It is passed down to <SearchBar /> as a prop.
   searchSpotify = async (term) => {
