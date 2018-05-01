@@ -1,4 +1,5 @@
-const CLIENT_ID = "67c415c603714e92a1eb3a2a23d50677";
+const config = require('./config');
+const CLIENT_ID = process.env.SPOTIFY || config.key;
 // Check if the website is the one published on GitHub Pages.
 const IS_GITHUB = window.location.href.split('.').some(i => {return i.toLowerCase() === 'github';});
 let redirectURI = window.location.href;
