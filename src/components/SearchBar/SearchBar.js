@@ -36,13 +36,13 @@ export class SearchBar extends React.Component {
   }
 // Each time the search bar loads, it checks for previously stored value and updates this.state.term
   componentDidMount() {
-    if (window.name) {
-      this.setState({term: window.name});
+    if (localStorage.getItem('term')) {
+      this.setState({term: localStorage.getItem('term')});
     }
   }
 // Saves the search bar term in the window.name DOM variable.
   componentDidUpdate() {
-    window.name = this.state.term;
+    localStorage.setItem('term', this.state.term);
   }
 // Renders the search bar, a controlled component.
   render() {
