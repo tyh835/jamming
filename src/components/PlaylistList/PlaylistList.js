@@ -1,6 +1,6 @@
 import React from 'react';
 import './PlaylistList.css';
-import {PlaylistListElement} from '../PlaylistListElement/PlaylistListElement.js';
+import {PlaylistListElement} from '../PlaylistListElement/PlaylistListElement';
 
 export class PlaylistList extends React.Component {
 // Handles when add New Playlist is clicked

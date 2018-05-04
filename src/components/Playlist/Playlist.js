@@ -1,6 +1,6 @@
 import React from 'react';
 import './Playlist.css';
-import {TrackList} from '../TrackList/TrackList.js';
+import {TrackList} from '../TrackList/TrackList';
 
 export class Playlist extends React.Component {
 // This method changes <App />'s playlistName state whenever the input changes.
