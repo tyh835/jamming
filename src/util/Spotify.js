@@ -29,7 +29,6 @@ const Spotify = {
 
   redirectSpotify() {
       window.location = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&response_type=token&scope=playlist-modify-public+playlist-modify-private+user-top-read&redirect_uri=${redirectURI}&show_dialog=true`;
-
   },
 // This function searches Spotify by using GET to "https://api.spotify.com/v1/search"
   async search(term) {
