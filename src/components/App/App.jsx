@@ -93,21 +93,21 @@ class App extends React.Component {
   }
 
     // This methods removes a track from <App />'s playlistTracks state. It is passed down to <Track /> as a prop.
-    removeTrack = (track) => {
-      if (this.state.playlistTracks.some(addedTrack => {
-          return addedTrack.id === track.id
-        })) {
-        let newPlaylistTracks = this.state.playlistTracks.filter(addedTrack => addedTrack.id !== track.id);
-        let newSearchResults = this.state.searchResults;
-        if (this.state.searchResultsCache.some(foundTrack => foundTrack.id === track.id)) {
-          newSearchResults.unshift(track);
-        }
-        this.setState({
-          playlistTracks: newPlaylistTracks,
-          searchResults: newSearchResults
-        });
+  removeTrack = (track) => {
+    if (this.state.playlistTracks.some(addedTrack => {
+        return addedTrack.id === track.id
+      })) {
+      let newPlaylistTracks = this.state.playlistTracks.filter(addedTrack => addedTrack.id !== track.id);
+      let newSearchResults = this.state.searchResults;
+      if (this.state.searchResultsCache.some(foundTrack => foundTrack.id === track.id)) {
+        newSearchResults.unshift(track);
       }
+      this.setState({
+        playlistTracks: newPlaylistTracks,
+        searchResults: newSearchResults
+      });
     }
+  }
 
     // This methods updates <App />'s playlistName state. It is passed down to <Playlist /> as a prop.
     updatePlaylistName = (name) => {
@@ -141,7 +141,7 @@ class App extends React.Component {
         });
         this.getPlaylists();
       } else {
-        setTimeout(alert('Unable to save playlist!'), 1000);
+        setTimeout(() => alert('Unable to save playlist!'), 1000);
         this.newPlaylist();
       }
 
