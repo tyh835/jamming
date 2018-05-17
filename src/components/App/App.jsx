@@ -92,8 +92,8 @@ class App extends React.Component {
     }
   }
 
-    // This methods removes a track from <App />'s playlistTracks state. It is passed down to <Track /> as a prop.
-  removeTrack = (track) => {
+  // This methods removes a track from <App />'s playlistTracks state. It is passed down to <Track /> as a prop.
+  removeTrack = track => {
     if (this.state.playlistTracks.some(addedTrack => {
         return addedTrack.id === track.id
       })) {
@@ -110,7 +110,7 @@ class App extends React.Component {
   }
 
     // This methods updates <App />'s playlistName state. It is passed down to <Playlist /> as a prop.
-    updatePlaylistName = (name) => {
+    updatePlaylistName = name => {
       this.setState({
         playlistName: name
       });

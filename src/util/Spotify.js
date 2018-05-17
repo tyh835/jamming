@@ -17,7 +17,6 @@ const Spotify = {
       // Sets the window timeout once the access token has been obtained.
       this.expiresIn = Number(window.location.href.match(/expires_in=([^&]*)/)[1]);
       window.setTimeout(() => this.accessToken = undefined, this.expiresIn * 1000);
-      console.log(this.accessToken);
       console.log(`Token expires in ${this.expiresIn} seconds`);
       IS_GITHUB ? window.history.pushState('Access Token', null, '/jamming') : window.history.pushState('Access Token', null, '/');
       return this.accessToken;
