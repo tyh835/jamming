@@ -2,7 +2,7 @@ import React from 'react';
 import './SearchResults.css';
 import TrackList from '../TrackList/TrackList'
 
-const SearchResults = (props) => {
+const SearchResults = props => {
   // Renders search results obtained from Spotify API in a <Tracklist /> component.
   return (
     <div className="SearchResults">

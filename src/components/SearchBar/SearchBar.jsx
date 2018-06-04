@@ -13,11 +13,11 @@ export default class SearchBar extends React.Component {
     this.props.onGetTop(0, []);
   }
 // This method changes the search term state whenever the input changes.
-  handleTermChange = (e) => {
+  handleTermChange = e => {
     this.setState({term: e.target.value});
   }
 // This method calls the search function in when the enter key is pressed.
-  handleKeyPress = (e) => {
+  handleKeyPress = e => {
     if (e.key === 'Enter') {
       this.handleSearch();
     }

@@ -75,7 +75,7 @@ class App extends React.Component {
   }
 
   // This methods adds a track to <App />'s playlistTracks state. It is passed down to <Track /> as a prop.
-  addTrack = (track) => {
+  addTrack = track => {
     if (this.state.playlistTracks.every(addedTrack => {
         return addedTrack.id !== track.id
       })) {

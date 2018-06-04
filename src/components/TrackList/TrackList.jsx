@@ -4,12 +4,10 @@ import Track from '../Track/Track';
 
 const TrackList = (props) => {
   if (props.tracks && props.tracks.length !== 0) {
-    // Map all tracks from the prop onto new variable.
-    let tracks = props.tracks.map(track => track);
     // Render each track as <Track /> components.
     return (
       <div className="TrackList">
-        {tracks.map(track => {
+        {props.tracks.map(track => {
           return <Track track={track} key={track.id} onAdd={props.onAdd} onRemove={props.onRemove} action={props.isRemoval} />
         })}
       </div>
