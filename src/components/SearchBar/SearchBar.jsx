@@ -1,7 +1,6 @@
 import React from 'react';
 import './SearchBar.css';
 
-
 export default class SearchBar extends React.Component {
   state = {term: ''}
 // This method calls the search function in <App /> using the passed down prop.
