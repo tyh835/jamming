@@ -1,8 +1,8 @@
 import React from 'react';
 import './TrackList.css';
-import {Track} from '../Track/Track';
+import Track from '../Track/Track';
 
-export class TrackList extends React.Component {
+export default class TrackList extends React.Component {
   render() {
     if (this.props.tracks && this.props.tracks.length !== 0) {
 // Map all tracks from the prop onto new variable.

@@ -1,8 +1,8 @@
 import React from 'react';
 import './SearchResults.css';
-import {TrackList} from '../TrackList/TrackList'
+import TrackList from '../TrackList/TrackList'
 
-export class SearchResults extends React.Component {
+export default class SearchResults extends React.Component {
 // Renders search results obtained from Spotify API in a <Tracklist /> component.
   render() {
     return (

@@ -1,8 +1,8 @@
 import React from 'react';
-import './PlaylistList.css';
-import {PlaylistListElement} from '../PlaylistListElement/PlaylistListElement';
+import './UserPlaylistPanel.css';
+import UserPlaylist from '../UserPlaylist/UserPlaylist';
 
-export class PlaylistList extends React.Component {
+export default class UserPlaylistPanel extends React.Component {
 // Handles when add New Playlist is clicked
   handleNew = (e) => {
     this.props.onNew();
@@ -10,7 +10,7 @@ export class PlaylistList extends React.Component {
 // Renders the PlaylistList component
   render() {
     if (this.props.playlists && this.props.playlists.length !== 0 && this.props.isAuthorized) {
-      let playlists = this.props.playlists.map(playlist => playlist);
+      const playlists = this.props.playlists.map(playlist => playlist);
     // Render each playlist as clickable components.
       return (
         <div className="PlaylistList">
@@ -18,7 +18,7 @@ export class PlaylistList extends React.Component {
           <div className="playlists">
             <a className="add" onClick={this.handleNew} >{'+ New playlist'}</a>
             {playlists.map(playlist => {
-            return <PlaylistListElement key={playlist.id} activeID={this.props.activeID} playlist={playlist} onGetTracks={this.props.getPlaylistTracks} onReset={this.props.onNew} />
+            return <UserPlaylist key={playlist.id} activeID={this.props.activeID} playlist={playlist} onGetTracks={this.props.getPlaylistTracks} onReset={this.props.onNew} />
             })}
           </div>
         </div>

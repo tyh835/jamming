@@ -2,11 +2,11 @@ const config = require('./config');
 const CLIENT_ID = process.env.SPOTIFY || config.key;
 // Check if the website is the one published on GitHub Pages.
 const IS_GITHUB = window.location.href.split('.').some(i => {return i.toLowerCase() === 'github';});
-let redirectURI = window.location.href;
 
 const Spotify = {
   accessToken: undefined,
   expiresIn: undefined,
+  redirectURI: window.location.href,
 // This function fetches an authorization token using Spotify's implicit authorization framework.
   getAccessToken() {
     if (this.accessToken) {
@@ -22,22 +22,22 @@ const Spotify = {
       return this.accessToken;
     } else if (window.location.href.match(/error=access_denied/)) {
       IS_GITHUB ? window.history.pushState('Access Token', null, '/jamming') : window.history.pushState('Access Token', null, '/');
-      redirectURI = window.location.href;
+      this.redirectURI = window.location.href;
     }
   },
 
   redirectSpotify() {
-      window.location = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&response_type=token&scope=playlist-modify-public+playlist-modify-private+user-top-read&redirect_uri=${redirectURI}&show_dialog=true`;
+      window.location = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&response_type=token&scope=playlist-modify-public+playlist-modify-private+user-top-read&redirect_uri=${this.redirectURI}&show_dialog=true`;
   },
 // This function searches Spotify by using GET to "https://api.spotify.com/v1/search"
   async search(term) {
-    let accessToken = this.accessToken || this.getAccessToken();
-    let headers = {Authorization: `Bearer ${accessToken}`};
+    const accessToken = this.accessToken || this.getAccessToken();
+    const headers = {Authorization: `Bearer ${accessToken}`};
     // GET method
     try {
-      let response = await fetch(`https://api.spotify.com/v1/search?type=track&limit=50&q=${term}`, {headers: headers});
+      const response = await fetch(`https://api.spotify.com/v1/search?type=track&limit=50&q=${term}`, {headers: headers});
       if (response.ok) {
-        let jsonResponse = await response.json();
+        const jsonResponse = await response.json();
         if (jsonResponse && jsonResponse !== {}) {
           return jsonResponse.tracks.items.map(track => {
             return {
@@ -60,17 +60,15 @@ const Spotify = {
 
 // This functions returns the User ID of the current user.
   async getUserID() {
-     let accessToken = this.accessToken || this.getAccessToken();
-     let headers = {Authorization: `Bearer ${accessToken}`};
-     let userID;
+     const accessToken = this.accessToken || this.getAccessToken();
+     const headers = {Authorization: `Bearer ${accessToken}`};
      // GET method
      try {
-       let response = await fetch('https://api.spotify.com/v1/me', {headers: headers});
+      const response = await fetch('https://api.spotify.com/v1/me', {headers: headers});
        if (response.ok) {
-         let jsonResponse = await response.json();
-         if (jsonResponse) {
-           userID = jsonResponse.id;
-           return userID;
+         const jsonResponse = await response.json();
+         if (jsonResponse && jsonResponse.id) {
+           return jsonResponse.id;
          }
        } else {
          throw new Error('Request to GET user_id Failed!');
@@ -82,13 +80,13 @@ const Spotify = {
 
 // This function gets user's top tracks from Spotify by using GET to "https://api.spotify.com/v1/me/top/tracks"
   async getTopTracks(offset) {
-    let accessToken = this.accessToken || this.getAccessToken();
-    let headers = {Authorization: `Bearer ${accessToken}`};
+    const accessToken = this.accessToken || this.getAccessToken();
+    const headers = {Authorization: `Bearer ${accessToken}`};
     // GET method
     try {
-      let response = await fetch(`https://api.spotify.com/v1/me/top/tracks?limit=50&time_range=long_term&offset=${offset}`, {headers: headers});
+      const response = await fetch(`https://api.spotify.com/v1/me/top/tracks?limit=50&time_range=long_term&offset=${offset}`, {headers: headers});
       if (response.ok) {
-        let jsonResponse = await response.json();
+        const jsonResponse = await response.json();
         if (jsonResponse && jsonResponse !== {}) {
           return jsonResponse.items.map(track => {
             return {
@@ -112,14 +110,14 @@ const Spotify = {
 // This function gets user_id from Spotify by using this.getUserID,
 // then gets user's playlists owned by the user from Spotify by using GET to "https://api.spotify.com/v1/me/playlists"
   async getPlaylists() {
-    let accessToken = this.accessToken || this.getAccessToken();
-    let headers = {Authorization: `Bearer ${accessToken}`};
-    let userID = await this.getUserID();
+    const accessToken = this.accessToken || this.getAccessToken();
+    const headers = {Authorization: `Bearer ${accessToken}`};
+    const userID = await this.getUserID();
     //GET method
     try {
-      let response = await fetch('https://api.spotify.com/v1/me/playlists?limit=50', {headers: headers});
+      const response = await fetch('https://api.spotify.com/v1/me/playlists?limit=50', {headers: headers});
       if (response.ok) {
-        let jsonResponse = await response.json();
+        const jsonResponse = await response.json();
         if (jsonResponse && jsonResponse !== {}) {
           return jsonResponse.items.filter(playlist => playlist.owner.id === userID).map(playlist => {
             return {
@@ -141,13 +139,13 @@ const Spotify = {
 
 // This function gets playlist's tracks from Spotify by using GET to trackURL
   async getPlaylistTracks(trackURL) {
-    let accessToken = this.accessToken || this.getAccessToken();
-    let headers = {Authorization: `Bearer ${accessToken}`};
+    const accessToken = this.accessToken || this.getAccessToken();
+    const headers = {Authorization: `Bearer ${accessToken}`};
     // GET method
     try {
-      let response = await fetch(trackURL, {headers: headers});
+      const response = await fetch(trackURL, {headers: headers});
       if (response.ok) {
-        let jsonResponse = await response.json();
+        const jsonResponse = await response.json();
         if (jsonResponse && jsonResponse !== {}) {
           return jsonResponse.items.map(track => {
             return {
@@ -175,23 +173,23 @@ const Spotify = {
     if (!playlistName) {
       return;
     }
-    let accessToken = this.accessToken || this.getAccessToken();
-    let headers = {Authorization: `Bearer ${accessToken}`, 'Content-Type': "application/json"};
-    let userID = await this.getUserID();
+    const accessToken = this.accessToken || this.getAccessToken();
+    const headers = {Authorization: `Bearer ${accessToken}`, 'Content-Type': "application/json"};
+    const userID = await this.getUserID();
     // POST 1 method
     try {
-      let responsePOST1 = await fetch(`https://api.spotify.com/v1/users/${userID}/playlists`, {
+      const responsePOST1 = await fetch(`https://api.spotify.com/v1/users/${userID}/playlists`, {
         method: 'POST',
         headers: headers,
         body: JSON.stringify({name: playlistName})
       });
       if (responsePOST1.ok) {
-        let jsonResponsePOST1 = await responsePOST1.json();
+        const jsonResponsePOST1 = await responsePOST1.json();
         if (jsonResponsePOST1) {
           // POST 2 method
           try {
-            let playlistID = jsonResponsePOST1.id;
-            let responsePOST2 = await fetch(`https://api.spotify.com/v1/users/${userID}/playlists/${playlistID}/tracks?uris=${trackURIs.join(',')}`, {
+            const playlistID = jsonResponsePOST1.id;
+            const responsePOST2 = await fetch(`https://api.spotify.com/v1/users/${userID}/playlists/${playlistID}/tracks?uris=${trackURIs.join(',')}`, {
               method: 'POST',
               headers: headers});
               if(responsePOST2.ok) {
@@ -220,12 +218,12 @@ const Spotify = {
     if (!playlistName || !playlistID) {
       return;
     }
-    let accessToken = this.accessToken || this.getAccessToken();
-    let headers = {Authorization: `Bearer ${accessToken}`, 'Content-Type': "application/json"};
-    let userID = await this.getUserID();
+    const accessToken = this.accessToken || this.getAccessToken();
+    const headers = {Authorization: `Bearer ${accessToken}`, 'Content-Type': "application/json"};
+    const userID = await this.getUserID();
     // PUT 1 method
     try {
-      let responsePUT1 = await fetch(`https://api.spotify.com/v1/users/${userID}/playlists/${playlistID}`, {
+      const responsePUT1 = await fetch(`https://api.spotify.com/v1/users/${userID}/playlists/${playlistID}`, {
         method: 'PUT',
         headers: headers,
         body: JSON.stringify({name: playlistName})
@@ -233,7 +231,7 @@ const Spotify = {
       if (responsePUT1.ok) {
         //PUT 2 method
         try {
-          let responsePUT2 = await fetch(`https://api.spotify.com/v1/users/${userID}/playlists/${playlistID}/tracks?uris=${trackURIs.join(',')}`, {
+          const responsePUT2 = await fetch(`https://api.spotify.com/v1/users/${userID}/playlists/${playlistID}/tracks?uris=${trackURIs.join(',')}`, {
             method: 'PUT',
             headers: headers});
           if(responsePUT2.ok) {
@@ -255,12 +253,12 @@ const Spotify = {
 
 // This function deletes/unfollows the playlist from Spotify by using DELETE to https://api.spotify.com/v1/users/{owner_id}/playlists/{playlist_id}/followers
   async deletePlaylist(playlistID) {
-    let accessToken = this.accessToken || this.getAccessToken();
-    let headers = {Authorization: `Bearer ${accessToken}`};
-    let userID = await this.getUserID();
+    const accessToken = this.accessToken || this.getAccessToken();
+    const headers = {Authorization: `Bearer ${accessToken}`};
+    const userID = await this.getUserID();
     // DELETE method
     try {
-      let response = await fetch(`https://api.spotify.com/v1/users/${userID}/playlists/${playlistID}/followers`, {
+      const response = await fetch(`https://api.spotify.com/v1/users/${userID}/playlists/${playlistID}/followers`, {
         method: 'DELETE',
         headers: headers
       });

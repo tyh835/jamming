@@ -1,7 +1,7 @@
 import React from 'react';
 import './Track.css';
 
-export class Track extends React.Component {
+export default class Track extends React.Component {
 // This methods uses the prop passed down from <App /> to update Apps's playistTracks state.
   handleAdd = () => {
     this.props.onAdd(this.props.track);

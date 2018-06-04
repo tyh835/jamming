@@ -1,9 +1,9 @@
 import React from 'react';
 import './App.css';
-import {SearchBar} from '../SearchBar/SearchBar';
-import {SearchResults} from '../SearchResults/SearchResults';
-import {Playlist} from '../Playlist/Playlist';
-import {PlaylistList} from '../PlaylistList/PlaylistList';
+import SearchBar from '../SearchBar/SearchBar';
+import SearchResults from '../SearchResults/SearchResults';
+import Playlist from '../Playlist/Playlist';
+import UserPlaylistPanel from '../UserPlaylistPanel/UserPlaylistPanel';
 import Spotify from '../../util/Spotify';
 
 class App extends React.Component {
@@ -82,8 +82,8 @@ class App extends React.Component {
     if (this.state.playlistTracks.every(addedTrack => {
         return addedTrack.id !== track.id
       })) {
-      let newPlaylistTracks = this.state.playlistTracks;
-      let newSearchResults = this.state.searchResults.filter(foundTrack => foundTrack.id !== track.id);;
+      const newPlaylistTracks = this.state.playlistTracks;
+      const newSearchResults = this.state.searchResults.filter(foundTrack => foundTrack.id !== track.id);;
       newPlaylistTracks.push(track);
       this.setState({
         playlistTracks: newPlaylistTracks,
@@ -97,8 +97,8 @@ class App extends React.Component {
     if (this.state.playlistTracks.some(addedTrack => {
         return addedTrack.id === track.id
       })) {
-      let newPlaylistTracks = this.state.playlistTracks.filter(addedTrack => addedTrack.id !== track.id);
-      let newSearchResults = this.state.searchResults;
+      const newPlaylistTracks = this.state.playlistTracks.filter(addedTrack => addedTrack.id !== track.id);
+      const newSearchResults = this.state.searchResults;
       if (this.state.searchResultsCache.some(foundTrack => foundTrack.id === track.id)) {
         newSearchResults.unshift(track);
       }
@@ -129,7 +129,7 @@ class App extends React.Component {
   // This method calls the savePlaylist or updatePlaylist function from the Spotify module. It is passed down to <Playlist /> as a prop.
   savePlaylist = async () => {
     await this.isAuthorized();
-    let trackURIs = this.state.playlistTracks.map(track => track.uri);
+    const trackURIs = this.state.playlistTracks.map(track => track.uri);
     if (this.state.isNewPlaylist) {
       const id = await Spotify.savePlaylist(this.state.playlistName, trackURIs);
       if (id) {
@@ -205,7 +205,7 @@ class App extends React.Component {
         <h1>Ja<span className="highlight">mmm</span>ing</h1>
         <div className="App">
           <SearchBar onSearch={this.searchSpotify} onGetTop={this.getTopTracks} isAuthorized={this.state.authorized}/>
-          <PlaylistList isAuthorized={this.state.authorized} playlists={this.state.playlistList} onNew={this.newPlaylist} activeID={this.state.playlistID} getPlaylistTracks={this.getPlaylistTracks}/>
+          <UserPlaylistPanel isAuthorized={this.state.authorized} playlists={this.state.playlistList} onNew={this.newPlaylist} activeID={this.state.playlistID} getPlaylistTracks={this.getPlaylistTracks}/>
           <div className="App-playlist">
             <SearchResults searchResults={this.state.searchResults} onAdd={this.addTrack}/>
             <Playlist playlistName={this.state.playlistName} playlistTracks={this.state.playlistTracks} onRemove={this.removeTrack} onNameChange={this.updatePlaylistName} onSave={this.savePlaylist} onDelete={this.deletePlaylist} isNew={this.state.isNewPlaylist}/>

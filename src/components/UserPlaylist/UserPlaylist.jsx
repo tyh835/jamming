@@ -1,7 +1,7 @@
 import React from 'react';
-import './PlaylistListElement.css';
+import './UserPlaylist.css';
 
-export class PlaylistListElement extends React.Component {
+export default class UserPlaylist extends React.Component {
 // This method handles clicking of playlistListElements. Calls getPlaylistTracks method of <App /> if no playlist is loaded. Calls newPlaylist method if it is currently active.
   handleClick = (e) => {
     if (this.props.playlist.id !== this.props.activeID) {
