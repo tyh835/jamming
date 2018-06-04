@@ -6,7 +6,6 @@ export default class Playlist extends React.Component {
 // This method changes <App />'s playlistName state whenever the input changes.
   handleNameChange = (e) => {
     this.props.onNameChange(e.target.value);
-
   }
 // This method calls <App />'s savePlaylist function when Save to Spotify button is clicked.
   handleSave = (e) => {

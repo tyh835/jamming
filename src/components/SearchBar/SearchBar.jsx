@@ -3,11 +3,7 @@ import './SearchBar.css';
 
 
 export default class SearchBar extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {term: ''};
-    this.buttonStyle = {backgroundColor: 'hsl(141, 73%, 42%)', width: '11rem', filter: 'saturate(2.22) brightness(0.56)', color: '#333333'}
-  }
+  state = {term: ''}
 // This method calls the search function in <App /> using the passed down prop.
   handleSearch = () => {
     this.props.onSearch(this.state.term);

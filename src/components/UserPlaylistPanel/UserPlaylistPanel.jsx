@@ -3,15 +3,15 @@ import './UserPlaylistPanel.css';
 import UserPlaylist from '../UserPlaylist/UserPlaylist';
 
 export default class UserPlaylistPanel extends React.Component {
-// Handles when add New Playlist is clicked
-  handleNew = (e) => {
+  // Handles when add New Playlist is clicked
+  handleNew = () => {
     this.props.onNew();
   }
-// Renders the PlaylistList component
+  // Renders the PlaylistList component
   render() {
     if (this.props.playlists && this.props.playlists.length !== 0 && this.props.isAuthorized) {
       const playlists = this.props.playlists.map(playlist => playlist);
-    // Render each playlist as clickable components.
+      // Render each playlist as clickable components.
       return (
         <div className="PlaylistList">
           <h2>Your Playlists</h2>

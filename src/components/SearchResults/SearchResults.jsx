@@ -2,14 +2,14 @@ import React from 'react';
 import './SearchResults.css';
 import TrackList from '../TrackList/TrackList'
 
-export default class SearchResults extends React.Component {
-// Renders search results obtained from Spotify API in a <Tracklist /> component.
-  render() {
-    return (
-      <div className="SearchResults">
-        <h2>Search Results</h2>
-        <TrackList tracks={this.props.searchResults} onAdd={this.props.onAdd} isRemoval={false} />
-      </div>
-    );
-  }
+const SearchResults = (props) => {
+  // Renders search results obtained from Spotify API in a <Tracklist /> component.
+  return (
+    <div className="SearchResults">
+      <h2>Search Results</h2>
+      <TrackList tracks={props.searchResults} onAdd={props.onAdd} isRemoval={false} />
+    </div>
+  );
 }
+
+export default SearchResults

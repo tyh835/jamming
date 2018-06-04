@@ -7,19 +7,16 @@ import UserPlaylistPanel from '../UserPlaylistPanel/UserPlaylistPanel';
 import Spotify from '../../util/Spotify';
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      searchResults: [],
-      searchResultsCache: [],
-      playlistName: 'New Playlist',
-      playlistTracks: [],
-      playlistID: null,
-      playlistList: null,
-      authorized: false,
-      isNewPlaylist: true
-    };
-  }
+  state = {
+    searchResults: [],
+    searchResultsCache: [],
+    playlistName: 'New Playlist',
+    playlistTracks: [],
+    playlistID: null,
+    playlistList: null,
+    authorized: false,
+    isNewPlaylist: true
+  };
   // This method calls the asynchronous search function from the Spotify module. It is passed down to <SearchBar /> as a prop.
   searchSpotify = async (term) => {
     this.isAuthorized();
