@@ -3,26 +3,26 @@ import './Playlist.css';
 import TrackList from '../TrackList/TrackList';
 
 export default class Playlist extends React.Component {
-// This method changes <App />'s playlistName state whenever the input changes.
+  // This method changes <App />'s playlistName state whenever the input changes.
   handleNameChange = e => {
     this.props.onNameChange(e.target.value);
   }
-// This method calls <App />'s savePlaylist function when Save to Spotify button is clicked.
+  // This method calls <App />'s savePlaylist function when Save to Spotify button is clicked.
   handleSave = e => {
     this.props.onSave();
   }
-// This method calls <App />'s deletePlaylist function when Delete Playlist is clicked.
+  // This method calls <App />'s deletePlaylist function when Delete Playlist is clicked.
   handleDelete = e => {
     const name = this.props.playlistName;
     if(window.confirm(`Are you sure you want to delete ${name}? Note: it is possible to manually restore deleted playlists through Spotify Account Services.`)) {
       this.props.onDelete();
     }
   }
-// This method renders the delete button if the playlist currently exists
+  // This method renders the delete button if the playlist currently exists
   renderDelete = () => {
     return <a className="Playlist-delete" onClick={this.handleDelete}>DELETE PLAYLIST</a>;
   }
-// Renders playlists save in a <App />'s playlistTracks state.
+  // Renders playlists save in a <App />'s playlistTracks state.
   render() {
     return (
       <div className="Playlist">
