@@ -26,6 +26,10 @@ h2 {
   font-size: 1.55rem;
 }
 
+a {
+  text-decoration: none;
+}
+
 .App {
   height: 100%;
   padding: 0 10% 10% 10%;

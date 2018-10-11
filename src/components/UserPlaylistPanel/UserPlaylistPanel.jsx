@@ -4,7 +4,8 @@ import UserPlaylist from '../UserPlaylist/UserPlaylist';
 
 export default class UserPlaylistPanel extends React.Component {
   // Handles when add New Playlist is clicked
-  handleNew = () => {
+  handleNew = e => {
+    e.preventDefault();
     this.props.onNew();
   }
   // Renders the PlaylistList component
@@ -15,7 +16,7 @@ export default class UserPlaylistPanel extends React.Component {
         <div className="PlaylistList">
           <h2>Your Playlists</h2>
           <div className="playlists">
-            <a className="add" onClick={this.handleNew} >{'+ New playlist'}</a>
+            <a href="/" className="add" onClick={this.handleNew} >{'+ New playlist'}</a>
             {this.props.playlists.map(playlist => {
             return <UserPlaylist key={playlist.id} activeID={this.props.activeID} playlist={playlist} onGetTracks={this.props.getPlaylistTracks} onReset={this.props.onNew} />
             })}

@@ -9,10 +9,12 @@ export default class Playlist extends React.Component {
   }
   // This method calls <App />'s savePlaylist function when Save to Spotify button is clicked.
   handleSave = e => {
+    e.preventDefault();
     this.props.onSave();
   }
   // This method calls <App />'s deletePlaylist function when Delete Playlist is clicked.
   handleDelete = e => {
+    e.preventDefault();
     const name = this.props.playlistName;
     if(window.confirm(`Are you sure you want to delete ${name}? Note: it is possible to manually restore deleted playlists through Spotify Account Services.`)) {
       this.props.onDelete();
@@ -20,7 +22,7 @@ export default class Playlist extends React.Component {
   }
   // This method renders the delete button if the playlist currently exists
   renderDelete = () => {
-    return <a className="Playlist-delete" onClick={this.handleDelete}>DELETE PLAYLIST</a>;
+    return <a href="/" className="Playlist-delete" onClick={this.handleDelete}>DELETE PLAYLIST</a>;
   }
   // Renders playlists save in a <App />'s playlistTracks state.
   render() {
@@ -28,7 +30,7 @@ export default class Playlist extends React.Component {
       <div className="Playlist">
         <input value={this.props.playlistName} onChange={this.handleNameChange} />
         <TrackList tracks={this.props.playlistTracks} onRemove={this.props.onRemove} isRemoval={true} />
-        <a className="Playlist-save" onClick={this.handleSave}><i className="fa fa-spotify"></i> SAVE TO SPOTIFY</a>
+        <a href="/" className="Playlist-save" onClick={this.handleSave}><i className="fa fa-spotify"></i> SAVE TO SPOTIFY</a>
         {this.props.isNew ? '' : this.renderDelete()}
       </div>
     );

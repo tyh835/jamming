@@ -4,11 +4,13 @@ import './SearchBar.css';
 export default class SearchBar extends React.Component {
   state = {term: ''}
   // This method calls the search function in <App /> using the passed down prop.
-  handleSearch = () => {
+  handleSearch = e => {
+    e.preventDefault();
     this.props.onSearch(this.state.term);
   }
   // This method calls the getTopTracks function in <App /> using the passed down prop.
-  handleGetTop = () => {
+  handleGetTop = e => {
+    e.preventDefault();
     this.props.onGetTop(0, []);
   }
   // This method changes the search term state whenever the input changes.
@@ -27,17 +29,17 @@ export default class SearchBar extends React.Component {
   }
   // Renders the personal tops button after user is authorized
   renderTopButton = () => {
-    return <a onClick={this.handleGetTop} style={{width: '10rem', marginLeft: '2.5rem'}}>My Top Songs</a>;
+    return <a href="/" onClick={this.handleGetTop} style={{width: '10rem', marginLeft: '2.5rem'}}>My Top Songs</a>;
   }
   // Each time the search bar loads, it checks for previously stored value and updates this.state.term
   componentDidMount() {
-    if (localStorage.getItem('term')) {
-      this.setState({term: localStorage.getItem('term')});
+    if (localStorage.getItem('search-term')) {
+      this.setState({term: localStorage.getItem('search-term')});
     }
   }
   // Saves the search bar term in the window.name DOM variable.
   componentDidUpdate() {
-    localStorage.setItem('term', this.state.term);
+    localStorage.setItem('search-term', this.state.term);
   }
   // Renders the search bar, a controlled component.
   render() {
@@ -45,7 +47,7 @@ export default class SearchBar extends React.Component {
       <div className="SearchBar">
         <input placeholder="Enter A Song, Album, or Artist" onChange={this.handleTermChange} onKeyPress={this.handleKeyPress} value={this.state.term} />
         <div className="Buttons">
-          <a onClick={this.handleSearch} style={this.props.isAuthorized ? {} : {width: '12rem'}}>
+          <a href="/" onClick={this.handleSearch} style={this.props.isAuthorized ? {} : {width: '12rem'}}>
           {this.props.isAuthorized ? '': this.renderSpotifyIcon()}{this.props.isAuthorized ? 'Search' : ' Connect to Spotify'}
           </a>
           {this.props.isAuthorized? this.renderTopButton() : ''}
