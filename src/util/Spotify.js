@@ -1,5 +1,5 @@
 let config;
-if (process.env.REACT_APP_SPOTIFY) {
+if (!process.env.REACT_APP_SPOTIFY) {
   config =  require('./config');
 }
 
