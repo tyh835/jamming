@@ -2,13 +2,21 @@ import React from 'react';
 import './TrackList.css';
 import Track from '../Track/Track';
 
-const TrackList = (props) => {
+const TrackList = props => {
   if (props.tracks && props.tracks.length !== 0) {
     // Render each track as <Track /> components.
     return (
       <div className="TrackList">
         {props.tracks.map(track => {
-          return <Track track={track} key={track.id} onAdd={props.onAdd} onRemove={props.onRemove} action={props.isRemoval} />
+          return (
+            <Track
+              track={track}
+              key={track.id}
+              onAdd={props.onAdd}
+              onRemove={props.onRemove}
+              action={props.isRemoval}
+            />
+          );
         })}
       </div>
     );
@@ -20,6 +28,6 @@ const TrackList = (props) => {
       </div>
     );
   }
-}
+};
 
 export default TrackList;
