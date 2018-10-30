@@ -6,8 +6,8 @@ if (!process.env.REACT_APP_SPOTIFY) {
 const CLIENT_ID = process.env.REACT_APP_SPOTIFY || config.key;
 
 const Spotify = {
-  accessToken: undefined,
-  expiresIn: undefined,
+  accessToken: null,
+  expiresIn: null,
   redirectURI: window.location.href,
   // This function fetches an authorization token using Spotify's implicit authorization framework.
   getAccessToken() {
@@ -18,7 +18,7 @@ const Spotify = {
       this.accessToken = window.location.href.match(/access_token=([^&]*)/)[1];
       // Sets the window timeout once the access token has been obtained.
       this.expiresIn = Number(window.location.href.match(/expires_in=([^&]*)/)[1]);
-      window.setTimeout(() => this.accessToken = undefined, this.expiresIn * 1000);
+      window.setTimeout(() => this.accessToken = null, this.expiresIn * 1000);
       console.log(`Access expires in ${this.expiresIn} seconds`);
       window.history.pushState('Access Token', null, '/');
       return this.accessToken;
