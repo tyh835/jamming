@@ -1,5 +1,4 @@
-const config = process.env.REACT_APP_SPOTIFY || require('./config');
-const CLIENT_ID = process.env.REACT_APP_SPOTIFY || config.key;
+const CLIENT_ID = process.env.REACT_APP_SPOTIFY
 // Check if the website is the one published on GitHub Pages.
 const IS_GITHUB = window.location.href.split('.').some(i => {return i.toLowerCase() === 'github';});
 
