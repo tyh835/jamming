@@ -1,6 +1,11 @@
-const CLIENT_ID = process.env.REACT_APP_SPOTIFY
+let config;
+if (process.env.REACT_APP_SPOTIFY) {
+  config =  require('./config');
+}
+
+const CLIENT_ID = process.env.REACT_APP_SPOTIFY || config.key;
 // Check if the website is the one published on GitHub Pages.
-const IS_GITHUB = window.location.href.split('.').some(i => {return i.toLowerCase() === 'github';});
+// const IS_GITHUB = window.location.href.split('.').some(i => {return i.toLowerCase() === 'github';});
 
 const Spotify = {
   accessToken: undefined,
@@ -17,10 +22,10 @@ const Spotify = {
       this.expiresIn = Number(window.location.href.match(/expires_in=([^&]*)/)[1]);
       window.setTimeout(() => this.accessToken = undefined, this.expiresIn * 1000);
       console.log(`Token expires in ${this.expiresIn} seconds`);
-      IS_GITHUB ? window.history.pushState('Access Token', null, '/jamming') : window.history.pushState('Access Token', null, '/');
+      // IS_GITHUB ? window.history.pushState('Access Token', null, '/jamming') : window.history.pushState('Access Token', null, '/');
       return this.accessToken;
     } else if (window.location.href.match(/error=access_denied/)) {
-      IS_GITHUB ? window.history.pushState('Access Token', null, '/jamming') : window.history.pushState('Access Token', null, '/');
+      // IS_GITHUB ? window.history.pushState('Access Token', null, '/jamming') : window.history.pushState('Access Token', null, '/');
       this.redirectURI = window.location.href;
     }
   },
