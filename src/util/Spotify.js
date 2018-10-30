@@ -4,14 +4,12 @@ if (!process.env.REACT_APP_SPOTIFY) {
 }
 
 const CLIENT_ID = process.env.REACT_APP_SPOTIFY || config.key;
-// Check if the website is the one published on GitHub Pages.
-// const IS_GITHUB = window.location.href.split('.').some(i => {return i.toLowerCase() === 'github';});
 
 const Spotify = {
   accessToken: undefined,
   expiresIn: undefined,
   redirectURI: window.location.href,
-// This function fetches an authorization token using Spotify's implicit authorization framework.
+  // This function fetches an authorization token using Spotify's implicit authorization framework.
   getAccessToken() {
     if (this.accessToken) {
       return this.accessToken;
@@ -21,11 +19,11 @@ const Spotify = {
       // Sets the window timeout once the access token has been obtained.
       this.expiresIn = Number(window.location.href.match(/expires_in=([^&]*)/)[1]);
       window.setTimeout(() => this.accessToken = undefined, this.expiresIn * 1000);
-      console.log(`Token expires in ${this.expiresIn} seconds`);
-      // IS_GITHUB ? window.history.pushState('Access Token', null, '/jamming') : window.history.pushState('Access Token', null, '/');
+      console.log(`Access expires in ${this.expiresIn} seconds`);
+      window.history.pushState('Access Token', null, '/');
       return this.accessToken;
     } else if (window.location.href.match(/error=access_denied/)) {
-      // IS_GITHUB ? window.history.pushState('Access Token', null, '/jamming') : window.history.pushState('Access Token', null, '/');
+      window.history.pushState('Access Token', null, '/');
       this.redirectURI = window.location.href;
     }
   },
@@ -33,7 +31,7 @@ const Spotify = {
   redirectSpotify() {
       window.location = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&response_type=token&scope=playlist-modify-public+playlist-modify-private+user-top-read&redirect_uri=${this.redirectURI}&show_dialog=true`;
   },
-// This function searches Spotify by using GET to "https://api.spotify.com/v1/search"
+  // This function searches Spotify by using GET to "https://api.spotify.com/v1/search"
   async search(term) {
     const accessToken = this.accessToken || this.getAccessToken();
     const headers = {Authorization: `Bearer ${accessToken}`};
@@ -62,7 +60,7 @@ const Spotify = {
     }
   },
 
-// This functions returns the User ID of the current user.
+  // This functions returns the User ID of the current user.
   async getUserID() {
      const accessToken = this.accessToken || this.getAccessToken();
      const headers = {Authorization: `Bearer ${accessToken}`};
@@ -82,7 +80,7 @@ const Spotify = {
    }
  },
 
-// This function gets user's top tracks from Spotify by using GET to "https://api.spotify.com/v1/me/top/tracks"
+  // This function gets user's top tracks from Spotify by using GET to "https://api.spotify.com/v1/me/top/tracks"
   async getTopTracks(offset) {
     const accessToken = this.accessToken || this.getAccessToken();
     const headers = {Authorization: `Bearer ${accessToken}`};
@@ -111,8 +109,8 @@ const Spotify = {
     }
   },
 
-// This function gets user_id from Spotify by using this.getUserID,
-// then gets user's playlists owned by the user from Spotify by using GET to "https://api.spotify.com/v1/me/playlists"
+  // This function gets user_id from Spotify by using this.getUserID,
+  // then gets user's playlists owned by the user from Spotify by using GET to "https://api.spotify.com/v1/me/playlists"
   async getPlaylists() {
     const accessToken = this.accessToken || this.getAccessToken();
     const headers = {Authorization: `Bearer ${accessToken}`};
@@ -141,7 +139,7 @@ const Spotify = {
     }
   },
 
-// This function gets playlist's tracks from Spotify by using GET to trackURL
+  // This function gets playlist's tracks from Spotify by using GET to trackURL
   async getPlaylistTracks(trackURL) {
     const accessToken = this.accessToken || this.getAccessToken();
     const headers = {Authorization: `Bearer ${accessToken}`};
@@ -170,9 +168,9 @@ const Spotify = {
     }
   },
 
-// This function gets user_id from Spotify by using this.getUserID,
-// then POST to "https://api.spotify.com/v1/users/${userID}/playlists" to add new playlist and obtain playlistID,
-// then POST to "https://api.spotify.com/v1/users/${userID}/playlists/${playlistID}/tracks" to add tracks to newly created playlist.
+  // This function gets user_id from Spotify by using this.getUserID,
+  // then POST to "https://api.spotify.com/v1/users/${userID}/playlists" to add new playlist and obtain playlistID,
+  // then POST to "https://api.spotify.com/v1/users/${userID}/playlists/${playlistID}/tracks" to add tracks to newly created playlist.
   async savePlaylist(playlistName, trackURIs) {
     if (!playlistName) {
       return;
@@ -215,9 +213,9 @@ const Spotify = {
     }
   },
 
-// This function gets user_id from Spotify by using this.getUserID,
-// then PUT to "https://api.spotify.com/v1/users/${userID}/playlists/{playlist_id}" to update playlist name.
-// then PUT to "https://api.spotify.com/v1/users/${userID}/playlists/{playlist_id}/tracks" to update playlist.
+  // This function gets user_id from Spotify by using this.getUserID,
+  // then PUT to "https://api.spotify.com/v1/users/${userID}/playlists/{playlist_id}" to update playlist name.
+  // then PUT to "https://api.spotify.com/v1/users/${userID}/playlists/{playlist_id}/tracks" to update playlist.
   async updatePlaylist(playlistName, playlistID, trackURIs) {
     if (!playlistName || !playlistID) {
       return;
@@ -255,7 +253,7 @@ const Spotify = {
     }
   },
 
-// This function deletes/unfollows the playlist from Spotify by using DELETE to https://api.spotify.com/v1/users/{owner_id}/playlists/{playlist_id}/followers
+  // This function deletes/unfollows the playlist from Spotify by using DELETE to https://api.spotify.com/v1/users/{owner_id}/playlists/{playlist_id}/followers
   async deletePlaylist(playlistID) {
     const accessToken = this.accessToken || this.getAccessToken();
     const headers = {Authorization: `Bearer ${accessToken}`};
