@@ -47,7 +47,7 @@ export default class Track extends React.Component {
             {' '}
             {this.props.track.artist} | {this.props.track.album}{' '}
           </p>
-          {this.renderPreview()}
+          {/* {this.renderPreview()} */}
         </div>
         {this.renderAction(this.props.action)}
       </div>
