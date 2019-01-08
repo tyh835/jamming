@@ -24,7 +24,7 @@
 .Playlist-save {
   cursor: pointer;
   width: 10rem;
-  padding: 0.77rem 0;
+  height: 45px;
   border-radius: 54px;
   margin-top: 1.27rem;
   background-color: hsl(141, 73%, 42%);
@@ -43,9 +43,9 @@
 .Playlist-delete {
   cursor: pointer;
   width: 10rem;
-  padding: 0.77rem 0;
+  height: 45px;
   border-radius: 54px;
-  margin: 1.27rem auto;
+  margin: 1.27rem 0;
   background-color: hsl(0, 90%, 50%);
   filter: saturate(2.22) brightness(0.53);
   color: #dddddd;
