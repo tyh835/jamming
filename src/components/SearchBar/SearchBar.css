@@ -24,15 +24,16 @@
 
 .SearchBar .Buttons {
   width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .SearchBar .Buttons a {
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
   width: 8.11rem;
-  padding: 0.77rem 0;
+  height: 45px;
   border-radius: 54px;
   background-color: hsl(141, 73%, 42%);
   filter: saturate(2.22) brightness(0.64);

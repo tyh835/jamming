@@ -24,8 +24,9 @@
 .Playlist-save {
   cursor: pointer;
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
+  flex-shrink: 0;
   width: 10rem;
   height: 45px;
   border-radius: 54px;
@@ -45,11 +46,12 @@
 
 .Playlist-delete {
   cursor: pointer;
-  width: 10rem;
-  height: 45px;
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-shrink: 0;
+  width: 10rem;
+  height: 45px;
   border-radius: 54px;
   margin: 1.27rem 0;
   background-color: hsl(0, 90%, 50%);
