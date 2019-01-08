@@ -24,15 +24,15 @@
 .Playlist-save {
   cursor: pointer;
   width: 10rem;
-  padding: .77rem 0;
+  padding: 0.77rem 0;
   border-radius: 54px;
   margin-top: 1.27rem;
   background-color: hsl(141, 73%, 42%);
   filter: saturate(2.22) brightness(0.56);
   color: #333333;
   text-align: center;
-  font-size: .83rem;
-  transition: all .25s;
+  font-size: 0.83rem;
+  transition: all 0.25s;
 }
 
 .Playlist-save:hover {
@@ -43,15 +43,15 @@
 .Playlist-delete {
   cursor: pointer;
   width: 10rem;
-  padding: .77rem 0;
+  padding: 0.77rem 0;
   border-radius: 54px;
-  margin-top: 1.27rem;
+  margin: 1.27rem auto;
   background-color: hsl(0, 90%, 50%);
   filter: saturate(2.22) brightness(0.53);
-  color: #DDDDDD;
+  color: #dddddd;
   text-align: center;
-  font-size: .83rem;
-  transition: all .25s;
+  font-size: 0.83rem;
+  transition: all 0.25s;
 }
 
 .Playlist-delete:hover {
@@ -61,8 +61,8 @@
 }
 
 ::-webkit-scrollbar {
-    width: 0px;
-    background: transparent;
+  width: 0px;
+  background: transparent;
 }
 
 @media only screen and (max-width: 1020px) {

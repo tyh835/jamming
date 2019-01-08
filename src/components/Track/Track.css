@@ -2,15 +2,15 @@
   display: flex;
   align-items: center;
   border-bottom: 1px solid rgba(256, 256, 256, 0.8);
-  height: 110px;
+  height: 80px;
 }
 
 .Track-action {
   color: white;
   cursor: pointer;
-  padding: .5rem;
+  padding: 0.5rem;
   font-size: 1.05rem;
-  transition: color .25s;
+  transition: color 0.25s;
 }
 
 .Track-action:hover {
@@ -30,7 +30,7 @@
 }
 
 .Track-information p {
-  font-size: .83rem;
+  font-size: 0.83rem;
   font-weight: 300;
   color: rgba(256, 256, 256, 0.8);
   margin: 0.33rem 0;
@@ -41,4 +41,3 @@
   width: 180px;
   margin-top: 0.33rem;
 }
-
