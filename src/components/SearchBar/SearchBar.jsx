@@ -25,7 +25,12 @@ export default class SearchBar extends React.Component {
   };
   // Renders the Spotify icon for connect button before user is authorized
   renderSpotifyIcon = () => {
-    return <i className="fa fa-spotify" />;
+    return (
+      <>
+        <i className="fa fa-spotify" />
+        &nbsp;
+      </>
+    );
   };
   // Renders the personal tops button after user is authorized
   renderTopButton = () => {
@@ -66,7 +71,7 @@ export default class SearchBar extends React.Component {
             style={this.props.isAuthorized ? {} : { width: '12rem' }}
           >
             {this.props.isAuthorized ? '' : this.renderSpotifyIcon()}
-            {this.props.isAuthorized ? 'Search' : '&nbsp;Connect to Spotify'}
+            {this.props.isAuthorized ? 'Search' : 'Connect to Spotify'}
           </a>
           {this.props.isAuthorized ? this.renderTopButton() : ''}
         </div>
