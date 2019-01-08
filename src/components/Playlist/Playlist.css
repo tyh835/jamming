@@ -23,6 +23,9 @@
 
 .Playlist-save {
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 10rem;
   height: 45px;
   border-radius: 54px;
@@ -44,6 +47,9 @@
   cursor: pointer;
   width: 10rem;
   height: 45px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border-radius: 54px;
   margin: 1.27rem 0;
   background-color: hsl(0, 90%, 50%);

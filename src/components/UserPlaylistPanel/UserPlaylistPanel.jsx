@@ -8,7 +8,7 @@ export default class UserPlaylistPanel extends React.Component {
     e.preventDefault();
     this.props.onNew();
   };
-  // Renders the PlaylistList component
+
   render() {
     if (
       this.props.playlists &&
@@ -17,7 +17,7 @@ export default class UserPlaylistPanel extends React.Component {
     ) {
       // Render each playlist as clickable components.
       return (
-        <div className="PlaylistList">
+        <div className="UserPlaylistPanel">
           <h2>Your Playlists</h2>
           <div className="playlists">
             <a href="/" className="add" onClick={this.handleNew}>
@@ -39,7 +39,7 @@ export default class UserPlaylistPanel extends React.Component {
       );
     } else {
       return (
-        <div className="PlaylistList">
+        <div className="UserPlaylistPanel">
           <h2>Playlists</h2>
         </div>
       );

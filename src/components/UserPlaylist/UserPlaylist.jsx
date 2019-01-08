@@ -2,7 +2,6 @@ import React from 'react';
 import './UserPlaylist.css';
 
 export default class UserPlaylist extends React.Component {
-  // This method handles clicking of playlistListElements. Calls getPlaylistTracks method of <App /> if no playlist is loaded. Calls newPlaylist method if it is currently active.
   handleClick = e => {
     e.preventDefault();
     if (this.props.playlist.id !== this.props.activeID) {
@@ -15,7 +14,7 @@ export default class UserPlaylist extends React.Component {
       this.props.onReset();
     }
   };
-  // Renders the PlaylistListElement component
+
   render() {
     return (
       <a

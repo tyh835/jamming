@@ -1,4 +1,4 @@
-.PlaylistList {
+.UserPlaylistPanel {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -10,12 +10,12 @@
   box-shadow: 0 4px 2px 2px #000000;
 }
 
-.PlaylistList h2 {
-  margin-top: .88rem;
-  margin-left: .88rem;
+.UserPlaylistPanel h2 {
+  margin-top: 0.88rem;
+  margin-left: 0.88rem;
 }
 
-.PlaylistList .playlists {
+.UserPlaylistPanel .playlists {
   width: 95%;
   height: 100px;
   padding-top: 1rem;
@@ -25,12 +25,12 @@
   overflow-y: scroll;
 }
 
-.PlaylistList .playlists .add {
+.UserPlaylistPanel .playlists .add {
   background-color: hsl(141, 73%, 42%);
   filter: saturate(2.22) brightness(0.64);
 }
 
-.PlaylistList .playlists .add:hover {
+.UserPlaylistPanel .playlists .add:hover {
   background-color: hsl(141, 73%, 45%);
   color: hsl(141, 73%, 90%);
 }

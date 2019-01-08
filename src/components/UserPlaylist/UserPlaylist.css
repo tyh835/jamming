@@ -1,5 +1,8 @@
-.PlaylistList a {
+.UserPlaylistPanel a {
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   flex-shrink: 0;
   min-width: 5.5rem;
   height: 45px;
@@ -14,12 +17,12 @@
   transition: all 0.25s;
 }
 
-.PlaylistList a:hover {
+.UserPlaylistPanel a:hover {
   background-color: hsl(195, 73%, 46%);
   color: hsl(141, 73%, 90%);
 }
 
-.PlaylistList .active {
+.UserPlaylistPanel .active {
   background-color: hsl(195, 73%, 46%);
   color: hsl(141, 73%, 90%);
 }
