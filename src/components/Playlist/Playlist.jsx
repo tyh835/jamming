@@ -46,7 +46,8 @@ export default class Playlist extends React.Component {
           isRemoval={true}
         />
         <a href="/" className="Playlist-save" onClick={this.handleSave}>
-          <i className="fa fa-spotify" /> SAVE TO SPOTIFY
+          <i className="fa fa-spotify" />
+          &nbsp;SAVE TO SPOTIFY
         </a>
         {this.props.isNew ? '' : this.renderDelete()}
       </div>
