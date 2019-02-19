@@ -20,7 +20,7 @@ export default class SearchBar extends React.Component {
   // This method calls the search function in when the enter key is pressed.
   handleKeyPress = e => {
     if (e.key === 'Enter') {
-      this.handleSearch();
+      this.handleSearch(e);
     }
   };
   // Renders the Spotify icon for connect button before user is authorized
