@@ -33,6 +33,10 @@
       }
     }
   }
+
+  @media (max-width: 1020px) {
+    width: 95%;
+  }
 }
 
 ::-webkit-scrollbar {

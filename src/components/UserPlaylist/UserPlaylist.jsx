@@ -20,9 +20,9 @@ export default class UserPlaylist extends React.Component {
       <a
         href="/"
         onClick={this.handleClick}
-        className={
+        className={`UserPlaylist ${
           this.props.playlist.id === this.props.activeID ? 'active' : ''
-        }
+        }`}
       >
         {this.props.playlist.name}
       </a>

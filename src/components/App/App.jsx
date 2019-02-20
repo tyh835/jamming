@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Header from '../Header/Header';
 import SearchBar from '../SearchBar/SearchBar';
 import SearchResults from '../SearchResults/SearchResults';
 import Playlist from '../Playlist/Playlist';
@@ -212,15 +213,10 @@ class App extends Component {
     }
   }
 
-  // Renders <App />, which contains all of the components.
   render() {
     return (
       <div>
-        <h1>
-          Ja
-          <span className="highlight">mm</span>
-          ing
-        </h1>
+        <Header />
         <div className="App">
           <SearchBar
             onSearch={this.searchSpotify}

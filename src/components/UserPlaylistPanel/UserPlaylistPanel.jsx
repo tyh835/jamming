@@ -20,7 +20,7 @@ export default class UserPlaylistPanel extends React.Component {
         <div className="UserPlaylistPanel">
           <h2>Your Playlists</h2>
           <div className="playlists">
-            <a href="/" className="add" onClick={this.handleNew}>
+            <a href="/" className="UserPlaylist add" onClick={this.handleNew}>
               {'+ New playlist'}
             </a>
             {this.props.playlists.map(playlist => {
