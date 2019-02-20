@@ -1,17 +1,12 @@
 import React from 'react';
 import TrackList from '../TrackList/TrackList';
-import './SearchResults.scss';
+import style from './SearchResults.module.scss';
 
-const SearchResults = props => {
-  // Renders search results obtained from Spotify API in a <Tracklist /> component.
+const SearchResults = ({ searchResults, onAdd }) => {
   return (
-    <div className="SearchResults">
+    <div className={style.container}>
       <h2>Search Results</h2>
-      <TrackList
-        tracks={props.searchResults}
-        onAdd={props.onAdd}
-        isRemoval={false}
-      />
+      <TrackList tracks={searchResults} onAdd={onAdd} isRemoval={false} />
     </div>
   );
 };

@@ -1,4 +1,4 @@
-.SearchResults {
+.container {
   width: 45%;
   height: 525px;
   overflow-y: scroll;
@@ -10,9 +10,4 @@
     width: 90%;
     margin-bottom: 2rem;
   }
-}
-
-::-webkit-scrollbar {
-  width: 0px;
-  background: transparent;
 }

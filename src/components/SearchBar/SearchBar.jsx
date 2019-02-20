@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import SpotifyIcon from './SpotifyIcon';
 import style from './SearchBar.module.scss';
 
 export default class SearchBar extends Component {
@@ -34,12 +35,6 @@ export default class SearchBar extends Component {
   }
 
   render() {
-    const SpotifyIcon = () => (
-      <>
-        <i className="fa fa-spotify" />
-        &nbsp;
-      </>
-    );
     const TopButton = () => (
       <a
         className={style.button}

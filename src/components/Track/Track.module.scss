@@ -1,11 +1,11 @@
-.Track {
+.container {
   display: flex;
   align-items: center;
   border-bottom: 1px solid rgba(256, 256, 256, 0.8);
   height: 80px;
 }
 
-.Track-action {
+.trackAction {
   color: white;
   cursor: pointer;
   padding: 0.5rem;
@@ -18,26 +18,20 @@
   }
 }
 
-.Track-information {
+.trackInfo {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
 
-  h3 {
+  .title {
     margin-top: 0.33rem;
   }
 
-  p {
+  .info {
     font-size: 0.83rem;
     font-weight: 300;
     color: rgba(256, 256, 256, 0.8);
     margin: 0.33rem 0;
-  }
-
-  audio {
-    opacity: 0.45;
-    width: 180px;
-    margin-top: 0.33rem;
   }
 }
