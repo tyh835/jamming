@@ -1,5 +1,5 @@
 import React from 'react';
-import './Track.css';
+import './Track.scss';
 
 export default class Track extends React.Component {
   // This methods uses the prop passed down from <App /> to update Apps's playistTracks state.

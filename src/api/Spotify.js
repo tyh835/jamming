@@ -1,9 +1,4 @@
-let config;
-if (!process.env.REACT_APP_SPOTIFY) {
-  config = require('./config');
-}
-
-const CLIENT_ID = process.env.REACT_APP_SPOTIFY || config.key;
+const CLIENT_ID = process.env.REACT_APP_SPOTIFY || 'PLACE_YOUR_CLIENT_ID_HERE';
 
 const Spotify = {
   accessToken: null,

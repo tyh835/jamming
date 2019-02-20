@@ -1,12 +1,12 @@
-import React from 'react';
-import './App.css';
+import React, { Component } from 'react';
 import SearchBar from '../SearchBar/SearchBar';
 import SearchResults from '../SearchResults/SearchResults';
 import Playlist from '../Playlist/Playlist';
 import UserPlaylistPanel from '../UserPlaylistPanel/UserPlaylistPanel';
-import Spotify from '../../util/Spotify';
+import './App.scss';
+import Spotify from '../../api/Spotify';
 
-class App extends React.Component {
+class App extends Component {
   state = {
     searchResults: [],
     searchResultsCache: [],

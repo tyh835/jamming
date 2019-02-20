@@ -1,6 +1,6 @@
 import React from 'react';
-import './TrackList.css';
 import Track from '../Track/Track';
+import './TrackList.scss';
 
 const TrackList = props => {
   if (props.tracks && props.tracks.length !== 0) {

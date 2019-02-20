@@ -1,6 +1,6 @@
 import React from 'react';
-import './UserPlaylistPanel.css';
 import UserPlaylist from '../UserPlaylist/UserPlaylist';
+import './UserPlaylistPanel.scss';
 
 export default class UserPlaylistPanel extends React.Component {
   // Handles when add New Playlist is clicked

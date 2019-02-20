@@ -1,5 +1,5 @@
 import React from 'react';
-import './UserPlaylist.css';
+import './UserPlaylist.scss';
 
 export default class UserPlaylist extends React.Component {
   handleClick = e => {
