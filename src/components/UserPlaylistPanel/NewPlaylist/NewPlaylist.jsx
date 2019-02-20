@@ -1,5 +1,5 @@
 import React from 'react';
-import style from './AddPlaylist.module.scss';
+import style from './NewPlaylist.module.scss';
 
 const AddPlaylist = ({ handleNew }) => {
   return (
