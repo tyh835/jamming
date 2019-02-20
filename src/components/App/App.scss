@@ -1,24 +1,23 @@
-body,
-html,
-#root {
+:root {
   height: 100%;
-}
-
-html {
   font-size: 18px;
 }
 
+body {
+  height: 100%;
+}
+
 h1 {
-  padding: .77rem 0;
+  padding: 0.77rem 0;
   background-color: hsl(229, 97%, 13%);
   text-align: center;
   font-family: 'Poppins', sans-serif;
   font-size: 1.88rem;
   color: #fff;
-}
 
-h1 .highlight {
-  color: hsl(141, 73%, 47%);
+  .highlight {
+    color: hsl(141, 73%, 47%);
+  }
 }
 
 h2 {
@@ -41,21 +40,21 @@ a {
   font-weight: 500;
   color: #fff;
   filter: saturate(0.45) brightness(1.8);
+
+  @media (max-width: 1020px) {
+    .UserPlaylistPanel {
+      width: 95%;
+    }
+  }
 }
 
 .App-playlist {
   display: flex;
   justify-content: space-between;
   width: 100%;
-}
 
-@media only screen and (max-width: 1020px) {
-  .App-playlist {
+  @media (max-width: 1020px) {
     align-items: center;
     flex-direction: column;
-  }
-
-  .App .PlaylistList {
-    width: 95%;
   }
 }

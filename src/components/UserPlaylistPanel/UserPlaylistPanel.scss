@@ -8,31 +8,31 @@
   margin: 1.5rem auto 3.33rem auto;
   background-color: hsla(229, 97%, 13%, 0.7);
   box-shadow: 0 4px 2px 2px #000000;
-}
 
-.UserPlaylistPanel h2 {
-  margin-top: 0.88rem;
-  margin-left: 0.88rem;
-}
+  h2 {
+    margin-top: 0.88rem;
+    margin-left: 0.88rem;
+  }
 
-.UserPlaylistPanel .playlists {
-  width: 95%;
-  height: 100px;
-  padding-top: 1rem;
-  align-self: center;
-  display: flex;
-  justify-content: flex-start;
-  overflow-y: scroll;
-}
+  .playlists {
+    width: 95%;
+    height: 100px;
+    padding-top: 1rem;
+    align-self: center;
+    display: flex;
+    justify-content: flex-start;
+    overflow-y: scroll;
 
-.UserPlaylistPanel .playlists .add {
-  background-color: hsl(141, 73%, 42%);
-  filter: saturate(2.22) brightness(0.64);
-}
+    .add {
+      background-color: hsl(141, 73%, 42%);
+      filter: saturate(2.22) brightness(0.64);
 
-.UserPlaylistPanel .playlists .add:hover {
-  background-color: hsl(141, 73%, 45%);
-  color: hsl(141, 73%, 90%);
+      &:hover {
+        background-color: hsl(141, 73%, 45%);
+        color: hsl(141, 73%, 90%);
+      }
+    }
+  }
 }
 
 ::-webkit-scrollbar {

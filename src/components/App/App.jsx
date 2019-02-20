@@ -3,8 +3,8 @@ import SearchBar from '../SearchBar/SearchBar';
 import SearchResults from '../SearchResults/SearchResults';
 import Playlist from '../Playlist/Playlist';
 import UserPlaylistPanel from '../UserPlaylistPanel/UserPlaylistPanel';
-import './App.scss';
 import Spotify from '../../api/Spotify';
+import './App.scss';
 
 class App extends Component {
   state = {

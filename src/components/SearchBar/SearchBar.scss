@@ -4,50 +4,50 @@
   align-items: center;
   padding-top: 3.94rem;
   height: 150px;
-}
 
-.SearchBar input {
-  width: 350px;
-  height: 45px;
-  border: 1px solid #fff;
-  border-radius: 15px;
-  margin-bottom: 2.22rem;
-  color: hsl(229, 97%, 13%);
-  text-align: center;
-  font-size: 1rem;
-  filter: saturate(2.22) brightness(0.56);
-}
+  input {
+    width: 350px;
+    height: 45px;
+    border: 1px solid #fff;
+    border-radius: 15px;
+    margin-bottom: 2.22rem;
+    color: hsl(229, 97%, 13%);
+    text-align: center;
+    font-size: 1rem;
+    filter: saturate(2.22) brightness(0.56);
 
-.SearchBar input:focus {
-  outline: none;
-}
+    &:focus {
+      outline: none;
+    }
+  }
 
-.SearchBar .Buttons {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+  .Buttons {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-.SearchBar .Buttons a {
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-shrink: 0;
-  width: 8.11rem;
-  height: 45px;
-  border-radius: 54px;
-  background-color: hsl(141, 73%, 42%);
-  filter: saturate(2.22) brightness(0.64);
-  color: #333333;
-  text-transform: uppercase;
-  text-align: center;
-  font-size: 0.833rem;
-  transition: all 0.4s;
-}
+    a {
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-shrink: 0;
+      width: 8.11rem;
+      height: 45px;
+      border-radius: 54px;
+      background-color: hsl(141, 73%, 42%);
+      filter: saturate(2.22) brightness(0.64);
+      color: #333333;
+      text-transform: uppercase;
+      text-align: center;
+      font-size: 0.833rem;
+      transition: all 0.4s;
 
-.SearchBar .Buttons a:hover {
-  background-color: hsl(141, 73%, 45%);
-  color: hsl(141, 73%, 90%);
+      &:hover {
+        background-color: hsl(141, 73%, 45%);
+        color: hsl(141, 73%, 90%);
+      }
+    }
+  }
 }

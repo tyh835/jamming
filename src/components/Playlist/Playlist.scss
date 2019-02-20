@@ -8,17 +8,22 @@
   padding: 1.27rem 1.16rem;
   background-color: hsla(229, 97%, 13%, 0.7);
   box-shadow: 0 4px 2px 2px #000000;
-}
 
-.Playlist input {
-  width: 100%;
-  border: 0;
-  outline: 0;
-  background: transparent;
-  border-bottom: 1px solid #6f6f6f;
-  font-family: 'Poppins', sans-serif;
-  font-size: 1.55rem;
-  color: #fff;
+  input {
+    width: 100%;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    border-bottom: 1px solid #6f6f6f;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.55rem;
+    color: #fff;
+  }
+
+  @media (max-width: 1020px) {
+    width: 90%;
+    max-height: none;
+  }
 }
 
 .Playlist-save {
@@ -37,11 +42,11 @@
   text-align: center;
   font-size: 0.83rem;
   transition: all 0.25s;
-}
 
-.Playlist-save:hover {
-  background-color: hsl(141, 73%, 50%);
-  color: hsl(141, 73%, 90%);
+  &:hover {
+    background-color: hsl(141, 73%, 50%);
+    color: hsl(141, 73%, 90%);
+  }
 }
 
 .Playlist-delete {
@@ -60,22 +65,15 @@
   text-align: center;
   font-size: 0.83rem;
   transition: all 0.25s;
-}
 
-.Playlist-delete:hover {
-  background-color: hsl(0, 90%, 50%);
-  color: hsl(141, 73%, 90%);
-  filter: saturate(2.22) brightness(0.67);
+  &:hover {
+    background-color: hsl(0, 90%, 50%);
+    color: hsl(141, 73%, 90%);
+    filter: saturate(2.22) brightness(0.67);
+  }
 }
 
 ::-webkit-scrollbar {
   width: 0px;
   background: transparent;
-}
-
-@media only screen and (max-width: 1020px) {
-  .Playlist {
-    width: 90%;
-    max-height: none;
-  }
 }
