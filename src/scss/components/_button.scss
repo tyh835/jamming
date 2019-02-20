@@ -1,0 +1,32 @@
+%button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+
+  height: 45px;
+  min-width: 5.5rem;
+  padding: 0 0.77rem;
+  border: none;
+  border-radius: 54px;
+
+  text-align: center;
+  font-size: 0.833rem;
+  font-weight: 500;
+  color: #333333;
+
+  background-color: hsl(141, 73%, 42%);
+  filter: saturate(2.22) brightness(0.64);
+
+  transition: all 0.4s;
+  cursor: pointer;
+
+  &:hover {
+    background-color: hsl(141, 73%, 45%);
+    color: hsl(141, 73%, 90%);
+  }
+
+  &:focus {
+    outline: none;
+  }
+}

@@ -1,12 +1,12 @@
 import React from 'react';
 import style from './NewPlaylist.module.scss';
 
-const AddPlaylist = ({ handleNew }) => {
+const NewPlaylist = ({ handleClick }) => {
   return (
-    <a href="/" className={style.addButton} onClick={handleNew}>
+    <button className={style.addButton} onClick={handleClick}>
       {'+ New playlist'}
-    </a>
+    </button>
   );
 };
 
-export default AddPlaylist;
+export default NewPlaylist;

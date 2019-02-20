@@ -1,34 +1,27 @@
 import React from 'react';
 import style from './UserPlaylist.module.scss';
 
-export default class UserPlaylist extends React.Component {
-  handleClick = e => {
-    e.preventDefault();
-    if (this.props.playlist.id !== this.props.activeID) {
-      this.props.onGetTracks(
-        this.props.playlist.tracksURL,
-        this.props.playlist.name,
-        this.props.playlist.id
-      );
-    } else if (this.props.playlist.id === this.props.activeID) {
-      this.props.onReset();
+const UserPlaylist = ({ playlist, activeID, onGetTracks, onReset }) => {
+  const { id, name, tracksURL } = playlist;
+
+  const handleClick = () => {
+    if (id !== activeID) {
+      onGetTracks(tracksURL, name, id);
+    } else if (id === activeID) {
+      onReset();
     }
   };
 
-  render() {
-    const {
-      playlist: { id, name },
-      activeID,
-    } = this.props;
+  return (
+    <button
+      onClick={handleClick}
+      className={`${style.playlistButton} ${
+        id === activeID ? style.active : ''
+      }`}
+    >
+      {name}
+    </button>
+  );
+};
 
-    return (
-      <a
-        href="/"
-        onClick={this.handleClick}
-        className={`${style.button} ${id === activeID ? style.active : ''}`}
-      >
-        {name}
-      </a>
-    );
-  }
-}
+export default UserPlaylist;

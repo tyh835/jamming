@@ -1,3 +1,5 @@
+@import '../../scss/components/button';
+
 .container {
   display: flex;
   flex-direction: column;
@@ -26,45 +28,19 @@
   color: #fff;
 }
 
-.savePlaylist {
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-shrink: 0;
-  width: 10rem;
-  height: 45px;
-  border-radius: 54px;
+.saveButton {
+  @extend %button;
+  min-width: 12rem;
   margin-top: 1.27rem;
-  background-color: hsl(141, 73%, 42%);
-  filter: saturate(2.22) brightness(0.56);
-  color: #333333;
-  text-align: center;
-  font-size: 0.83rem;
-  transition: all 0.25s;
-
-  &:hover {
-    background-color: hsl(141, 73%, 50%);
-    color: hsl(141, 73%, 90%);
-  }
 }
 
-.deletePlaylist {
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-shrink: 0;
-  width: 10rem;
-  height: 45px;
-  border-radius: 54px;
+.deleteButton {
+  @extend %button;
+  min-width: 12rem;
   margin: 1.27rem 0;
   background-color: hsl(0, 90%, 50%);
   filter: saturate(2.22) brightness(0.53);
   color: #dddddd;
-  text-align: center;
-  font-size: 0.83rem;
-  transition: all 0.25s;
 
   &:hover {
     background-color: hsl(0, 90%, 50%);

@@ -36,14 +36,13 @@ export default class SearchBar extends Component {
 
   render() {
     const TopButton = () => (
-      <a
-        className={style.button}
-        href="/"
+      <button
+        className={style.searchButton}
         onClick={this.handleGetTop}
         style={{ width: '10rem', marginLeft: '2.5rem' }}
       >
         My Top Songs
-      </a>
+      </button>
     );
 
     const { isAuthorized } = this.props;
@@ -56,16 +55,15 @@ export default class SearchBar extends Component {
           onKeyPress={this.handleKeyPress}
           value={this.state.term}
         />
-        <div className={style.searchButtons}>
-          <a
-            className={style.button}
-            href="/"
+        <div className={style.buttonContainer}>
+          <button
+            className={style.searchButton}
             onClick={this.handleSearch}
-            style={this.props.isAuthorized ? {} : { width: '12rem' }}
+            style={this.props.isAuthorized ? {} : { minWidth: '13rem' }}
           >
             {isAuthorized || <SpotifyIcon />}
             {isAuthorized ? 'Search' : 'Connect to Spotify'}
-          </a>
+          </button>
           {isAuthorized && <TopButton />}
         </div>
       </div>

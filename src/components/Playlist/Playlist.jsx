@@ -26,9 +26,9 @@ export default class Playlist extends React.Component {
 
   renderDelete = () => {
     return (
-      <a href="/" className={style.deletePlaylist} onClick={this.handleDelete}>
+      <button className={style.deleteButton} onClick={this.handleDelete}>
         DELETE PLAYLIST
-      </a>
+      </button>
     );
   };
 
@@ -45,10 +45,10 @@ export default class Playlist extends React.Component {
           onRemove={this.props.onRemove}
           isRemoval={true}
         />
-        <a href="/" className={style.savePlaylist} onClick={this.handleSave}>
+        <button href="/" className={style.saveButton} onClick={this.handleSave}>
           <i className="fa fa-spotify" />
           &nbsp;SAVE TO SPOTIFY
-        </a>
+        </button>
         {this.props.isNew ? '' : this.renderDelete()}
       </div>
     );

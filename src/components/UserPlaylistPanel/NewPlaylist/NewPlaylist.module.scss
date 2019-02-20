@@ -1,23 +1,6 @@
-.addButton {
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-shrink: 0;
-  min-width: 5.5rem;
-  height: 45px;
-  padding: 0 0.77rem;
-  margin-right: 1.54rem;
-  border-radius: 54px;
-  background-color: hsl(141, 73%, 42%);
-  filter: saturate(2.22) brightness(0.64);
-  color: #333333;
-  text-align: center;
-  font-size: 0.83rem;
-  transition: all 0.25s;
+@import '../../../scss/components/button';
 
-  &:hover {
-    background-color: hsl(141, 73%, 45%);
-    color: hsl(141, 73%, 90%);
-  }
+.addButton {
+  @extend %button;
+  margin-right: 1.54rem;
 }
