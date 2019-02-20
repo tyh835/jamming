@@ -1,41 +1,48 @@
-import React from 'react';
-import './SearchBar.scss';
+import React, { Component } from 'react';
+import style from './SearchBar.module.scss';
 
-export default class SearchBar extends React.Component {
+export default class SearchBar extends Component {
   state = { term: '' };
-  // This method calls the search function in <App /> using the passed down prop.
+
   handleSearch = e => {
     e.preventDefault();
     this.props.onSearch(this.state.term);
   };
-  // This method calls the getTopTracks function in <App /> using the passed down prop.
+
   handleGetTop = e => {
     e.preventDefault();
     this.props.onGetTop(0, []);
   };
-  // This method changes the search term state whenever the input changes.
+
   handleTermChange = e => {
     this.setState({ term: e.target.value });
   };
-  // This method calls the search function in when the enter key is pressed.
+
   handleKeyPress = e => {
     if (e.key === 'Enter') {
       this.handleSearch(e);
     }
   };
-  // Renders the Spotify icon for connect button before user is authorized
-  renderSpotifyIcon = () => {
-    return (
+
+  componentDidMount() {
+    if (localStorage.getItem('search_term')) {
+      this.setState({ term: localStorage.getItem('search_term') });
+    }
+  }
+  componentDidUpdate() {
+    localStorage.setItem('search_term', this.state.term);
+  }
+
+  render() {
+    const SpotifyIcon = () => (
       <>
         <i className="fa fa-spotify" />
         &nbsp;
       </>
     );
-  };
-  // Renders the personal tops button after user is authorized
-  renderTopButton = () => {
-    return (
+    const TopButton = () => (
       <a
+        className={style.button}
         href="/"
         onClick={this.handleGetTop}
         style={{ width: '10rem', marginLeft: '2.5rem' }}
@@ -43,37 +50,28 @@ export default class SearchBar extends React.Component {
         My Top Songs
       </a>
     );
-  };
-  // Each time the search bar loads, it checks for previously stored value and updates this.state.term
-  componentDidMount() {
-    if (localStorage.getItem('search-term')) {
-      this.setState({ term: localStorage.getItem('search-term') });
-    }
-  }
-  // Saves the search bar term in the window.name DOM variable.
-  componentDidUpdate() {
-    localStorage.setItem('search-term', this.state.term);
-  }
-  // Renders the search bar, a controlled component.
-  render() {
+
+    const { isAuthorized } = this.props;
     return (
-      <div className="SearchBar">
+      <div className={style.container}>
         <input
+          className={style.searchInput}
           placeholder="Enter A Song, Album, or Artist"
           onChange={this.handleTermChange}
           onKeyPress={this.handleKeyPress}
           value={this.state.term}
         />
-        <div className="Buttons">
+        <div className={style.searchButtons}>
           <a
+            className={style.button}
             href="/"
             onClick={this.handleSearch}
             style={this.props.isAuthorized ? {} : { width: '12rem' }}
           >
-            {this.props.isAuthorized ? '' : this.renderSpotifyIcon()}
-            {this.props.isAuthorized ? 'Search' : 'Connect to Spotify'}
+            {isAuthorized || <SpotifyIcon />}
+            {isAuthorized ? 'Search' : 'Connect to Spotify'}
           </a>
-          {this.props.isAuthorized ? this.renderTopButton() : ''}
+          {isAuthorized && <TopButton />}
         </div>
       </div>
     );
