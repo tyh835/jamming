@@ -1,4 +1,4 @@
-.App {
+.container {
   height: 100%;
   padding: 0 10% 10% 10%;
   background-image: url('../../images/background_photo_desktop.jpg');
@@ -8,7 +8,7 @@
   filter: saturate(0.45) brightness(1.8);
 }
 
-.App-playlist {
+.trackLists {
   display: flex;
   justify-content: space-between;
   width: 100%;

@@ -1,12 +1,12 @@
 import React from 'react';
-import './Header.scss';
+import style from './Header.module.scss';
 
 const Header = () => {
   return (
-    <header>
-      <h1>
+    <header className={style.container}>
+      <h1 className={style.title}>
         Ja
-        <span className="highlight">mm</span>
+        <span className={style.highlight}>mm</span>
         ing
       </h1>
     </header>

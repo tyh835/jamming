@@ -1,6 +1,6 @@
 import React from 'react';
 import TrackList from '../TrackList/TrackList';
-import './Playlist.scss';
+import style from './Playlist.module.scss';
 
 export default class Playlist extends React.Component {
   handleNameChange = e => {
@@ -26,7 +26,7 @@ export default class Playlist extends React.Component {
 
   renderDelete = () => {
     return (
-      <a href="/" className="Playlist-delete" onClick={this.handleDelete}>
+      <a href="/" className={style.deletePlaylist} onClick={this.handleDelete}>
         DELETE PLAYLIST
       </a>
     );
@@ -34,8 +34,9 @@ export default class Playlist extends React.Component {
 
   render() {
     return (
-      <div className="Playlist">
+      <div className={style.container}>
         <input
+          className={style.nameInput}
           value={this.props.playlistName}
           onChange={this.handleNameChange}
         />
@@ -44,7 +45,7 @@ export default class Playlist extends React.Component {
           onRemove={this.props.onRemove}
           isRemoval={true}
         />
-        <a href="/" className="Playlist-save" onClick={this.handleSave}>
+        <a href="/" className={style.savePlaylist} onClick={this.handleSave}>
           <i className="fa fa-spotify" />
           &nbsp;SAVE TO SPOTIFY
         </a>

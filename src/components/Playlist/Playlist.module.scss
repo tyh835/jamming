@@ -1,4 +1,4 @@
-.Playlist {
+.container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -9,24 +9,24 @@
   background-color: hsla(229, 97%, 13%, 0.7);
   box-shadow: 0 4px 2px 2px #000000;
 
-  input {
-    width: 100%;
-    border: 0;
-    outline: 0;
-    background: transparent;
-    border-bottom: 1px solid #6f6f6f;
-    font-family: 'Poppins', sans-serif;
-    font-size: 1.55rem;
-    color: #fff;
-  }
-
   @media (max-width: 1020px) {
     width: 90%;
     max-height: none;
   }
 }
 
-.Playlist-save {
+.nameInput {
+  width: 100%;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  border-bottom: 1px solid #6f6f6f;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.55rem;
+  color: #fff;
+}
+
+.savePlaylist {
   cursor: pointer;
   display: flex;
   justify-content: center;
@@ -49,7 +49,7 @@
   }
 }
 
-.Playlist-delete {
+.deletePlaylist {
   cursor: pointer;
   display: flex;
   justify-content: center;
@@ -71,9 +71,4 @@
     color: hsl(141, 73%, 90%);
     filter: saturate(2.22) brightness(0.67);
   }
-}
-
-::-webkit-scrollbar {
-  width: 0px;
-  background: transparent;
 }

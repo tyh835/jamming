@@ -4,6 +4,11 @@
   font-size: 18px;
 }
 
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
+
 body {
   height: 100%;
   margin: 0;

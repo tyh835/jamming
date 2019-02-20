@@ -5,7 +5,7 @@ import SearchResults from '../SearchResults/SearchResults';
 import Playlist from '../Playlist/Playlist';
 import UserPlaylistPanel from '../UserPlaylistPanel/UserPlaylistPanel';
 import Spotify from '../../api/Spotify';
-import './App.scss';
+import style from './App.module.scss';
 
 class App extends Component {
   state = {
@@ -217,7 +217,7 @@ class App extends Component {
     return (
       <div>
         <Header />
-        <div className="App">
+        <div className={style.container}>
           <SearchBar
             onSearch={this.searchSpotify}
             onGetTop={this.getTopTracks}
@@ -230,7 +230,7 @@ class App extends Component {
             activeID={this.state.playlistID}
             getPlaylistTracks={this.getPlaylistTracks}
           />
-          <div className="App-playlist">
+          <div className={style.trackLists}>
             <SearchResults
               searchResults={this.state.searchResults}
               onAdd={this.addTrack}
