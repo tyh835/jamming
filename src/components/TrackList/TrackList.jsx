@@ -1,5 +1,5 @@
 import React from 'react';
-import Track from '../Track/Track';
+import Track from './Track/Track';
 import style from './TrackList.module.scss';
 
 const TrackList = ({ tracks, onAdd, onRemove, isRemoval }) =>

@@ -1,6 +1,7 @@
 import React from 'react';
-import UserPlaylist from '../UserPlaylist/UserPlaylist';
-import './UserPlaylistPanel.scss';
+import AddPlaylist from './AddPlaylist/AddPlaylist';
+import UserPlaylist from './UserPlaylist/UserPlaylist';
+import style from './UserPlaylistPanel.module.scss';
 
 export default class UserPlaylistPanel extends React.Component {
   // Handles when add New Playlist is clicked
@@ -15,14 +16,11 @@ export default class UserPlaylistPanel extends React.Component {
       this.props.playlists.length !== 0 &&
       this.props.isAuthorized
     ) {
-      // Render each playlist as clickable components.
       return (
-        <div className="UserPlaylistPanel">
-          <h2>Your Playlists</h2>
-          <div className="playlists">
-            <a href="/" className="UserPlaylist add" onClick={this.handleNew}>
-              {'+ New playlist'}
-            </a>
+        <div className={style.container}>
+          <h2 className={style.title}>Your Playlists</h2>
+          <div className={style.playlists}>
+            <AddPlaylist handleNew={this.handleNew} />
             {this.props.playlists.map(playlist => {
               return (
                 <UserPlaylist
@@ -39,8 +37,8 @@ export default class UserPlaylistPanel extends React.Component {
       );
     } else {
       return (
-        <div className="UserPlaylistPanel">
-          <h2>Playlists</h2>
+        <div className={style.container}>
+          <h2 className={style.title}>Playlists</h2>
         </div>
       );
     }

@@ -1,0 +1,30 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 80%;
+  height: 120px;
+  padding: 0;
+  margin: 1.5rem auto 3.33rem auto;
+  background-color: hsla(229, 97%, 13%, 0.7);
+  box-shadow: 0 4px 2px 2px #000000;
+
+  @media (max-width: 1020px) {
+    width: 95%;
+  }
+}
+
+.title {
+  margin-top: 0.88rem;
+  margin-left: 0.88rem;
+}
+
+.playlists {
+  width: 95%;
+  height: 100px;
+  padding-top: 1rem;
+  align-self: center;
+  display: flex;
+  justify-content: flex-start;
+  overflow-y: scroll;
+}

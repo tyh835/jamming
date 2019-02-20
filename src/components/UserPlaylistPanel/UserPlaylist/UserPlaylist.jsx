@@ -1,5 +1,5 @@
 import React from 'react';
-import './UserPlaylist.scss';
+import style from './UserPlaylist.module.scss';
 
 export default class UserPlaylist extends React.Component {
   handleClick = e => {
@@ -16,15 +16,18 @@ export default class UserPlaylist extends React.Component {
   };
 
   render() {
+    const {
+      playlist: { id, name },
+      activeID,
+    } = this.props;
+
     return (
       <a
         href="/"
         onClick={this.handleClick}
-        className={`UserPlaylist ${
-          this.props.playlist.id === this.props.activeID ? 'active' : ''
-        }`}
+        className={`${style.button} ${id === activeID ? style.active : ''}`}
       >
-        {this.props.playlist.name}
+        {name}
       </a>
     );
   }
