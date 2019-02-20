@@ -1,5 +1,4 @@
-const CLIENT_ID =
-  process.env.REACT_APP_SPOTIFY_ID || 'PLACE_YOUR_CLIENT_ID_HERE';
+const CLIENT_ID = process.env.REACT_APP_SPOTIFY_ID || 'SPOTIFY_CLIENT_ID';
 
 const Spotify = {
   accessToken: null,
