@@ -53,6 +53,7 @@ class App extends Component {
 
   getUserPlaylists = async () => {
     const userPlaylists = await Spotify.getPlaylists();
+    if (userPlaylists === undefined) return false;
     if (userPlaylists && userPlaylists.length !== 0) {
       this.setState({
         userPlaylists: userPlaylists,
@@ -62,6 +63,7 @@ class App extends Component {
         userPlaylists: [],
       });
     }
+    return true;
   };
 
   getPlaylistTracks = async (tracksURL, name, id) => {
@@ -170,12 +172,18 @@ class App extends Component {
     }
   };
 
-  isAuthorized = () => {
+  isAuthorized = async () => {
     if (Spotify.accessToken && this.state.userPlaylists === null) {
-      this.getUserPlaylists();
-      this.setState({
-        isAuthorized: true,
-      });
+      const success = await this.getUserPlaylists();
+      if (success) {
+        this.setState({
+          isAuthorized: true,
+        });
+      } else {
+        this.setState({
+          isAuthorized: false,
+        });
+      }
     } else if (Spotify.accessToken) {
       this.setState({
         isAuthorized: true,

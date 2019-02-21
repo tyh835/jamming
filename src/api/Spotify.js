@@ -154,7 +154,6 @@ const Spotify = {
     } catch (err) {
       this.authFailed();
       console.log(err);
-      throw err;
     }
   },
 
