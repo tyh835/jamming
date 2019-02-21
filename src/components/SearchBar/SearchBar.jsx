@@ -7,12 +7,12 @@ export default class SearchBar extends Component {
 
   handleSearch = e => {
     e.preventDefault();
-    this.props.onSearch(this.state.term);
+    this.props.searchSpotify(this.state.term);
   };
 
   handleGetTop = e => {
     e.preventDefault();
-    this.props.onGetTop(0, []);
+    this.props.getTopTracks(0, []);
   };
 
   handleTermChange = e => {

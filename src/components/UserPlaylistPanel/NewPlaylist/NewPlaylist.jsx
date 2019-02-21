@@ -1,9 +1,9 @@
 import React from 'react';
 import style from './NewPlaylist.module.scss';
 
-const NewPlaylist = ({ handleClick }) => {
+const NewPlaylist = ({ resetPlaylist }) => {
   return (
-    <button className={style.addButton} onClick={handleClick}>
+    <button className={style.addButton} onClick={resetPlaylist}>
       {'+ New playlist'}
     </button>
   );

@@ -5,24 +5,24 @@ import style from './UserPlaylistPanel.module.scss';
 
 const UserPlaylistPanel = ({
   activeID,
-  getPlaylistTracks,
   isAuthorized,
-  onNew,
-  playlists,
+  userPlaylists,
+  getPlaylistTracks,
+  resetPlaylist,
 }) =>
-  playlists && playlists.length !== 0 && isAuthorized ? (
+  userPlaylists && userPlaylists.length !== 0 && isAuthorized ? (
     <div className={style.container}>
       <h2 className={style.title}>Your Playlists</h2>
       <div className={style.playlists}>
-        <NewPlaylist handleClick={onNew} />
-        {playlists.map(playlist => {
+        <NewPlaylist resetPlaylist={resetPlaylist} />
+        {userPlaylists.map(playlist => {
           return (
             <UserPlaylist
               key={playlist.id}
               activeID={activeID}
               playlist={playlist}
-              onGetTracks={getPlaylistTracks}
-              onReset={onNew}
+              getPlaylistTracks={getPlaylistTracks}
+              resetPlaylist={resetPlaylist}
             />
           );
         })}

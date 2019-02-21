@@ -1,12 +1,13 @@
 const CLIENT_ID = process.env.REACT_APP_SPOTIFY_ID || 'SPOTIFY_CLIENT_ID';
 
 const Spotify = {
-  accessToken: null,
+  accessToken: localStorage.getItem('access_token'),
   expiresIn: null,
   redirectURI: window.location.href,
   // This function fetches an authorization token using Spotify's implicit authorization framework.
   getAccessToken() {
     if (this.accessToken) {
+      localStorage.setItem('access_token', this.accessToken);
       return this.accessToken;
     } else if (window.location.href.match(/access_token=([^&]*)/)) {
       // If no authorization token already saved, this function tries to obtain token from URL.
@@ -18,6 +19,7 @@ const Spotify = {
       window.setTimeout(() => (this.accessToken = null), this.expiresIn * 1000);
       console.log(`Access expires in ${this.expiresIn} seconds`);
       window.history.pushState('Access Token', null, '/');
+      localStorage.setItem('access_token', this.accessToken);
       return this.accessToken;
     } else if (window.location.href.match(/error=access_denied/)) {
       window.history.pushState('Access Token', null, '/');
@@ -58,6 +60,7 @@ const Spotify = {
         throw new Error('Search Request Failed!');
       }
     } catch (err) {
+      this.authFailed();
       console.log(err);
     }
   },
@@ -80,6 +83,7 @@ const Spotify = {
         throw new Error('Request to GET user_id Failed!');
       }
     } catch (err) {
+      this.authFailed();
       console.log(err);
     }
   },
@@ -112,6 +116,7 @@ const Spotify = {
         return [];
       }
     } catch (err) {
+      this.authFailed();
       console.log(err);
     }
   },
@@ -147,7 +152,9 @@ const Spotify = {
         throw new Error('Request to GET Playlists Failed!');
       }
     } catch (err) {
+      this.authFailed();
       console.log(err);
+      throw err;
     }
   },
 
@@ -176,6 +183,7 @@ const Spotify = {
         throw new Error('Request to GET Top Tracks Failed!');
       }
     } catch (err) {
+      this.authFailed();
       console.log(err);
     }
   },
@@ -233,6 +241,7 @@ const Spotify = {
         throw new Error('Request to POST Playlist Failed!');
       }
     } catch (err) {
+      this.authFailed();
       console.log(err);
     }
   },
@@ -288,6 +297,7 @@ const Spotify = {
         throw new Error('Request to PUT PlaylistName Failed!');
       }
     } catch (err) {
+      this.authFailed();
       console.log(err);
     }
   },
@@ -313,8 +323,14 @@ const Spotify = {
         throw new Error('Request to DELETE Playlist Failed!');
       }
     } catch (err) {
+      this.authFailed();
       console.log(err);
     }
+  },
+
+  authFailed() {
+    this.accessToken = null;
+    localStorage.removeItem('access_token');
   },
 };
 

@@ -1,15 +1,16 @@
 import React from 'react';
 import style from './UserPlaylist.module.scss';
 
-const UserPlaylist = ({ playlist, activeID, onGetTracks, onReset }) => {
+const UserPlaylist = ({
+  playlist,
+  activeID,
+  getPlaylistTracks,
+  resetPlaylist,
+}) => {
   const { id, name, tracksURL } = playlist;
 
   const handleClick = () => {
-    if (id !== activeID) {
-      onGetTracks(tracksURL, name, id);
-    } else if (id === activeID) {
-      onReset();
-    }
+    id !== activeID ? getPlaylistTracks(tracksURL, name, id) : resetPlaylist();
   };
 
   return (

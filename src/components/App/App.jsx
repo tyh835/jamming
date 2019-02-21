@@ -14,14 +14,14 @@ class App extends Component {
     playlistName: 'New Playlist',
     playlistTracks: [],
     playlistID: null,
-    playlistList: null,
-    authorized: false,
+    userPlaylists: null,
+    isAuthorized: false,
     isNewPlaylist: true,
   };
-  // This method calls the asynchronous search function from the Spotify module. It is passed down to <SearchBar /> as a prop.
+
   searchSpotify = async term => {
     this.isAuthorized();
-    if (this.state.authorized) {
+    if (this.state.isAuthorized) {
       let searchResults = await Spotify.search(term);
       this.setState({
         searchResults: searchResults,
@@ -29,17 +29,16 @@ class App extends Component {
       });
     }
   };
-  // This method calls the asynchronous getTopTracks function from the Spotify module. It is passed down to <SearchBar /> as a prop.
+
   getTopTracks = async (offset, cache) => {
     this.isAuthorized();
-    if (this.state.authorized) {
+    if (this.state.isAuthorized) {
       const response = await Spotify.getTopTracks(offset);
       let searchResults = cache.concat(response);
       if (response.length === 50) {
         this.getTopTracks(offset + 49, searchResults);
       } else if (searchResults) {
-        // Filters searchResults to only songs with unique ids, the reverse() method is so that the first instance of a song is preserved.
-        let uniqueSearchResults = searchResults.filter((track, index) => {
+        const uniqueSearchResults = searchResults.filter((track, index) => {
           return searchResults
             .slice(0, index)
             .every(otherTrack => track.id !== otherTrack.id);
@@ -52,23 +51,21 @@ class App extends Component {
     }
   };
 
-  // This method calls the asynchronous getPlaylists function from the Spotify module and displays playlist in <Playlist />.
-  getPlaylists = async () => {
-    let playlists = await Spotify.getPlaylists();
-    if (playlists && playlists.length !== 0) {
+  getUserPlaylists = async () => {
+    const userPlaylists = await Spotify.getPlaylists();
+    if (userPlaylists && userPlaylists.length !== 0) {
       this.setState({
-        playlistList: playlists,
+        userPlaylists: userPlaylists,
       });
     } else {
       this.setState({
-        playlistList: [],
+        userPlaylists: [],
       });
     }
   };
 
-  // This method calls the asynchronous getPlaylistTracks function from the Spotify module and displays playlist in <Playlist />.
   getPlaylistTracks = async (tracksURL, name, id) => {
-    let tracks = await Spotify.getPlaylistTracks(tracksURL);
+    const tracks = await Spotify.getPlaylistTracks(tracksURL);
     this.setState({
       playlistTracks: tracks,
       playlistName: name,
@@ -77,7 +74,6 @@ class App extends Component {
     });
   };
 
-  // This methods adds a track to <App />'s playlistTracks state. It is passed down to <Track /> as a prop.
   addTrack = track => {
     if (
       this.state.playlistTracks.every(addedTrack => {
@@ -96,7 +92,6 @@ class App extends Component {
     }
   };
 
-  // This methods removes a track from <App />'s playlistTracks state. It is passed down to <Track /> as a prop.
   removeTrack = track => {
     if (
       this.state.playlistTracks.some(addedTrack => {
@@ -121,15 +116,13 @@ class App extends Component {
     }
   };
 
-  // This methods updates <App />'s playlistName state. It is passed down to <Playlist /> as a prop.
   updatePlaylistName = name => {
     this.setState({
       playlistName: name,
     });
   };
 
-  // This methods resets states relevant to the playlist. It is passed down to <PlaylistList /> as a prop.
-  newPlaylist = () => {
+  resetPlaylist = () => {
     this.setState({
       playlistName: 'New Playlist',
       isNewPlaylist: true,
@@ -138,7 +131,6 @@ class App extends Component {
     });
   };
 
-  // This method calls the savePlaylist or updatePlaylist function from the Spotify module. It is passed down to <Playlist /> as a prop.
   savePlaylist = async () => {
     await this.isAuthorized();
     const trackURIs = this.state.playlistTracks.map(track => track.uri);
@@ -151,10 +143,10 @@ class App extends Component {
           searchResults: [],
           searchResultsCache: [],
         });
-        this.getPlaylists();
+        this.getUserPlaylists();
       } else {
         setTimeout(() => alert('Unable to save playlist!'), 1000);
-        this.newPlaylist();
+        this.resetPlaylist();
       }
     } else if (!this.state.isNewPlaylist) {
       await Spotify.updatePlaylist(
@@ -166,29 +158,27 @@ class App extends Component {
         searchResults: [],
         searchResultsCache: [],
       });
-      this.getPlaylists();
+      this.getUserPlaylists();
     }
   };
 
-  // This method calls the deletePlaylist function from the Spotify module. It is passed down to <Playlist /> as a prop.
   deletePlaylist = async () => {
     const deleted = await Spotify.deletePlaylist(this.state.playlistID);
     if (deleted) {
-      this.newPlaylist();
-      this.getPlaylists();
+      this.resetPlaylist();
+      this.getUserPlaylists();
     }
   };
 
-  // This method checks if user has authorized with Spotify, or else redirects user when button is pressed
   isAuthorized = () => {
-    if (Spotify.accessToken && this.state.playlistList === null) {
+    if (Spotify.accessToken && this.state.userPlaylists === null) {
+      this.getUserPlaylists();
       this.setState({
-        authorized: true,
+        isAuthorized: true,
       });
-      this.getPlaylists();
     } else if (Spotify.accessToken) {
       this.setState({
-        authorized: true,
+        isAuthorized: true,
       });
     } else if (!Spotify.accessToken) {
       Spotify.getAccessToken();
@@ -198,11 +188,10 @@ class App extends Component {
     }
   };
 
-  // This lifecycle method checks if user has authorized with this Spotify account each time the app renders
   componentDidMount() {
-    if (this.state.authorized === true && !Spotify.accessToken) {
+    if (this.state.isAuthorized === true && !Spotify.accessToken) {
       this.setState({
-        authorized: false,
+        isAuthorized: false,
       });
     }
     if (!Spotify.accessToken) {
@@ -219,16 +208,16 @@ class App extends Component {
         <Header />
         <div className={style.container}>
           <SearchBar
-            onSearch={this.searchSpotify}
-            onGetTop={this.getTopTracks}
-            isAuthorized={this.state.authorized}
+            searchSpotify={this.searchSpotify}
+            getTopTracks={this.getTopTracks}
+            isAuthorized={this.state.isAuthorized}
           />
           <UserPlaylistPanel
-            isAuthorized={this.state.authorized}
-            playlists={this.state.playlistList}
-            onNew={this.newPlaylist}
             activeID={this.state.playlistID}
+            isAuthorized={this.state.isAuthorized}
+            userPlaylists={this.state.userPlaylists}
             getPlaylistTracks={this.getPlaylistTracks}
+            resetPlaylist={this.resetPlaylist}
           />
           <div className={style.trackLists}>
             <SearchResults
