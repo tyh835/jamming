@@ -20,7 +20,7 @@ class App extends Component {
   };
 
   searchSpotify = async term => {
-    this.isAuthorized();
+    await this.authenticate();
     if (this.state.isAuthorized) {
       let searchResults = await Spotify.search(term);
       this.setState({
@@ -31,7 +31,7 @@ class App extends Component {
   };
 
   getTopTracks = async (offset, cache) => {
-    this.isAuthorized();
+    await this.authenticate();
     if (this.state.isAuthorized) {
       const response = await Spotify.getTopTracks(offset);
       let searchResults = cache.concat(response);
@@ -134,7 +134,7 @@ class App extends Component {
   };
 
   savePlaylist = async () => {
-    await this.isAuthorized();
+    await this.authenticate();
     const trackURIs = this.state.playlistTracks.map(track => track.uri);
     if (this.state.isNewPlaylist) {
       const id = await Spotify.savePlaylist(this.state.playlistName, trackURIs);
@@ -172,7 +172,7 @@ class App extends Component {
     }
   };
 
-  isAuthorized = async () => {
+  authenticate = async () => {
     if (Spotify.accessToken && this.state.userPlaylists === null) {
       const success = await this.getUserPlaylists();
       if (success) {
@@ -197,16 +197,11 @@ class App extends Component {
   };
 
   componentDidMount() {
-    if (this.state.isAuthorized === true && !Spotify.accessToken) {
-      this.setState({
-        isAuthorized: false,
-      });
-    }
     if (!Spotify.accessToken) {
       Spotify.getAccessToken();
     }
     if (Spotify.accessToken) {
-      this.isAuthorized();
+      this.authenticate();
     }
   }
 
