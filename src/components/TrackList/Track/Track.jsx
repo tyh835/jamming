@@ -1,14 +1,14 @@
 import React from 'react';
 import style from './Track.module.scss';
 
-const Track = ({ track, onAdd, onRemove, isRemoval }) => {
+const Track = ({ track, addTrack, removeTrack, isRemoval }) => {
   const Add = () => (
-    <span className={style.trackAction} onClick={() => onAdd(track)}>
+    <span className={style.trackAction} onClick={() => addTrack(track)}>
       +
     </span>
   );
   const Remove = () => (
-    <span className={style.trackAction} onClick={() => onRemove(track)}>
+    <span className={style.trackAction} onClick={() => removeTrack(track)}>
       -
     </span>
   );

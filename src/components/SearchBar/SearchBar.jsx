@@ -2,27 +2,11 @@ import React, { Component } from 'react';
 import SpotifyIcon from './SpotifyIcon';
 import style from './SearchBar.module.scss';
 
-export default class SearchBar extends Component {
+class SearchBar extends Component {
   state = { term: '' };
 
-  handleSearch = e => {
-    e.preventDefault();
-    this.props.searchSpotify(this.state.term);
-  };
-
-  handleGetTop = e => {
-    e.preventDefault();
-    this.props.getTopTracks(0, []);
-  };
-
-  handleTermChange = e => {
-    this.setState({ term: e.target.value });
-  };
-
-  handleKeyPress = e => {
-    if (e.key === 'Enter') {
-      this.handleSearch(e);
-    }
+  handleChange = e => {
+    this.setState({ [e.target.name]: e.target.value });
   };
 
   componentDidMount() {
@@ -30,43 +14,49 @@ export default class SearchBar extends Component {
       this.setState({ term: localStorage.getItem('search_term') });
     }
   }
+
   componentDidUpdate() {
     localStorage.setItem('search_term', this.state.term);
   }
 
   render() {
-    const TopButton = () => (
+    const { isAuthorized, getTopTracks, searchSpotify } = this.props;
+    const { term } = this.state;
+
+    const GetTopButton = () => (
       <button
         className={style.searchButton}
-        onClick={this.handleGetTop}
+        onClick={getTopTracks}
         style={{ width: '10rem', marginLeft: '2.5rem' }}
       >
         My Top Songs
       </button>
     );
 
-    const { isAuthorized } = this.props;
     return (
       <div className={style.container}>
         <input
           className={style.searchInput}
+          name="term"
           placeholder="Enter A Song, Album, or Artist"
-          onChange={this.handleTermChange}
-          onKeyPress={this.handleKeyPress}
-          value={this.state.term}
+          onChange={this.handleChange}
+          onKeyPress={e => e.key === 'Enter' && searchSpotify(term)}
+          value={term}
         />
         <div className={style.buttonContainer}>
           <button
             className={style.searchButton}
-            onClick={this.handleSearch}
-            style={this.props.isAuthorized ? {} : { minWidth: '13rem' }}
+            onClick={() => searchSpotify(term)}
+            style={isAuthorized ? {} : { minWidth: '13rem' }}
           >
             {isAuthorized || <SpotifyIcon />}
             {isAuthorized ? 'Search' : 'Connect to Spotify'}
           </button>
-          {isAuthorized && <TopButton />}
+          {isAuthorized && <GetTopButton />}
         </div>
       </div>
     );
   }
 }
+
+export default SearchBar;

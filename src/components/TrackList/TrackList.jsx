@@ -2,7 +2,7 @@ import React from 'react';
 import Track from './Track/Track';
 import style from './TrackList.module.scss';
 
-const TrackList = ({ tracks, onAdd, onRemove, isRemoval }) =>
+const TrackList = ({ tracks, addTrack, removeTrack, isRemoval }) =>
   tracks && tracks.length !== 0 ? (
     <div className={style.container}>
       {tracks.map(track => {
@@ -10,15 +10,15 @@ const TrackList = ({ tracks, onAdd, onRemove, isRemoval }) =>
           <Track
             track={track}
             key={track.id}
-            onAdd={onAdd}
-            onRemove={onRemove}
+            addTrack={addTrack}
+            removeTrack={removeTrack}
             isRemoval={isRemoval}
           />
         );
       })}
     </div>
   ) : (
-    <div className="TrackList">
+    <div className={style.container}>
       <h4 className={style.emptyTracks}>No Tracks</h4>
     </div>
   );

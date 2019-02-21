@@ -1,56 +1,56 @@
-import React from 'react';
+import React, { Component } from 'react';
 import TrackList from '../TrackList/TrackList';
 import style from './Playlist.module.scss';
 
-export default class Playlist extends React.Component {
-  handleNameChange = e => {
-    this.props.onNameChange(e.target.value);
-  };
-
-  handleSave = e => {
-    e.preventDefault();
-    this.props.onSave();
-  };
-
-  handleDelete = e => {
-    e.preventDefault();
-    const name = this.props.playlistName;
+class Playlist extends Component {
+  handleDelete = () => {
+    const { playlistName, playlistID, deletePlaylist } = this.props;
     if (
       window.confirm(
-        `Are you sure you want to delete ${name}? Note: it is possible to manually restore deleted playlists through Spotify Account Services.`
+        `Are you sure you want to delete ${playlistName}? Note: it is possible to manually restore deleted playlists through Spotify Account Services.`
       )
     ) {
-      this.props.onDelete();
+      deletePlaylist(playlistID);
     }
   };
 
-  renderDelete = () => {
-    return (
-      <button className={style.deleteButton} onClick={this.handleDelete}>
-        DELETE PLAYLIST
-      </button>
-    );
-  };
-
   render() {
+    const {
+      isNewPlaylist,
+      playlistName,
+      playlistTracks,
+      removeTrack,
+      savePlaylist,
+      updatePlaylistName,
+    } = this.props;
+
     return (
       <div className={style.container}>
         <input
           className={style.nameInput}
-          value={this.props.playlistName}
-          onChange={this.handleNameChange}
+          value={playlistName}
+          onChange={e => updatePlaylistName(e.target.value)}
         />
         <TrackList
-          tracks={this.props.playlistTracks}
-          onRemove={this.props.onRemove}
+          tracks={playlistTracks}
+          removeTrack={removeTrack}
           isRemoval={true}
         />
-        <button href="/" className={style.saveButton} onClick={this.handleSave}>
+        <button
+          className={style.saveButton}
+          onClick={() => savePlaylist(playlistName)}
+        >
           <i className="fa fa-spotify" />
           &nbsp;SAVE TO SPOTIFY
         </button>
-        {this.props.isNew ? '' : this.renderDelete()}
+        {isNewPlaylist || (
+          <button className={style.deleteButton} onClick={this.handleDelete}>
+            DELETE PLAYLIST
+          </button>
+        )}
       </div>
     );
   }
 }
+
+export default Playlist;
