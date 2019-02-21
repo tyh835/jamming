@@ -25,11 +25,10 @@ class App extends Component {
         return addedTrack.id !== track.id;
       })
     ) {
-      const newPlaylistTracks = this.state.playlistTracks;
       const newSearchResults = this.state.searchResults.filter(
         foundTrack => foundTrack.id !== track.id
       );
-      newPlaylistTracks.push(track);
+      const newPlaylistTracks = [...this.state.playlistTracks, track];
       this.setState({
         playlistTracks: newPlaylistTracks,
         searchResults: newSearchResults,
@@ -125,13 +124,13 @@ class App extends Component {
       const newPlaylistTracks = this.state.playlistTracks.filter(
         addedTrack => addedTrack.id !== track.id
       );
-      const newSearchResults = this.state.searchResults;
+      let newSearchResults 
       if (
         this.state.searchResultsCache.some(
           foundTrack => foundTrack.id === track.id
         )
       ) {
-        newSearchResults.unshift(track);
+        newSearchResults = [track, ...this.state.searchResults];
       }
       this.setState({
         playlistTracks: newPlaylistTracks,
