@@ -21,6 +21,12 @@ const Track = ({ track, addTrack, removeTrack, isRemoval }) => {
           {' '}
           {track.artist} | {track.album}{' '}
         </p>
+        {track.preview && (
+          <audio controls>
+            <source src={track.preview} type="audio/mp3" />
+            Your browser does not support audio preview.
+          </audio>
+        )}
       </div>
       {isRemoval ? <Remove /> : <Add />}
     </div>
